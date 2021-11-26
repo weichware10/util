@@ -1,7 +1,5 @@
 name: generate-badges
-on:
-  check_suite:
-    types: [completed]
+on: push
 jobs:
   generate-badges:
     runs-on: ubuntu-latest
@@ -20,6 +18,12 @@ jobs:
         uses: cicirello/jacoco-badge-generator@v2
         with:
           generate-branches-badge: true
+      - name: wait for tests to succeed
+        uses: lewagon/wait-on-check-action@v1.0.0
+        with:
+          ref: ${{ github.ref }}
+          check-name: 'tests'
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
       - name: download test badge
         run: curl https://img.shields.io/github/workflow/status/weichware-10/util/tests/${GITHUB_REF#refs/heads/}?label=tests > .github/badges/tests.svg
       - name: download checkstyle badge
