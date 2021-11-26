@@ -10,7 +10,7 @@ jobs:
       - name: generate report
         run: |
           mvn -B test --file pom.xml
-          mvn jacoco:prepare-agent test install jacoco:report
+          # mvn jacoco:prepare-agent test install jacoco:report
       - name: generate coverage badges
         uses: cicirello/jacoco-badge-generator@v2
         with:
