@@ -20,6 +20,4 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          files: .
           commit-message: update from weichware-10/repo-utils
-          ref: refs/heads/main
