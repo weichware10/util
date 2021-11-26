@@ -1,23 +1,31 @@
 package github.weichware10.util;
 
 /**
- * Stores the Data for the different tools internally <p>
- * also used to transfer Data
+ * Stores the Data for the different tools internally.
+ *
+ * <p>also used to transfer Data
  */
 public class Data {
     public final Enums.ToolType tooltype;
-    public final int config_id;
+    public final int configId;
     private boolean data; // TODO: replace type with actual datatype!
 
-    public Data(Enums.ToolType tooltype, int config_id) {
+    /**
+     * Stores the Data for the different tools internally.
+     *
+     * @param tooltype the tooltype of the stored data
+     * @param configId the configuration of the stored data
+     */
+    public Data(Enums.ToolType tooltype, int configId) {
         this.tooltype = tooltype;
-        this.config_id = config_id;
+        this.configId = configId;
         this.data = false;
     }
 
     // TODO: replace type with actual datatype!
     /**
-     * get the stored data
+     * get the stored data.
+     *
      * @return the stored data
      */
     public boolean getData() {
@@ -26,7 +34,7 @@ public class Data {
 
     // TODO: replace type with actual datatype!
     /**
-     * set new data
+     * set new data.
      */
     public void setData(boolean data) {
         this.data = data;
