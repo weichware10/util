@@ -1,0 +1,23 @@
+# https://dev.to/ewefie/getting-started-with-github-actions-run-junit-5-tests-in-a-java-project-with-maven-20g4
+name: coverage
+on:
+  push:
+      paths:
+        - '**.java'
+jobs:
+  generate_badges:
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout the repository
+        uses: actions/checkout@v2
+      - name: generate report
+        run: mvn jacoco:prepare-agent test install jacoco:report
+      - name: genrate badges
+        uses: cicirello/jacoco-badge-generator@v2
+        with:
+          generate-branches-badge: true
+      - name: add and commit
+        uses: EndBug/add-and-commit@v7
+        with:
+          message: updated code coverage
+          default_author: github_actions
