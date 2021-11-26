@@ -1,9 +1,6 @@
 # https://dev.to/ewefie/getting-started-with-github-actions-run-junit-5-tests-in-a-java-project-with-maven-20g4
 name: tests
-on:
-  push:
-      paths:
-        - '**.java'
+on: push
 jobs:
   run_tests:
     runs-on: ubuntu-latest
