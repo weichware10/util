@@ -18,6 +18,6 @@ jobs:
       - name: commit files
         uses: swinton/commit@v2.x
         env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_TOKEN: ${{ secrets.WEICHWARE_UPDATE }}
         with:
           commit-message: update from weichware-10/repo-utils
