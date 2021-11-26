@@ -22,7 +22,7 @@ jobs:
         uses: lewagon/wait-on-check-action@v1.0.0
         with:
           ref: ${{ github.ref }}
-          check-name: 'tests'
+          check-name: 'run-tests'
           repo-token: ${{ secrets.GITHUB_TOKEN }}
       - name: download test badge
         run: curl https://img.shields.io/github/workflow/status/weichware-10/util/tests/${GITHUB_REF#refs/heads/}?label=tests > .github/badges/tests.svg
