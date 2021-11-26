@@ -8,7 +8,9 @@ jobs:
       - name: checkout the repository
         uses: actions/checkout@v2
       - name: generate report
-        run: mvn jacoco:prepare-agent test install jacoco:report
+        run: |
+          mvn -B test --file pom.xml
+          mvn jacoco:prepare-agent test install jacoco:report
       - name: generate coverage badges
         uses: cicirello/jacoco-badge-generator@v2
         with:
