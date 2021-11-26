@@ -1,5 +1,7 @@
 name: generate-badges
-on: push
+on:
+  schedule:
+    - cron: "*/30 * * * *"
 jobs:
   generate-badges:
     runs-on: ubuntu-latest
