@@ -29,6 +29,7 @@ public class Data {
      * @return the stored data
      */
     public boolean getData() {
+        System.out.println("hi");
         return this.data;
     }
 
