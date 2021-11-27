@@ -35,6 +35,8 @@ public class Data {
     // TODO: replace type with actual datatype!
     /**
      * set new data.
+     *
+     * @param data data to be set
      */
     public void setData(boolean data) {
         this.data = data;
