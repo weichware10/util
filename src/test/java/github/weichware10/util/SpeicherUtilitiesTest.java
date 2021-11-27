@@ -2,9 +2,9 @@ package github.weichware10.util;
 
 import static org.junit.Assert.assertEquals;
 
+import github.weichware10.util.Enums.ToolType;
 import org.junit.Test;
 
-import github.weichware10.util.Enums.ToolType;
 
 /**
  * Unit Test für Speicherutilities.
@@ -61,7 +61,7 @@ public class SpeicherUtilitiesTest {
      */
 
     @Test
-    public void saveWasSuccessfull(){
+    public void saveWasSuccessfull() {
         SpeicherUtilities instance = new SpeicherUtilities("C/Documents");
         Data versuch2ZoomMaps = new Data(ToolType.ZOOM, 2);
         assertEquals(true, instance.saveData(versuch2ZoomMaps));
