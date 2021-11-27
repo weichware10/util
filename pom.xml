@@ -5,7 +5,7 @@
 
   <groupId>github.weichware10</groupId>
   <artifactId>util</artifactId>
-  <version>0.1</version>
+  <version>v0.2</version>
 
   <name>util</name>
   <!-- FIXME change it to the project's website -->
@@ -13,8 +13,7 @@
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <maven.compiler.source>17</maven.compiler.source>
-    <maven.compiler.target>17</maven.compiler.target>
+    <maven.compiler.release>17</maven.compiler.release>
   </properties>
 
   <dependencies>
