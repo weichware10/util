@@ -18,48 +18,48 @@ public class SpeicherUtilitiesTest {
         SpeicherUtilities instance = new SpeicherUtilities("C/Documents");
         assertEquals("C/Documents", instance.getLocation());
     }
+
     /**
      * Test if the Location is returned correctly.
      */
-
     @Test
     public void gotLocationCorrect() {
         SpeicherUtilities instance = new SpeicherUtilities("C/Documents");
         assertEquals("C/Documents", instance.getLocation());
     }
+
     /**
      * Test if the Location is changed correctly.
      */
-
     @Test
     public void locationShouldBeChangedCorrectly() {
         SpeicherUtilities instance = new SpeicherUtilities("C/Documents");
         instance.setLocation("C/Music");
         assertEquals("C/Music", instance.getLocation());
     }
+
     /**
      * Test if the deletion was successfull.
      */
-
     @Test
     public void deletionWasSuccessfull() {
         SpeicherUtilities instance = new SpeicherUtilities("C/Documents");
         assertEquals(true, instance.deleteData("Versuch1 Eyetracking"));
     }
+
     /**
      * Test if the search was successfull.
      */
-
     @Test
     public void searchWasSuccessfull() {
         SpeicherUtilities instance = new SpeicherUtilities("C/Documents");
         boolean test = instance.searchData("Versuch1 ZoomMaps") instanceof Data;
         assertEquals(true, test);
     }
+
     /**
      * Test if the save was successfull.
      */
-
     @Test
     public void saveWasSuccessfull() {
         SpeicherUtilities instance = new SpeicherUtilities("C/Documents");
