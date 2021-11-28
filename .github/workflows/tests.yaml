@@ -1,6 +1,5 @@
-# https://dev.to/ewefie/getting-started-with-github-actions-run-junit-5-tests-in-a-java-project-with-maven-20g4
 name: tests
-on: push
+on: [pull_request]
 jobs:
   run-tests:
     runs-on: ubuntu-latest
@@ -15,6 +14,8 @@ jobs:
           cache: 'maven'
       - name: Run tests with Maven
         run: mvn -B test --file pom.xml verify checkstyle:checkstyle
-      - uses: jwgmeligmeyling/checkstyle-github-action@master
+      - name: publish test report
+        if: ${{ always() }}
+        uses: scacap/action-surefire-report@v1
         with:
-          path: '**/checkstyle-result.xml'
+          fail_on_test_failures: false # change this to true once it matters
