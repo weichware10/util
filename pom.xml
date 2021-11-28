@@ -5,7 +5,7 @@
 
   <groupId>github.weichware10</groupId>
   <artifactId>util</artifactId>
-  <version>v0.3</version>
+  <version>v0.1</version>
 
   <name>util</name>
   <!-- FIXME change it to the project's website -->
@@ -44,27 +44,6 @@
               <version>9.1</version>
             </dependency>
           </dependencies>
-        </plugin>
-        <!-- ENFORCER -->
-        <plugin>
-          <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-enforcer-plugin</artifactId>
-          <version>3.0.0</version>
-          <executions>
-            <execution>
-              <id>enforce-maven</id>
-              <goals>
-                <goal>enforce</goal>
-              </goals>
-              <configuration>
-                <rules>
-                  <requireMavenVersion>
-                    <version>3.3.9</version>
-                  </requireMavenVersion>
-                </rules>
-              </configuration>
-            </execution>
-          </executions>
         </plugin>
         <!-- clean lifecycle, see https://maven.apache.org/ref/current/maven-core/lifecycles.html#clean_Lifecycle -->
         <plugin>
