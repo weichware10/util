@@ -17,8 +17,8 @@ public class DataTest {
      */
     @Test
     public void toolTypeShouldBeSet() {
-        Data zoomdata = new Data(ToolType.ZOOM, 0);
-        assertEquals(ToolType.ZOOM, zoomdata.tooltype);
+        Data zoomdata = new Data(ToolType.ZOOMMAPS, 0);
+        assertEquals(ToolType.ZOOMMAPS, zoomdata.tooltype);
 
         Data eyetrackingdata = new Data(ToolType.EYETRACKING, 0);
         assertEquals(ToolType.EYETRACKING, eyetrackingdata.tooltype);
@@ -33,7 +33,7 @@ public class DataTest {
     @Test
     public void configIdShouldBeCorrect() {
         int id1 = (int) Math.random() * 1000;
-        Data data1 = new Data(ToolType.ZOOM, id1);
+        Data data1 = new Data(ToolType.ZOOMMAPS, id1);
         assertEquals(id1, data1.configId);
 
         int id2 = (int) Math.random() * 1000;

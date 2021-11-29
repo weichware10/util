@@ -10,6 +10,6 @@ public final class Enums {
      * Tools of the Toolbox.
      */
     public enum ToolType {
-        ZOOM, EYETRACKING, CODECHARTS
+        ZOOMMAPS, EYETRACKING, CODECHARTS
     }
 }
