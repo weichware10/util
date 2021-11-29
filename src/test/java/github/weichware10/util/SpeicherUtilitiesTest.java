@@ -1,8 +1,8 @@
 package github.weichware10.util;
 
+import static org.hamcrest.CoreMatchers.instanceOf;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThat;
-import static org.hamcrest.CoreMatchers.instanceOf;
 
 import github.weichware10.util.Enums.ToolType;
 import org.junit.Test;
