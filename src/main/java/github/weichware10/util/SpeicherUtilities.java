@@ -11,7 +11,7 @@ public class SpeicherUtilities {
     /**
      * Creates SpeicherUtilities with Data Location.
      *
-     * @param location the Location where the Data is stored
+     * @param location - the Location where the Data is stored
      */
     public SpeicherUtilities(String location) {
         this.location = location;
@@ -29,7 +29,7 @@ public class SpeicherUtilities {
     /**
      * Sets the Data Location.
      *
-     * @param location the Location where the Data should get stored
+     * @param location - the Location where the Data should get stored
      * @return returns true if setLocation was sucessfull
      */
     public boolean setLocation(String location) {
@@ -44,7 +44,7 @@ public class SpeicherUtilities {
      * Function to delete the specific Data.
      * TODO: Richtiges Löschen implementieren
      *
-     * @param inpuString Data to delete
+     * @param inpuString - Data to delete
      * @return returns true if deletion was sucessfull
      */
     public boolean deleteData(String inpuString) {
@@ -55,7 +55,7 @@ public class SpeicherUtilities {
      * Function to search for specific Data from a function.
      * TODO: Richtige Suche implementieren
      *
-     * @param inpuString Data to search
+     * @param inpuString - Data to search
      * @return returns the requested Data
      */
     public Data searchData(String inpuString) {
@@ -67,7 +67,7 @@ public class SpeicherUtilities {
      * Function to save the Information from the functions.
      * TODO: Richtiges Speichern implementieren
      *
-     * @param inputData The Data to save
+     * @param inputData - The Data to save
      * @return return true if the save was sucessfull
      */
     public boolean saveData(Data inputData) {
