@@ -1,10 +1,10 @@
 package github.weichware10.util;
 
+import github.weichware10.util.Enums.ToolType;
+import github.weichware10.util.config.ConfigClient;
 import org.junit.Ignore;
 import org.junit.Test;
 
-import github.weichware10.util.Enums.ToolType;
-import github.weichware10.util.config.ConfigClient;
 
 /**
  * Tester {@link Tutorial}.
