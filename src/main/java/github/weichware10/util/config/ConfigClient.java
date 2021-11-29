@@ -13,13 +13,6 @@ public class ConfigClient {
     private Configuration configuration = null;
 
     /**
-     * Instanziiert einen neuen ConfigClient ohne Einstellungen.
-     */
-    public ConfigClient() {
-        ;
-    }
-
-    /**
      * Gibt das komplette Einstellungs-Objekt zurück.
      *
      * @return die Einstellungen. Kann {@code null} sein.
