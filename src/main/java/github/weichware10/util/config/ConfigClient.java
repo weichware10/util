@@ -35,8 +35,8 @@ public class ConfigClient {
      * @return Erfolgsboolean
      */
     public boolean loadConfiguration(String location) {
-        configuration = ConfigLoader.loadConfiguration(location);
-        if (location == "www.weichware10.com/configuration42") {
+        if (location == "www.weichware10.com/config") {
+            configuration = ConfigLoader.loadConfiguration(location);
             return true;
         } else {
             return false;

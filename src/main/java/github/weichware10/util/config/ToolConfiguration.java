@@ -5,8 +5,8 @@ package github.weichware10.util.config;
  * sie enthält wichtige Daten für alle Tools.
  */
 abstract class ToolConfiguration {
-    private String imageUrl;
-    private boolean tutorial;
+    private String imageUrl = "www.weichware10.com/owlimage";
+    private boolean tutorial = true;
 
     // GETTER
 
@@ -20,5 +20,30 @@ abstract class ToolConfiguration {
 
     public void setTutorial(boolean tutorial) {
         this.tutorial = tutorial;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        System.out.println("ToolConfiguration");
+
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null || getClass() != obj.getClass()) {
+            return false;
+        }
+        ToolConfiguration that = (ToolConfiguration) (obj);
+        return imageUrl.equals(that.imageUrl)
+                && tutorial == that.tutorial;
+    }
+
+    @Override
+    public String toString() {
+        return String.format("""
+                        imageUrl: %s
+                        tutorial: %b
+                """,
+                imageUrl,
+                tutorial);
     }
 }

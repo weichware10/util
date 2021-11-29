@@ -1,19 +1,29 @@
 package github.weichware10.util.config;
 
 import github.weichware10.util.Enums.ToolType;
+import java.util.Arrays;
 
 /**
  * Speichert allgemeine Konfiguration sowie Tool-Konfigurationen.
  */
 public class Configuration {
-    protected ToolType[] tools;
-    protected String saveLocation;
-    public CodeChartsConfiguration codeChartsConfiguration;
-    public EyeTrackingConfiguration eyeTrackingConfiguration;
-    public ZoomMapsConfiguration zoomMapsConfiguration;
+    protected ToolType[] tools = {};
+    protected String saveLocation = "saveLocation";
+    public CodeChartsConfiguration codeChartsConfiguration = null;
+    public EyeTrackingConfiguration eyeTrackingConfiguration = null;
+    public ZoomMapsConfiguration zoomMapsConfiguration = null;
 
     /**
      * allgemeiner Speicher-Ort für Einstellungen.
+     * (Constructor mit default-Tools)
+     */
+    public Configuration() {
+        initializeToolConfigs();
+    }
+
+    /**
+     * allgemeiner Speicher-Ort für Einstellungen.
+     * (Constructor mit Übergabe von non-default-Tools)
      */
     public Configuration(ToolType[] tools) throws IllegalArgumentException {
         if (!checkToolInput(tools)) {
@@ -21,7 +31,13 @@ public class Configuration {
         }
 
         this.tools = tools;
+        initializeToolConfigs();
+    }
 
+    /**
+     * Initialisiert die Tool-Configs, die in {@link #tools} angegeben sind.
+     */
+    private void initializeToolConfigs() {
         for (ToolType toolType : tools) {
             switch (toolType) {
                 case CODECHARTS:
@@ -35,7 +51,6 @@ public class Configuration {
                     break;
             }
         }
-
     }
 
     // GETTERS
@@ -60,6 +75,12 @@ public class Configuration {
         return zoomMapsConfiguration;
     }
 
+    /**
+     * Überprüft, ob das dem Konstruktor übergebene tools-Array korrekt geformt ist.
+     *
+     * @param tools - das tools-Array
+     * @return true, falls es richtig geformt ist, sonst false.
+     */
     private boolean checkToolInput(ToolType[] tools) {
         if (tools.length > ToolType.values().length) {
             return false;
@@ -72,5 +93,42 @@ public class Configuration {
             }
         }
         return true;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null || getClass() != obj.getClass()) {
+            return false;
+        }
+        Configuration that = (Configuration) (obj);
+        return saveLocation.equals(that.saveLocation)
+                && Arrays.equals(tools, that.tools)
+                && ((codeChartsConfiguration == null && that.codeChartsConfiguration == null)
+                        || codeChartsConfiguration.equals(that.codeChartsConfiguration))
+                && ((eyeTrackingConfiguration == null && that.eyeTrackingConfiguration == null)
+                        || eyeTrackingConfiguration.equals(that.eyeTrackingConfiguration))
+                && ((zoomMapsConfiguration == null && that.zoomMapsConfiguration == null)
+                        || zoomMapsConfiguration.equals(that.zoomMapsConfiguration));
+    }
+
+    @Override
+    public String toString() {
+        return String.format("""
+                Configuration: {
+                        tools: %s
+                        saveLocation: %s
+                        codeChartsConfiguration: %s
+                        eyeTrackingConfiguration: %s
+                        zoomMapsConfiguration: %s
+                }""",
+                Arrays.toString(tools),
+                saveLocation,
+                codeChartsConfiguration,
+                eyeTrackingConfiguration,
+                zoomMapsConfiguration
+                );
     }
 }
