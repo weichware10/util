@@ -1,6 +1,8 @@
 package github.weichware10.util;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertThat;
+import static org.hamcrest.CoreMatchers.instanceOf;
 
 import github.weichware10.util.Enums.ToolType;
 import org.junit.Test;
@@ -53,8 +55,8 @@ public class SpeicherUtilitiesTest {
     @Test
     public void searchWasSuccessfull() {
         SpeicherUtilities instance = new SpeicherUtilities("C/Documents");
-        boolean test = instance.searchData("Versuch1 ZoomMaps") instanceof Data;
-        assertEquals(true, test);
+        assertThat("Datentyp sollte Data sein", instance.searchData("Versuch1 ZoomMaps"),
+            instanceOf(Data.class));
     }
 
     /**
