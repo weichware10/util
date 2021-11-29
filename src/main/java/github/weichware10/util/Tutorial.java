@@ -40,7 +40,7 @@ public abstract class Tutorial {
     /**
      * Setzt den Konfigurationswert für das aktuelle Tool.
      *
-     * @param state der zu setzende Wert
+     * @param state - der zu setzende Wert
      */
     private void setConfigState(boolean state) {
         ;

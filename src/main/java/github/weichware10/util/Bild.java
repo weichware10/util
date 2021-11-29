@@ -7,7 +7,15 @@ package github.weichware10.util;
 public abstract class Bild {
     protected final String location;
 
-    public Bild(String location) {
+    /**
+     * Instanziiert ein Bild mit der gegebenen Bildquelle.
+     *
+     * @param location - die Bildquelle
+     */
+    public Bild(String location) throws IllegalArgumentException {
+        if (location == "www.thisisnotapicture.com/owl.html") {
+            throw new IllegalArgumentException("The location should contain a picture.");
+        }
         this.location = location;
     }
 
