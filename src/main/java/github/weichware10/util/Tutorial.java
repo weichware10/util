@@ -1,21 +1,30 @@
 package github.weichware10.util;
 
 import github.weichware10.util.Enums.ToolType;
+import github.weichware10.util.config.ConfigClient;
 
-// TODO: Klären, ob das hier eher ein Interface ist!
-// TODO: Benötigt Config-Klasse zur Fertigstellung
 
 /**
  * Grundlegende Tutorial-Klasse.
  *
  * <p>Erbende Tutorial-Klassen müssen nur die Tutorial-Funktion implementieren.
  *
+ * <p>Erbende Tutorial-Klassen müssen in ihrem Constructor super() callen.
+ *
  * <p>Aufgerufen wird die start()-Funktion.
  */
 public abstract class Tutorial {
-    private ToolType toolType = null;
+    private final ToolType toolType;
+    private final ConfigClient configClient;
 
-    public Tutorial(ToolType toolType) {
+    /**
+     * Instaniziiert ein neues Tutorial-Objekt.
+     *
+     * @param configClient - der ConfigClient für die Einstellungen
+     * @param toolType - der ToolType des Tutorials
+     */
+    public Tutorial(ConfigClient configClient, ToolType toolType) {
+        this.configClient = configClient;
         this.toolType = toolType;
     }
 
@@ -34,7 +43,14 @@ public abstract class Tutorial {
      *     false, wenn nicht angezeigt werden soll
      */
     private boolean getConfigState() {
-        return false;
+        switch (toolType) {
+            case CODECHARTS:
+                return configClient.getConfig().codeChartsConfiguration.getTutorial();
+            case EYETRACKING:
+                return configClient.getConfig().eyeTrackingConfiguration.getTutorial();
+            default: // ZOOMMAPS
+                return configClient.getConfig().zoomMapsConfiguration.getTutorial();
+        }
     }
 
     /**
@@ -43,7 +59,17 @@ public abstract class Tutorial {
      * @param state - der zu setzende Wert
      */
     private void setConfigState(boolean state) {
-        ;
+        switch (toolType) {
+            case CODECHARTS:
+                configClient.getConfig().codeChartsConfiguration.setTutorial(state);
+                break;
+            case EYETRACKING:
+                configClient.getConfig().eyeTrackingConfiguration.setTutorial(state);
+                break;
+            default: // ZOOMMAPS
+                configClient.getConfig().zoomMapsConfiguration.setTutorial(state);
+                break;
+        }
     }
 
     /**

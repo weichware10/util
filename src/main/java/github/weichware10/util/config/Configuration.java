@@ -7,7 +7,7 @@ import java.util.Arrays;
  * Speichert allgemeine Konfiguration sowie Tool-Konfigurationen.
  */
 public class Configuration {
-    protected ToolType[] tools = {};
+    protected ToolType[] tools = {ToolType.CODECHARTS, ToolType.EYETRACKING, ToolType.ZOOMMAPS};
     protected String saveLocation = "saveLocation";
     public CodeChartsConfiguration codeChartsConfiguration = null;
     public EyeTrackingConfiguration eyeTrackingConfiguration = null;
