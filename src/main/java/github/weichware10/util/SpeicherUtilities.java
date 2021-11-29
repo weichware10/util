@@ -59,7 +59,7 @@ public class SpeicherUtilities {
      * @return returns the requested Data
      */
     public Data searchData(String inpuString) {
-        Data test = new Data(ToolType.ZOOM, 1);
+        Data test = new Data(ToolType.ZOOMMAPS, 1);
         return test;
     }
 

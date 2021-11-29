@@ -63,7 +63,7 @@ public class SpeicherUtilitiesTest {
     @Test
     public void saveWasSuccessfull() {
         SpeicherUtilities instance = new SpeicherUtilities("C/Documents");
-        Data versuch2ZoomMaps = new Data(ToolType.ZOOM, 2);
+        Data versuch2ZoomMaps = new Data(ToolType.ZOOMMAPS, 2);
         assertEquals(true, instance.saveData(versuch2ZoomMaps));
     }
 }
