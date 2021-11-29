@@ -13,8 +13,8 @@ public class Data {
     /**
      * Stores the Data for the different tools internally.
      *
-     * @param tooltype the tooltype of the stored data
-     * @param configId the configuration of the stored data
+     * @param tooltype - the tooltype of the stored data
+     * @param configId - the configuration of the stored data
      */
     public Data(Enums.ToolType tooltype, int configId) {
         this.tooltype = tooltype;
@@ -36,7 +36,7 @@ public class Data {
     /**
      * set new data.
      *
-     * @param data data to be set
+     * @param data - data to be set
      */
     public void setData(boolean data) {
         this.data = data;
