@@ -116,19 +116,20 @@ public class Configuration {
 
     @Override
     public String toString() {
-        return String.format("""
-                Configuration: {
-                        tools: %s
-                        saveLocation: %s
-                        codeChartsConfiguration: %s
-                        eyeTrackingConfiguration: %s
-                        zoomMapsConfiguration: %s
-                }""",
+        return String.format(
+                """
+                        Configuration: {
+                            tools: %s
+                            saveLocation: %s
+                            %s,
+                            %s,
+                            %s
+                        }
+                        """,
                 Arrays.toString(tools),
                 saveLocation,
                 codeChartsConfiguration,
                 eyeTrackingConfiguration,
-                zoomMapsConfiguration
-                );
+                zoomMapsConfiguration);
     }
 }

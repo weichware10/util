@@ -28,4 +28,13 @@ public class EyeTrackingConfiguration extends ToolConfiguration {
         EyeTrackingConfiguration that = (EyeTrackingConfiguration) (obj);
         return pollIntervall == that.pollIntervall;
     }
+
+    @Override
+    public String toString() {
+        return String.format("""
+                eyeTrackingConfiguration: {
+                        %s, pollInterval: %f }""",
+                super.toString(),
+                pollIntervall);
+    }
 }
