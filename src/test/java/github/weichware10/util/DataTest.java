@@ -5,15 +5,16 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import github.weichware10.util.Enums.ToolType;
+import org.junit.Ignore;
 import org.junit.Test;
 
 
 /**
- * Unit test for the Data class.
+ * Testet {@link Data}.
  */
 public class DataTest {
     /**
-     * Tests if the tooltype is set correctly.
+     * Testet, ob ToolType richtig gesetzt wurde.
      */
     @Test
     public void toolTypeShouldBeSet() {
@@ -28,7 +29,7 @@ public class DataTest {
     }
 
     /**
-     * Tests if the config id was set correctly.
+     * Testet ob ConfigID richtig gesetzt wurde.
      */
     @Test
     public void configIdShouldBeCorrect() {
@@ -45,9 +46,9 @@ public class DataTest {
         assertEquals(id3, data3.configId);
     }
 
-    // TODO: replace type with actual datatype!
     /**
-     * Tests if the data was set correctly.
+     * Testet ob die Daten richtig gesetzt wurden.
+     * TODO: replace type with actual datatype!
      */
     @Test
     public void dataShouldBeCorrect() {
@@ -58,5 +59,26 @@ public class DataTest {
         Data truedata = new Data(ToolType.CODECHARTS, 0);
         truedata.setData(true);
         assertTrue(truedata.getData());
+    }
+
+    /**
+     * Testet, ob Daten richtig hinzugefügt wurden,
+     * muss aber noch auf konkrete Implementation der Datenform warten.
+     */
+    @Test
+    @Ignore
+    public void dataShouldBeAddedCorrectly() {
+        ;
+    }
+
+    /**
+     * Testet, ob bei gleicher Hinzufügung der Daten das gleiche Datenobjekt erstellt wird.
+     * TODO: equals-Operator erstellen
+     * Wartet noch auf konkrete Implementation der Datenform.
+     */
+    @Test
+    @Ignore
+    public void addingTheSameDataCreatesAnEqualClass() {
+        ;
     }
 }
