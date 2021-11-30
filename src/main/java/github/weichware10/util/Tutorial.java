@@ -36,7 +36,7 @@ public abstract class Tutorial {
     }
 
     /**
-     * findet heraus, ob für das Tutorial für das Tool angezeigt werden soll.
+     * findet heraus, ob für das Tool, dass Tutorial angezeigt werden soll.
      *
      * @return configState -
      *     true, wenn angezeigt werden soll;
