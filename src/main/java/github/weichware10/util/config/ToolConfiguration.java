@@ -39,10 +39,7 @@ abstract class ToolConfiguration {
 
     @Override
     public String toString() {
-        return String.format("""
-                        imageUrl: %s
-                        tutorial: %b
-                """,
+        return String.format("imageUrl: %s, tutorial: %b",
                 imageUrl,
                 tutorial);
     }

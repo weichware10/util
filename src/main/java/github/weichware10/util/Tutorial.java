@@ -45,11 +45,11 @@ public abstract class Tutorial {
     private boolean getConfigState() {
         switch (toolType) {
             case CODECHARTS:
-                return configClient.getConfig().codeChartsConfiguration.getTutorial();
+                return configClient.getConfig().getCodeChartsConfiguration().getTutorial();
             case EYETRACKING:
-                return configClient.getConfig().eyeTrackingConfiguration.getTutorial();
+                return configClient.getConfig().getEyeTrackingConfiguration().getTutorial();
             default: // ZOOMMAPS
-                return configClient.getConfig().zoomMapsConfiguration.getTutorial();
+                return configClient.getConfig().getZoomMapsConfiguration().getTutorial();
         }
     }
 
@@ -61,13 +61,13 @@ public abstract class Tutorial {
     private void setConfigState(boolean state) {
         switch (toolType) {
             case CODECHARTS:
-                configClient.getConfig().codeChartsConfiguration.setTutorial(state);
+                configClient.getConfig().getCodeChartsConfiguration().setTutorial(state);
                 break;
             case EYETRACKING:
-                configClient.getConfig().eyeTrackingConfiguration.setTutorial(state);
+                configClient.getConfig().getEyeTrackingConfiguration().setTutorial(state);
                 break;
             default: // ZOOMMAPS
-                configClient.getConfig().zoomMapsConfiguration.setTutorial(state);
+                configClient.getConfig().getZoomMapsConfiguration().setTutorial(state);
                 break;
         }
     }

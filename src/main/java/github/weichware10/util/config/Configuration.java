@@ -7,11 +7,11 @@ import java.util.Arrays;
  * Speichert allgemeine Konfiguration sowie Tool-Konfigurationen.
  */
 public class Configuration {
-    protected ToolType[] tools = {ToolType.CODECHARTS, ToolType.EYETRACKING, ToolType.ZOOMMAPS};
-    protected String saveLocation = "saveLocation";
-    public CodeChartsConfiguration codeChartsConfiguration = null;
-    public EyeTrackingConfiguration eyeTrackingConfiguration = null;
-    public ZoomMapsConfiguration zoomMapsConfiguration = null;
+    private ToolType[] tools = {};
+    private String saveLocation = "saveLocation";
+    private CodeChartsConfiguration codeChartsConfiguration = null;
+    private EyeTrackingConfiguration eyeTrackingConfiguration = null;
+    private ZoomMapsConfiguration zoomMapsConfiguration = null;
 
     /**
      * allgemeiner Speicher-Ort für Einstellungen.
@@ -116,19 +116,20 @@ public class Configuration {
 
     @Override
     public String toString() {
-        return String.format("""
-                Configuration: {
-                        tools: %s
-                        saveLocation: %s
-                        codeChartsConfiguration: %s
-                        eyeTrackingConfiguration: %s
-                        zoomMapsConfiguration: %s
-                }""",
+        return String.format(
+                """
+                        Configuration: {
+                            tools: %s
+                            saveLocation: %s
+                            %s,
+                            %s,
+                            %s
+                        }
+                        """,
                 Arrays.toString(tools),
                 saveLocation,
                 codeChartsConfiguration,
                 eyeTrackingConfiguration,
-                zoomMapsConfiguration
-                );
+                zoomMapsConfiguration);
     }
 }
