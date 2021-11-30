@@ -45,10 +45,11 @@ public class CodeChartsConfiguration extends ToolConfiguration {
     @Override
     public String toString() {
         return String.format("""
-                    {
-                        %s
-                    }
-                """,
-                super.toString());
+                codeChartsConfiguration: {
+                        %s, strings: %s, initialSize: %f, timings: %s }""",
+                super.toString(),
+                Arrays.toString(strings),
+                initialSize,
+                Arrays.toString(timings));
     }
 }

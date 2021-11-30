@@ -27,4 +27,13 @@ public class ZoomMapsConfiguration extends ToolConfiguration {
         ZoomMapsConfiguration that = (ZoomMapsConfiguration) (obj);
         return speed == that.speed;
     }
+
+    @Override
+    public String toString() {
+        return String.format("""
+                zoomMapsConfiguration:{
+                        %s, speed: %f }""",
+                super.toString(),
+                speed);
+    }
 }
