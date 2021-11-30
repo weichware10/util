@@ -58,7 +58,7 @@ public class SpeicherUtilities {
      * @param inputString - Data to search
      * @return returns the requested Data
      */
-    public Data searchData(String inpuString) {
+    public Data searchData(String inputString) {
         Data test = new Data(ToolType.ZOOMMAPS, 1);
         return test;
     }
