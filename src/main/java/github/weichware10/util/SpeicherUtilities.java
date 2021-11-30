@@ -47,7 +47,7 @@ public class SpeicherUtilities {
      * @param inputString - Data to delete
      * @return returns true if deletion was sucessfull
      */
-    public boolean deleteData(String inpuString) {
+    public boolean deleteData(String inputString) {
         return true;
     }
 
