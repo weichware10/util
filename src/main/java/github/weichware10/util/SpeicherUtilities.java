@@ -44,7 +44,7 @@ public class SpeicherUtilities {
      * Function to delete the specific Data.
      * TODO: Richtiges Löschen implementieren
      *
-     * @param inpuString - Data to delete
+     * @param inputString - Data to delete
      * @return returns true if deletion was sucessfull
      */
     public boolean deleteData(String inpuString) {
@@ -55,7 +55,7 @@ public class SpeicherUtilities {
      * Function to search for specific Data from a function.
      * TODO: Richtige Suche implementieren
      *
-     * @param inpuString - Data to search
+     * @param inputString - Data to search
      * @return returns the requested Data
      */
     public Data searchData(String inpuString) {
