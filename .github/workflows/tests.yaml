@@ -7,6 +7,7 @@ jobs:
   run-tests:
     runs-on: ubuntu-latest
     steps:
+      - run: echo ${{ github.event.head_commit.author }}
       - name: checkout the repository
         uses: actions/checkout@v2
       - name: setup java 17
