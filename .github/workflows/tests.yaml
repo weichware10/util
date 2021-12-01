@@ -6,7 +6,7 @@ on:
 jobs:
   run-tests:
     runs-on: ubuntu-latest
-    if: "!contains(env.GITHUB_ACTOR, 'joshuajeschek')"
+    if: "!contains(${{ env.GITHUB_ACTOR }}, 'joshuajeschek')"
     steps:
       - name: checkout the repository
         uses: actions/checkout@v2
