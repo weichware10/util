@@ -6,8 +6,8 @@ on:
 jobs:
   run-tests:
     runs-on: ubuntu-latest
+    if: "!contains(github.event.pusher.name, 'joshuajeschek')"
     steps:
-      - run: echo "${{ github.event.pusher.name }}"
       - name: checkout the repository
         uses: actions/checkout@v2
       - name: setup java 17
