@@ -38,7 +38,7 @@ public class CodeChartsConfiguration extends ToolConfiguration {
         }
         CodeChartsConfiguration that = (CodeChartsConfiguration) (obj);
         return Arrays.equals(strings, that.strings)
-                && initialSize == that.initialSize
+                && Arrays.equals(initialSize, that.initialSize)
                 && Arrays.equals(timings, that.timings);
     }
 
