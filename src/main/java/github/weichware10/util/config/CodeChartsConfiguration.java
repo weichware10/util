@@ -7,7 +7,7 @@ import java.util.Arrays;
  */
 public class CodeChartsConfiguration extends ToolConfiguration {
     private String[] strings = { "foobar", "barfoo" };
-    private float initialSize = 4.2f;
+    private int[] initialSize = { 10, 20 };
     private float[] timings = { 2.0f, 2.0f };
 
     // GETTERS
@@ -16,7 +16,7 @@ public class CodeChartsConfiguration extends ToolConfiguration {
         return strings;
     }
 
-    public float getInitialSize() {
+    public int[] getInitialSize() {
         return initialSize;
     }
 
@@ -46,10 +46,10 @@ public class CodeChartsConfiguration extends ToolConfiguration {
     public String toString() {
         return String.format("""
                 codeChartsConfiguration: {
-                        %s, strings: %s, initialSize: %f, timings: %s }""",
+                        %s, strings: %s, initialSize: %s, timings: %s }""",
                 super.toString(),
                 Arrays.toString(strings),
-                initialSize,
+                Arrays.toString(initialSize),
                 Arrays.toString(timings));
     }
 }
