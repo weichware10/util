@@ -1,8 +1,6 @@
 package github.weichware10.util.config;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 
@@ -12,15 +10,12 @@ import org.junit.Test;
 public class CodeChartsConfigurationTest {
 
     /**
-     * Testet, ob der Tutorial-Boolean korrekt geändert wird.
+     * Testet, das toString() ohne Errors läuft.
      */
     @Test
-    public void tutorialBooleanShouldBeChangeable() {
+    public void toStringShouldWork() {
         CodeChartsConfiguration config = new CodeChartsConfiguration();
-        config.setTutorial(false);
-        assertFalse("The Tutorial Boolean should be false", config.getTutorial());
-        config.setTutorial(true);
-        assertTrue("The Tutorial Boolean should be true", config.getTutorial());
+        config.toString();
     }
 
     /**
