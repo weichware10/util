@@ -8,6 +8,7 @@ import github.weichware10.util.Enums.ToolType;
 public class Configuration {
     protected ToolType toolType;
     protected String trialId = "trialId";
+    protected String configId = "configId";
     protected CodeChartsConfiguration codeChartsConfiguration;
     protected EyeTrackingConfiguration eyeTrackingConfiguration;
     protected ZoomMapsConfiguration zoomMapsConfiguration;
@@ -54,8 +55,8 @@ public class Configuration {
         return zoomMapsConfiguration;
     }
 
-    protected void setTrialId(String trialId) {
-        this.trialId = trialId;
+    public String getConfigId() {
+        return configId;
     }
 
     @Override
