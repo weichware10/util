@@ -10,7 +10,7 @@ package github.weichware10.util.config;
  * <p>- Schreibt Einstellungen.
  */
 public class ConfigClient {
-    private Configuration configuration = null;
+    protected Configuration configuration;
 
     /**
      * Gibt das komplette Einstellungs-Objekt zurück.

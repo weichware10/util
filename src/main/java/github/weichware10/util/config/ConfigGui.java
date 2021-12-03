@@ -1,5 +1,7 @@
 package github.weichware10.util.config;
 
+import github.weichware10.util.Enums.ToolType;
+
 /**
  * Setzt das Bearbeiten von Einstellungen via GUI um.
  */
@@ -10,7 +12,7 @@ public class ConfigGui {
      * Initialisiert die ConfigGui-Klasse mit der default-Konfiguration.
      */
     public ConfigGui() {
-        configState = new Configuration();
+        configState = new Configuration(ToolType.ZOOMMAPS);
     }
 
     /**

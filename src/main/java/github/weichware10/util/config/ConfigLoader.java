@@ -1,9 +1,11 @@
 package github.weichware10.util.config;
 
+import github.weichware10.util.Enums.ToolType;
+
 /**
  * statische Klasse zum Laden der Konfiguration.
  */
-class ConfigLoader {
+public final class ConfigLoader {
 
     /**
      * Cannot be instantiated.
@@ -21,7 +23,7 @@ class ConfigLoader {
      */
     public static Configuration loadConfiguration(String location) {
         if (location == "www.weichware10.com/config") {
-            return new Configuration();
+            return new Configuration(ToolType.ZOOMMAPS);
         } else {
             return null;
         }

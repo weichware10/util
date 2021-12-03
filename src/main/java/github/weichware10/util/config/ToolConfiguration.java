@@ -7,9 +7,9 @@ import java.util.Arrays;
  * sie enthält wichtige Daten für alle Tools.
  */
 abstract class ToolConfiguration {
-    private String[] imageUrls = {
+    protected String[] imageUrls = {
         "www.weichware10.com/owlimage", "www.weichware10.com/running-owl" };
-    private boolean tutorial = true;
+    protected boolean tutorial = true;
 
     // GETTER
 

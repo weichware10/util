@@ -6,9 +6,9 @@ import java.util.Arrays;
  * Beinhaltet Konfiguration für CodeCharts-Versuche.
  */
 public class CodeChartsConfiguration extends ToolConfiguration {
-    private String[] strings = { "foobar", "barfoo" };
-    private int[] initialSize = { 10, 20 };
-    private float[] timings = { 2.0f, 2.0f };
+    protected String[] strings = { "foobar", "barfoo" };
+    protected int[] initialSize = { 10, 20 };
+    protected float[] timings = { 2.0f, 2.0f };
 
     // GETTERS
 

@@ -4,7 +4,7 @@ package github.weichware10.util.config;
  * Beinhaltet Konfiguration für ZoomMaps-Versuche.
  */
 public class ZoomMapsConfiguration extends ToolConfiguration {
-    private float speed = 3f;
+    protected float speed = 3f;
 
     // GETTER
 

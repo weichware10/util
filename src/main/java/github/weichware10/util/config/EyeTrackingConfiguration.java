@@ -4,7 +4,7 @@ package github.weichware10.util.config;
  * Beinhaltet Konfiguration für EyeTracking-Versuche.
  */
 public class EyeTrackingConfiguration extends ToolConfiguration {
-    private float pollIntervall = 4.20f;
+    protected float pollIntervall = 4.20f;
 
     // GETTER
 
