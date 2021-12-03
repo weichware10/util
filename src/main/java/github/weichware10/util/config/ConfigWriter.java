@@ -28,12 +28,18 @@ public final class ConfigWriter {
      * @return Erfolgsboolean
      */
     public static boolean toJson(String location, Configuration configuration) {
-        ObjectWriter ow = new ObjectMapper().writer().withDefaultPrettyPrinter();
         try {
+            // umwandeln von Configuration zu JSON String
+            ObjectWriter ow = new ObjectMapper().writer().withDefaultPrettyPrinter();
             String json = ow.writeValueAsString(configuration);
+
+            // Öffnen der Datei
             BufferedWriter writer = new BufferedWriter(new FileWriter(location, false));
+
+            // Schreiben des JSON
             writer.append(json);
             writer.close();
+
         } catch (JsonProcessingException e) {
             e.printStackTrace();
             return false;
@@ -41,11 +47,11 @@ public final class ConfigWriter {
             e.printStackTrace();
             return false;
         }
-        return true;
+        return true; // Schreiben war erfolgreich
     }
 
     /**
-     * Speicher eine Konfiguration ab.
+     * Speichert eine Konfiguration ab.
      *
      * @param location - der gewünschte Speicherort
      * @param configuration - die zu speichernde Konfiguration

@@ -22,6 +22,22 @@ public class ConfigClient {
     }
 
     /**
+     * Schreibt die Konfiguration in die spezifizierte JSON-Datei.
+     * Der Inhalt wird dabei überschrieben / die Datei neu angelegt.
+     *
+     * @param location - Pfad zu JSON-Datei.
+     * @return Erfolgsboolean
+     */
+    public boolean writeToJson(String location) {
+        // Kann nicht gespeichert werden, wenn nicht geladen
+        if (this.configuration == null) {
+            return false;
+        }
+        // gibt Erfolgsboolean von ConfigWriter weiter
+        return ConfigWriter.toJson(location, configuration);
+    }
+
+    /**
      * Lädt eine Konfiguration in den internen Speicher.
      *
      * @param location - Ort an dem die Konfiguration gefunden werden kann.
