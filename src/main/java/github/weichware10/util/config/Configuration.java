@@ -7,7 +7,7 @@ import github.weichware10.util.Enums.ToolType;
  */
 public class Configuration {
     protected ToolType toolType;
-    public String trialId = "trialId";
+    protected String trialId = "trialId";
     protected CodeChartsConfiguration codeChartsConfiguration;
     protected EyeTrackingConfiguration eyeTrackingConfiguration;
     protected ZoomMapsConfiguration zoomMapsConfiguration;
