@@ -34,11 +34,11 @@ public final class ConfigLoader {
             configuration = mapper.readValue(new File(location), Configuration.class);
             return configuration;
         } catch (StreamReadException e) {
-            e.printStackTrace();
+            System.err.println("[WARNING] An error occured while loading a config: " + e);
         } catch (DatabindException e) {
-            e.printStackTrace();
+            System.err.println("[WARNING] An error occured while loading a config: " + e);
         } catch (IOException e) {
-            e.printStackTrace();
+            System.err.println("[WARNING] An error occured while loading a config: " + e);
         }
         return null;
     }

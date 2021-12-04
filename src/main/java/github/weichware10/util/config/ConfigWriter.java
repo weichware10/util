@@ -29,6 +29,10 @@ public final class ConfigWriter {
      * @since v0.2
      */
     public static boolean toJson(String location, Configuration configuration) {
+        // only write to JSON files
+        if (!location.endsWith(".json")) {
+            return false;
+        }
         try {
             // umwandeln von Configuration zu JSON String
             ObjectWriter ow = new ObjectMapper().writer().withDefaultPrettyPrinter();
@@ -43,9 +47,9 @@ public final class ConfigWriter {
 
             return true; // Schreiben war erfolgreich
         } catch (JsonProcessingException e) {
-            e.printStackTrace();
+            System.err.println("[WARNING] An error occured while writing a config: " + e);
         } catch (IOException e) {
-            e.printStackTrace();
+            System.err.println("[WARNING] An error occured while writing a config: " + e);
         }
         return false; // Schreiben war nicht erfolgreich
     }
