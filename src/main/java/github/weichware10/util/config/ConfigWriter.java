@@ -57,12 +57,12 @@ public final class ConfigWriter {
     /**
      * Speichert eine Konfiguration ab.
      *
-     * @param location - der gewünschte Speicherort
+     * @param configId - der gewünschte Speicherort
      * @param configuration - die zu speichernde Konfiguration
      * @return Erfolgsboolean
      */
-    public static boolean toDataBase(String location, Configuration configuration) {
-        if (location == "www.weichware10.com/config") {
+    public static boolean toDataBase(String configId, Configuration configuration) {
+        if (configId == "www.weichware10.com/config") {
             return true;
         } else {
             return false;

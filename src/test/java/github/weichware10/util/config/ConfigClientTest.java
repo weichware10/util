@@ -22,7 +22,7 @@ public class ConfigClientTest {
     public void configShouldBeNullBeforeLoading() {
         ConfigClient client = new ConfigClient();
         assertNull("getConfig() does not return null", client.getConfig());
-        client.loadConfiguration("www.weichware10.com/config");
+        client.loadFromDataBase("www.weichware10.com/config");
         assertThat("getConfig does not return instance of Configuration class",
                 client.getConfig(),
                 instanceOf(Configuration.class));
@@ -36,10 +36,10 @@ public class ConfigClientTest {
     @Test
     public void loadingShouldReturnCorrectBoolean() {
         ConfigClient client = new ConfigClient();
-        assertFalse("Loading should return false", client.loadConfiguration(
+        assertFalse("Loading should return false", client.loadFromDataBase(
                 "https://preview.redd.it/epoet6lk5au71.jpg?auto=webp&s=145f91aa106ea927791f87af7bbb2b7a0f2e3e94"));
 
-        assertTrue("Loading should return true", client.loadConfiguration(
+        assertTrue("Loading should return true", client.loadFromDataBase(
                 "www.weichware10.com/config"));
     }
 
@@ -50,9 +50,9 @@ public class ConfigClientTest {
     @Test
     public void loadingShouldHaveCorrectEffect() {
         ConfigClient client = new ConfigClient();
-        client.loadConfiguration("https://www.youtube.com/watch?v=dQw4w9WgXcQ");
+        client.loadFromDataBase("https://www.youtube.com/watch?v=dQw4w9WgXcQ");
         assertNull("Configuration should not be set", client.getConfig());
-        client.loadConfiguration("www.weichware10.com/config");
+        client.loadFromDataBase("www.weichware10.com/config");
         assertThat("Configuration should be set",
                 client.getConfig(),
                 instanceOf(Configuration.class));

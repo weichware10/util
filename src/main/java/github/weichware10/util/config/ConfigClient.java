@@ -53,12 +53,12 @@ public class ConfigClient {
     /**
      * Lädt eine Konfiguration in den internen Speicher.
      *
-     * @param location - Ort an dem die Konfiguration gefunden werden kann.
+     * @param trialId - ID des Versuchs.
      * @return Erfolgsboolean
      */
-    public boolean loadConfiguration(String location) {
-        if (location == "www.weichware10.com/config") {
-            configuration = ConfigLoader.fromDataBase(location);
+    public boolean loadFromDataBase(String trialId) {
+        if (trialId == "www.weichware10.com/config") {
+            configuration = ConfigLoader.fromDataBase(trialId);
             return true;
         } else {
             return false;
