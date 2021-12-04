@@ -26,6 +26,7 @@ public final class ConfigWriter {
      * @param location - Speicherort der JSON-Datei
      * @param configuration - die abzuspeichernde Configuration
      * @return Erfolgsboolean
+     * @since v0.2
      */
     public static boolean toJson(String location, Configuration configuration) {
         try {
