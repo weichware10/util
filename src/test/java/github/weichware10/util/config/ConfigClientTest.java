@@ -7,8 +7,6 @@ import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
 
-import java.io.ObjectInputFilter.Config;
-
 import org.junit.Test;
 
 /**
@@ -120,6 +118,6 @@ public class ConfigClientTest {
 
         client1.loadFromJson("src/test/resources/testconfig-ZOOMMAPS.json");
         client2.loadFromJson("src/test/resources/testconfig-ZOOMMAPS.json");
-        assertEquals("Configs should be the same" ,client1.getConfig(), client2.getConfig());
+        assertEquals("Configs should be the same", client1.getConfig(), client2.getConfig());
     }
 }
