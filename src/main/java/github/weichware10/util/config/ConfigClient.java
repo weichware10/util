@@ -27,6 +27,7 @@ public class ConfigClient {
      *
      * @param location - Pfad zu JSON-Datei.
      * @return Erfolgsboolean
+     * @since v0.2
      */
     public boolean writeToJson(String location) {
         // Kann nicht gespeichert werden, wenn nicht geladen
@@ -38,6 +39,18 @@ public class ConfigClient {
     }
 
     /**
+     * Lädt den Inhalt einer JSON-Datei in die interne Konfiguration.
+     *
+     * @param location - Der Speicherort der JSON-Datei
+     * @return Erfolgsboolean
+     * @since v0.2
+     */
+    public boolean loadFromJson(String location) {
+        configuration = ConfigLoader.fromJson(location);
+        return (configuration == null) ? false : true;
+    }
+
+    /**
      * Lädt eine Konfiguration in den internen Speicher.
      *
      * @param location - Ort an dem die Konfiguration gefunden werden kann.
@@ -45,7 +58,7 @@ public class ConfigClient {
      */
     public boolean loadConfiguration(String location) {
         if (location == "www.weichware10.com/config") {
-            configuration = ConfigLoader.loadConfiguration(location);
+            configuration = ConfigLoader.fromDataBase(location);
             return true;
         } else {
             return false;

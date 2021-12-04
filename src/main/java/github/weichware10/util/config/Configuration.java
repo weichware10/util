@@ -14,6 +14,14 @@ public class Configuration {
     protected ZoomMapsConfiguration zoomMapsConfiguration;
 
     /**
+     * Constructor ohne Initialisierungen,
+     * sodass eine leere Konfiguration erstellt werden kann.
+     */
+    protected Configuration() {
+        ; // ohne Initialisierungen
+    }
+
+    /**
      * allgemeiner Speicher-Ort für Einstellungen.
      * (Constructor mit Übergabe von non-default-Tools)
      */
@@ -35,7 +43,7 @@ public class Configuration {
 
     // GETTERS
 
-    public ToolType getTools() {
+    public ToolType getToolType() {
         return toolType;
     }
 
@@ -83,7 +91,7 @@ public class Configuration {
         return String.format(
                 """
                         Configuration: {
-                            tools: %s
+                            toolType: %s
                             saveLocation: %s
                             %s,
                             %s,
