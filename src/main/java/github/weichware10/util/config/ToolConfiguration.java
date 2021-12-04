@@ -38,8 +38,8 @@ abstract class ToolConfiguration {
 
     @Override
     public String toString() {
-        return String.format("imageUrl: %s, tutorial: %b",
-                imageUrls,
+        return String.format("imageUrls: %s, tutorial: %b",
+                Arrays.toString(imageUrls),
                 tutorial);
     }
 }
