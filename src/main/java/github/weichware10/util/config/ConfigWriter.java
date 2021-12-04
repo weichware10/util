@@ -40,14 +40,13 @@ public final class ConfigWriter {
             writer.append(json);
             writer.close();
 
+            return true; // Schreiben war erfolgreich
         } catch (JsonProcessingException e) {
             e.printStackTrace();
-            return false;
         } catch (IOException e) {
             e.printStackTrace();
-            return false;
         }
-        return true; // Schreiben war erfolgreich
+        return false; // Schreiben war nicht erfolgreich
     }
 
     /**
