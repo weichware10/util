@@ -23,8 +23,6 @@ abstract class ToolConfiguration {
 
     @Override
     public boolean equals(Object obj) {
-        System.out.println("ToolConfiguration");
-
         if (this == obj) {
             return true;
         }

@@ -14,8 +14,6 @@ public class EyeTrackingConfiguration extends ToolConfiguration {
 
     @Override
     public boolean equals(Object obj) {
-        System.out.println("EyeTrackingConfiguration");
-
         if (!super.equals(obj)) {
             return false;
         }

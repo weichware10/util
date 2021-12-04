@@ -14,7 +14,6 @@ public class ZoomMapsConfiguration extends ToolConfiguration {
 
     @Override
     public boolean equals(Object obj) {
-        System.out.println("ZoomMapsConfiguration");
         if (!super.equals(obj)) {
             return false;
         }

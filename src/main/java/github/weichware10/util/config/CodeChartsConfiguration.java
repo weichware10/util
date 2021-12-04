@@ -26,7 +26,6 @@ public class CodeChartsConfiguration extends ToolConfiguration {
 
     @Override
     public boolean equals(Object obj) {
-        System.out.println("CodeChartsConfiguration");
         if (!super.equals(obj)) {
             return false;
         }
