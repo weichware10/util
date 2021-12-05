@@ -1,4 +1,4 @@
-package github.weichware10.util;
+package github.weichware10.util.data;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
