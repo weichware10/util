@@ -56,7 +56,7 @@ public class SpeicherUtilitiesTest {
     public void searchWasSuccessfull() {
         SpeicherUtilities instance = new SpeicherUtilities("C/Documents");
         assertThat("Datentyp sollte Data sein", instance.searchData("Versuch1 ZoomMaps"),
-            instanceOf(Data.class));
+            instanceOf(TrialData.class));
     }
 
     /**
@@ -65,7 +65,7 @@ public class SpeicherUtilitiesTest {
     @Test
     public void saveWasSuccessfull() {
         SpeicherUtilities instance = new SpeicherUtilities("C/Documents");
-        Data versuch2ZoomMaps = new Data(ToolType.ZOOMMAPS, 2);
+        TrialData versuch2ZoomMaps = new TrialData(ToolType.ZOOMMAPS, "2", "1");
         assertEquals(true, instance.saveData(versuch2ZoomMaps));
     }
 }
