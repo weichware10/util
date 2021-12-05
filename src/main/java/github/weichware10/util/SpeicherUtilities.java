@@ -3,7 +3,7 @@ package github.weichware10.util;
 import github.weichware10.util.Enums.ToolType;
 
 /**
- * Operations for the Data.
+ * Operations for the TrialData.
  */
 public class SpeicherUtilities {
     private String location;
@@ -58,8 +58,8 @@ public class SpeicherUtilities {
      * @param inputString - Data to search
      * @return returns the requested Data
      */
-    public Data searchData(String inputString) {
-        Data test = new Data(ToolType.ZOOMMAPS, 1);
+    public TrialData searchData(String inputString) {
+        TrialData test = new TrialData(ToolType.ZOOMMAPS, "1", "1");
         return test;
     }
 
@@ -70,7 +70,7 @@ public class SpeicherUtilities {
      * @param inputData - The Data to save
      * @return return true if the save was sucessfull
      */
-    public boolean saveData(Data inputData) {
+    public boolean saveData(TrialData inputData) {
         return true;
     }
 }
