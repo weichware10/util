@@ -1,4 +1,4 @@
-package github.weichware10.util;
+package github.weichware10.util.data;
 
 /**
  * Stores a single DataPoint.

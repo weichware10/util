@@ -1,5 +1,6 @@
-package github.weichware10.util;
+package github.weichware10.util.data;
 
+import github.weichware10.util.Enums;
 import java.util.ArrayList;
 import org.joda.time.DateTime;
 
