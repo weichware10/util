@@ -43,26 +43,26 @@ public class DataPointTest {
     public void coordinatesShouldBeSetCorrect() {
         int[] coordinates1 = new int[] {(int) Math.random() * 1000, (int) Math.random() * 1000};
         DataPoint dataPoint1 = new DataPoint(0, 0, coordinates1, new int[]{0, 0});
-        assertTrue("dataPoint1.coordinates sollten {" + coordinates1[0] +
-            ", " + coordinates1[1] + "} sein", dataPoint1.coordinates.equals(coordinates1));
+        assertTrue("dataPoint1.coordinates sollten {" + coordinates1[0]
+            + ", " + coordinates1[1] + "} sein", dataPoint1.coordinates.equals(coordinates1));
 
         int[] coordinates2 = new int[] {(int) Math.random() * 1000, (int) Math.random() * 1000};
         DataPoint dataPoint2 = new DataPoint(0, 0, coordinates2, new int[]{0, 0}, 0.0f);
-        assertTrue("dataPoint2.coordinates sollten {" + coordinates2[0] +
-            ", " + coordinates2[1] + "} sein", dataPoint2.coordinates.equals(coordinates2));
+        assertTrue("dataPoint2.coordinates sollten {" + coordinates2[0]
+            + ", " + coordinates2[1] + "} sein", dataPoint2.coordinates.equals(coordinates2));
     }
 
     @Test
     public void rasterSizeShouldBeSetCorrect() {
         int[] rasterSize1 = new int[] {(int) Math.random() * 1000, (int) Math.random() * 1000};
         DataPoint dataPoint1 = new DataPoint(0, 0, rasterSize1, new int[]{0, 0});
-        assertTrue("dataPoint1.rasterSize sollten {" + rasterSize1[0] +
-            ", " + rasterSize1[1] + "} sein", dataPoint1.coordinates.equals(rasterSize1));
+        assertTrue("dataPoint1.rasterSize sollten {" + rasterSize1[0]
+            + ", " + rasterSize1[1] + "} sein", dataPoint1.coordinates.equals(rasterSize1));
 
         int[] rasterSize2 = new int[] {(int) Math.random() * 1000, (int) Math.random() * 1000};
         DataPoint dataPoint2 = new DataPoint(0, 0, rasterSize2, new int[]{0, 0}, 0.0f);
-        assertTrue("dataPoint2.rasterSize sollten {" + rasterSize2[0] +
-            ", " + rasterSize2[1] + "} sein", dataPoint2.coordinates.equals(rasterSize2));
+        assertTrue("dataPoint2.rasterSize sollten {" + rasterSize2[0]
+            + ", " + rasterSize2[1] + "} sein", dataPoint2.coordinates.equals(rasterSize2));
     }
 
     @Test
