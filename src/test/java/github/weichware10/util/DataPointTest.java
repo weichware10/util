@@ -39,6 +39,9 @@ public class DataPointTest {
             id2, dataPoint2.timeOffset, 0.0001f);
     }
 
+    /**
+     * Testet, ob coordinates richtig gesetzt werden.
+     */
     @Test
     public void coordinatesShouldBeSetCorrect() {
         int[] coordinates1 = new int[] {(int) Math.random() * 1000, (int) Math.random() * 1000};
@@ -52,6 +55,9 @@ public class DataPointTest {
             + ", " + coordinates2[1] + "} sein", dataPoint2.coordinates.equals(coordinates2));
     }
 
+    /**
+     * Testet, ob rasterSize richtig gesetzt wird.
+     */
     @Test
     public void rasterSizeShouldBeSetCorrect() {
         int[] rasterSize1 = new int[] {(int) Math.random() * 1000, (int) Math.random() * 1000};
@@ -65,6 +71,9 @@ public class DataPointTest {
             + ", " + rasterSize2[1] + "} sein", dataPoint2.coordinates.equals(rasterSize2));
     }
 
+    /**
+     * Testet, ob zoomLevel richtig gesetzt wird.
+     */
     @Test
     public void zoomLevelShouldBeSetCorrect() {
         float zoomLevel1 = (float) Math.random() * 1000;
