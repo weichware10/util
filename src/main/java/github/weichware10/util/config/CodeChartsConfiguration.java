@@ -1,18 +1,19 @@
 package github.weichware10.util.config;
 
 import java.util.Arrays;
+import java.util.List;
 
 /**
  * Beinhaltet Konfiguration für CodeCharts-Versuche.
  */
 public class CodeChartsConfiguration extends ToolConfiguration {
-    protected String[] strings = { "foobar", "barfoo" };
+    protected List<String> strings = Arrays.asList("foo", "bar");
     protected int[] initialSize = { 10, 20 };
     protected float[] timings = { 2.0f, 2.0f };
 
     // GETTERS
 
-    public String[] getStrings() {
+    public List<String> getStrings() {
         return strings;
     }
 
@@ -36,7 +37,7 @@ public class CodeChartsConfiguration extends ToolConfiguration {
             return false;
         }
         CodeChartsConfiguration that = (CodeChartsConfiguration) (obj);
-        return Arrays.equals(strings, that.strings)
+        return strings.equals(that.strings)
                 && Arrays.equals(initialSize, that.initialSize)
                 && Arrays.equals(timings, that.timings);
     }
@@ -47,7 +48,7 @@ public class CodeChartsConfiguration extends ToolConfiguration {
                 codeChartsConfiguration: {
                         %s, strings: %s, initialSize: %s, timings: %s }""",
                 super.toString(),
-                Arrays.toString(strings),
+                strings.toString(),
                 Arrays.toString(initialSize),
                 Arrays.toString(timings));
     }
