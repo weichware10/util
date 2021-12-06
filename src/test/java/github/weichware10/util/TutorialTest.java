@@ -25,22 +25,4 @@ public class TutorialTest {
             ;
         }
     }
-
-    /**
-     * Testen, ob die Einstellungen des configClient in Betracht genommen wird.
-     * D.h. ob das Tutorial angezeigt wird.
-     */
-    @Test
-    @Ignore
-    public void tutorialBooleanShouldBeRespected() {
-        ConfigClient configClient = new ConfigClient();
-        configClient.loadConfiguration("www.weichware10.com/config");
-        TestTutorial testsubject = new TestTutorial(configClient);
-        configClient.getConfig().getCodeChartsConfiguration().setTutorial(true);
-        testsubject.start();
-        // Überprüfen, ob Tutorial angezeigt wird, da der Config-Wert true ist
-        configClient.getConfig().getCodeChartsConfiguration().setTutorial(false);
-        testsubject.start();
-        // Überprüfen, ob Tutorial nicht angezeigt wird, da der Config-Wert false ist
-    }
 }

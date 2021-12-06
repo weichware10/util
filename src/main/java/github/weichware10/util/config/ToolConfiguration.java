@@ -1,31 +1,30 @@
 package github.weichware10.util.config;
 
+import java.util.Arrays;
+import java.util.List;
+
+
 /**
  * von dieser Klasse erben alle Tool-Konfigurationen,
  * sie enthält wichtige Daten für alle Tools.
  */
 abstract class ToolConfiguration {
-    private String imageUrl = "www.weichware10.com/owlimage";
-    private boolean tutorial = true;
+    protected List<String> imageUrls = Arrays.asList(
+            "www.weichware10.com/owlimage", "www.weichware10.com/running-owl");
+    protected boolean tutorial = true;
 
     // GETTER
 
-    public String getImageUrl() {
-        return imageUrl;
+    public List<String> getImageUrls() {
+        return imageUrls;
     }
 
     public boolean getTutorial() {
         return tutorial;
     }
 
-    public void setTutorial(boolean tutorial) {
-        this.tutorial = tutorial;
-    }
-
     @Override
     public boolean equals(Object obj) {
-        System.out.println("ToolConfiguration");
-
         if (this == obj) {
             return true;
         }
@@ -33,14 +32,14 @@ abstract class ToolConfiguration {
             return false;
         }
         ToolConfiguration that = (ToolConfiguration) (obj);
-        return imageUrl.equals(that.imageUrl)
+        return imageUrls.equals(that.imageUrls)
                 && tutorial == that.tutorial;
     }
 
     @Override
     public String toString() {
-        return String.format("imageUrl: %s, tutorial: %b",
-                imageUrl,
+        return String.format("imageUrls: %s, tutorial: %b",
+                imageUrls.toString(),
                 tutorial);
     }
 }

@@ -1,6 +1,7 @@
 package github.weichware10.util.config;
 
 import static org.hamcrest.CoreMatchers.instanceOf;
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertThat;
@@ -21,10 +22,10 @@ public class ConfigClientTest {
     public void configShouldBeNullBeforeLoading() {
         ConfigClient client = new ConfigClient();
         assertNull("getConfig() does not return null", client.getConfig());
-        client.loadConfiguration("www.weichware10.com/config");
+        client.loadFromDataBase("www.weichware10.com/config");
         assertThat("getConfig does not return instance of Configuration class",
-            client.getConfig(),
-            instanceOf(Configuration.class));
+                client.getConfig(),
+                instanceOf(Configuration.class));
     }
 
     /**
@@ -35,10 +36,10 @@ public class ConfigClientTest {
     @Test
     public void loadingShouldReturnCorrectBoolean() {
         ConfigClient client = new ConfigClient();
-        assertFalse("Loading should return false", client.loadConfiguration(
+        assertFalse("Loading should return false", client.loadFromDataBase(
                 "https://preview.redd.it/epoet6lk5au71.jpg?auto=webp&s=145f91aa106ea927791f87af7bbb2b7a0f2e3e94"));
 
-        assertTrue("Loading should return true", client.loadConfiguration(
+        assertTrue("Loading should return true", client.loadFromDataBase(
                 "www.weichware10.com/config"));
     }
 
@@ -49,11 +50,74 @@ public class ConfigClientTest {
     @Test
     public void loadingShouldHaveCorrectEffect() {
         ConfigClient client = new ConfigClient();
-        client.loadConfiguration("https://www.youtube.com/watch?v=dQw4w9WgXcQ");
+        client.loadFromDataBase("https://www.youtube.com/watch?v=dQw4w9WgXcQ");
         assertNull("Configuration should not be set", client.getConfig());
-        client.loadConfiguration("www.weichware10.com/config");
+        client.loadFromDataBase("www.weichware10.com/config");
         assertThat("Configuration should be set",
-            client.getConfig(),
-            instanceOf(Configuration.class));
+                client.getConfig(),
+                instanceOf(Configuration.class));
+    }
+
+    /**
+     * Stellt sicher, dass das Speichern nicht möglich ist,
+     * wenn keine Konfiguration geladen wurde.
+     */
+    @Test
+    public void shouldNotWriteNullishConfig() {
+        ConfigClient client = new ConfigClient();
+        assertFalse("Client should not export before loading", client.writeToJson("config.json"));
+    }
+
+    /**
+     * Stellt sicher, dass nicht an einen invaliden Pfad geschrieben wird.
+     */
+    @Test
+    public void shouldNotWriteToInvalidPath() {
+        ConfigClient client = new ConfigClient();
+        client.loadFromJson("src/test/resources/testconfig-CODECHARTS.json");
+        assertFalse("should not write to invalid path", client.writeToJson("badpath/config.json"));
+        assertFalse("should not write to invalid path", client.writeToJson("config"));
+    }
+
+    /**
+     * Testet, ob der ConfigClient eine geladene Konfiguration abspeichern kann.
+     */
+    @Test
+    public void shouldSaveToValidPath() {
+        ConfigClient client = new ConfigClient();
+
+        client.loadFromJson("src/test/resources/testconfig-CODECHARTS.json");
+        assertTrue("Should be able to write to target/testconfig-CODECHARTS.json",
+                client.writeToJson("target/testconfig-CODECHARTS.json"));
+
+        client.loadFromJson("src/test/resources/testconfig-EYETRACKING.json");
+        assertTrue("Should be able to write to target/testconfig-EYETRACKING.json",
+                client.writeToJson("target/testconfig-EYETRACKING.json"));
+
+        client.loadFromJson("src/test/resources/testconfig-ZOOMMAPS.json");
+        assertTrue("Should be able to write to target/testconfig-ZOOMMAPS.json",
+                client.writeToJson("target/testconfig-ZOOMMAPS.json"));
+    }
+
+    /**
+     * Testet, ob die gleiche Konfiguration geladen wird,
+     * wenn zwei Mal die gleiche Datei geladen wird.
+     */
+    @Test
+    public void loadingShouldBeReliable() {
+        ConfigClient client1 = new ConfigClient();
+        ConfigClient client2 = new ConfigClient();
+
+        client1.loadFromJson("src/test/resources/testconfig-CODECHARTS.json");
+        client2.loadFromJson("src/test/resources/testconfig-CODECHARTS.json");
+        assertEquals("Configs should be the same", client1.getConfig(), client2.getConfig());
+
+        client1.loadFromJson("src/test/resources/testconfig-EYETRACKING.json");
+        client2.loadFromJson("src/test/resources/testconfig-EYETRACKING.json");
+        assertEquals("Configs should be the same", client1.getConfig(), client2.getConfig());
+
+        client1.loadFromJson("src/test/resources/testconfig-ZOOMMAPS.json");
+        client2.loadFromJson("src/test/resources/testconfig-ZOOMMAPS.json");
+        assertEquals("Configs should be the same", client1.getConfig(), client2.getConfig());
     }
 }
