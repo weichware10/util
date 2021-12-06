@@ -63,7 +63,7 @@ public class ConfigClientTest {
      * wenn keine Konfiguration geladen wurde.
      */
     @Test
-    public void shouldNotWriteEmptyConfig() {
+    public void shouldNotWriteNullishConfig() {
         ConfigClient client = new ConfigClient();
         assertFalse("Client should not export before loading", client.writeToJson("config.json"));
     }
@@ -72,7 +72,7 @@ public class ConfigClientTest {
      * Stellt sicher, dass nicht an einen invaliden Pfad geschrieben wird.
      */
     @Test
-    public void shouldNotWriteToWrongPath() {
+    public void shouldNotWriteToInvalidPath() {
         ConfigClient client = new ConfigClient();
         client.loadFromJson("src/test/resources/testconfig-CODECHARTS.json");
         assertFalse("should not write to invalid path", client.writeToJson("badpath/config.json"));

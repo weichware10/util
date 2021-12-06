@@ -47,6 +47,7 @@ public class ConfigClient {
      */
     public boolean loadFromJson(String location) {
         configuration = ConfigLoader.fromJson(location);
+        // Rückgabe von false, wenn keine Konfiguration geladen wurde
         return (configuration == null) ? false : true;
     }
 
