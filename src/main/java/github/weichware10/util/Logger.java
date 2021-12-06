@@ -13,6 +13,8 @@ package github.weichware10.util;
  *
  * <p>Jede Funktion hat 3 verschiedene Versionen,
  * ohne Kontext, mit Kontext, und mit Kontext und Stack Trace.
+ *
+ * @since v0.2
  */
 public class Logger {
 
@@ -37,6 +39,7 @@ public class Logger {
      * Loggt eine debug-Nachricht ohne Kontext.
      *
      * @param message - Inhalt
+     * @since v0.2
      */
     public static void debug(String message) {
         System.out.println(PURPLE + "[DEBUG] " + RESET + message);
@@ -47,6 +50,7 @@ public class Logger {
      *
      * @param message - Inhalt
      * @param ctx - Kontext, d.h. eine Exception
+     * @since v0.2
      */
     public static void debug(String message, Exception ctx) {
         debug(message, ctx, false);
@@ -58,6 +62,7 @@ public class Logger {
      * @param message - Inhalt
      * @param ctx - Kontext, d.h. eine Exception
      * @param stacktrace - ob ein StackTrace angezeigt werden soll
+     * @since v0.2
      */
     public static void debug(String message, Exception ctx, boolean stacktrace) {
         System.out.println(PURPLE + "[DEBUG] " + RESET + message + ": " + ctx.getMessage());
@@ -70,6 +75,7 @@ public class Logger {
      * Loggt eine error-Nachricht ohne Kontext.
      *
      * @param message - Inhalt
+     * @since v0.2
      */
     public static void error(String message) {
         System.out.println(RED + "[ERROR] " + RESET + message);
@@ -80,6 +86,7 @@ public class Logger {
      *
      * @param message - Inhalt
      * @param ctx - Kontext, d.h. eine Exception
+     * @since v0.2
      */
     public static void error(String message, Exception ctx) {
         error(message, ctx, false);
@@ -91,6 +98,7 @@ public class Logger {
      * @param message - Inhalt
      * @param ctx - Kontext, d.h. eine Exception
      * @param stacktrace - ob ein StackTrace angezeigt werden soll
+     * @since v0.2
      */
     public static void error(String message, Exception ctx, boolean stacktrace) {
         System.out.println(RED + "[ERROR] " + RESET + message + ": " + ctx.getMessage());
@@ -103,6 +111,7 @@ public class Logger {
      * Loggt eine warn-Nachricht ohne Kontext.
      *
      * @param message - Inhalt
+     * @since v0.2
      */
     public static void warn(String message) {
         System.out.println(YELLOW + "[WARN] " + RESET + message);
@@ -113,6 +122,7 @@ public class Logger {
      *
      * @param message - Inhalt
      * @param ctx - Kontext, d.h. eine Exception
+     * @since v0.2
      */
     public static void warn(String message, Exception ctx) {
         warn(message, ctx, false);
@@ -124,6 +134,7 @@ public class Logger {
      * @param message - Inhalt
      * @param ctx - Kontext, d.h. eine Exception
      * @param stacktrace - ob ein StackTrace angezeigt werden soll
+     * @since v0.2
      */
     public static void warn(String message, Exception ctx, boolean stacktrace) {
         System.out.println(YELLOW + "[WARN] " + RESET + message + ": " + ctx.getMessage());
@@ -136,6 +147,7 @@ public class Logger {
      * Loggt eine info-Nachricht ohne Kontext.
      *
      * @param message - Inhalt
+     * @since v0.2
      */
     public static void info(String message) {
         System.out.println(CYAN + "[INFO] " + RESET + message);
@@ -146,6 +158,7 @@ public class Logger {
      *
      * @param message - Inhalt
      * @param ctx - Kontext, d.h. eine Exception
+     * @since v0.2
      */
     public static void info(String message, Exception ctx) {
         info(message, ctx, false);
@@ -157,6 +170,7 @@ public class Logger {
      * @param message - Inhalt
      * @param ctx - Kontext, d.h. eine Exception
      * @param stacktrace - ob ein StackTrace angezeigt werden soll
+     * @since v0.2
      */
     public static void info(String message, Exception ctx, boolean stacktrace) {
         System.out.println(CYAN + "[INFO] " + RESET + message + ": " + ctx.getMessage());
