@@ -1,0 +1,12 @@
+{
+  "toolType" : "ZOOMMAPS",
+  "trialId" : "trialId",
+  "configId" : "configId",
+  "codeChartsConfiguration" : null,
+  "eyeTrackingConfiguration" : null,
+  "zoomMapsConfiguration" : {
+    "imageUrls" : [ "www.weichware10.com/owlimage", "www.weichware10.com/running-owl" ],
+    "tutorial" : true,
+    "speed" : 3.0
+  }
+}

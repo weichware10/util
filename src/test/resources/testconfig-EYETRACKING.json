@@ -1,0 +1,12 @@
+{
+  "toolType" : "EYETRACKING",
+  "trialId" : "trialId",
+  "configId" : "configId",
+  "codeChartsConfiguration" : null,
+  "eyeTrackingConfiguration" : {
+    "imageUrls" : [ "www.weichware10.com/owlimage", "www.weichware10.com/running-owl" ],
+    "tutorial" : true,
+    "pollIntervall" : 4.2
+  },
+  "zoomMapsConfiguration" : null
+}

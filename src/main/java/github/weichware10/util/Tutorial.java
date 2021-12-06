@@ -54,25 +54,6 @@ public abstract class Tutorial {
     }
 
     /**
-     * Setzt den Konfigurationswert für das aktuelle Tool.
-     *
-     * @param state - der zu setzende Wert
-     */
-    private void setConfigState(boolean state) {
-        switch (toolType) {
-            case CODECHARTS:
-                configClient.getConfig().getCodeChartsConfiguration().setTutorial(state);
-                break;
-            case EYETRACKING:
-                configClient.getConfig().getEyeTrackingConfiguration().setTutorial(state);
-                break;
-            default: // ZOOMMAPS
-                configClient.getConfig().getZoomMapsConfiguration().setTutorial(state);
-                break;
-        }
-    }
-
-    /**
      * Zeigt das Tutorial an, mit OK-Button und Checkbox.
      * Ruft {@link #tutorial()} auf.
      *

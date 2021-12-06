@@ -10,7 +10,7 @@ package github.weichware10.util.config;
  * <p>- Schreibt Einstellungen.
  */
 public class ConfigClient {
-    private Configuration configuration = null;
+    protected Configuration configuration;
 
     /**
      * Gibt das komplette Einstellungs-Objekt zurück.
@@ -22,14 +22,44 @@ public class ConfigClient {
     }
 
     /**
+     * Schreibt die Konfiguration in die spezifizierte JSON-Datei.
+     * Der Inhalt wird dabei überschrieben / die Datei neu angelegt.
+     *
+     * @param location - Pfad zu JSON-Datei.
+     * @return Erfolgsboolean
+     * @since v0.2
+     */
+    public boolean writeToJson(String location) {
+        // Kann nicht gespeichert werden, wenn nicht geladen
+        if (this.configuration == null) {
+            return false;
+        }
+        // gibt Erfolgsboolean von ConfigWriter weiter
+        return ConfigWriter.toJson(location, configuration);
+    }
+
+    /**
+     * Lädt den Inhalt einer JSON-Datei in die interne Konfiguration.
+     *
+     * @param location - Der Speicherort der JSON-Datei
+     * @return Erfolgsboolean
+     * @since v0.2
+     */
+    public boolean loadFromJson(String location) {
+        configuration = ConfigLoader.fromJson(location);
+        // Rückgabe von false, wenn keine Konfiguration geladen wurde
+        return (configuration == null) ? false : true;
+    }
+
+    /**
      * Lädt eine Konfiguration in den internen Speicher.
      *
-     * @param location - Ort an dem die Konfiguration gefunden werden kann.
+     * @param trialId - ID des Versuchs.
      * @return Erfolgsboolean
      */
-    public boolean loadConfiguration(String location) {
-        if (location == "www.weichware10.com/config") {
-            configuration = ConfigLoader.loadConfiguration(location);
+    public boolean loadFromDataBase(String trialId) {
+        if (trialId == "www.weichware10.com/config") {
+            configuration = ConfigLoader.fromDataBase(trialId);
             return true;
         } else {
             return false;
