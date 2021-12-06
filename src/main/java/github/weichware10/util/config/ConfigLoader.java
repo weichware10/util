@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.exc.StreamReadException;
 import com.fasterxml.jackson.databind.DatabindException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import github.weichware10.util.Enums.ToolType;
+import github.weichware10.util.Logger;
 import java.io.File;
 import java.io.IOException;
 
@@ -34,11 +35,11 @@ public final class ConfigLoader {
             configuration = mapper.readValue(new File(location), Configuration.class);
             return configuration;
         } catch (StreamReadException e) {
-            System.err.println("[WARNING] An error occured while loading a config: " + e);
+            Logger.info("An error occured while loading a config", e);
         } catch (DatabindException e) {
-            System.err.println("[WARNING] An error occured while loading a config: " + e);
+            Logger.info("An error occured while loading a config", e);
         } catch (IOException e) {
-            System.err.println("[WARNING] An error occured while loading a config: " + e);
+            Logger.info("An error occured while loading a config", e);
         }
         return null;
     }
