@@ -61,12 +61,12 @@ public class Logger {
      *
      * @param message - Inhalt
      * @param ctx - Kontext, d.h. eine Exception
-     * @param stacktrace - ob ein StackTrace angezeigt werden soll
+     * @param stackTrace - ob ein StackTrace angezeigt werden soll
      * @since v0.2
      */
-    public static void debug(String message, Exception ctx, boolean stacktrace) {
+    public static void debug(String message, Exception ctx, boolean stackTrace) {
         System.out.println(PURPLE + "[DEBUG] " + RESET + message + ": " + ctx.getMessage());
-        if (stacktrace) {
+        if (stackTrace) {
             ctx.printStackTrace();
         }
     }
@@ -97,12 +97,12 @@ public class Logger {
      *
      * @param message - Inhalt
      * @param ctx - Kontext, d.h. eine Exception
-     * @param stacktrace - ob ein StackTrace angezeigt werden soll
+     * @param stackTrace - ob ein StackTrace angezeigt werden soll
      * @since v0.2
      */
-    public static void error(String message, Exception ctx, boolean stacktrace) {
+    public static void error(String message, Exception ctx, boolean stackTrace) {
         System.out.println(RED + "[ERROR] " + RESET + message + ": " + ctx.getMessage());
-        if (stacktrace) {
+        if (stackTrace) {
             ctx.printStackTrace();
         }
     }
@@ -133,12 +133,12 @@ public class Logger {
      *
      * @param message - Inhalt
      * @param ctx - Kontext, d.h. eine Exception
-     * @param stacktrace - ob ein StackTrace angezeigt werden soll
+     * @param stackTrace - ob ein StackTrace angezeigt werden soll
      * @since v0.2
      */
-    public static void warn(String message, Exception ctx, boolean stacktrace) {
+    public static void warn(String message, Exception ctx, boolean stackTrace) {
         System.out.println(YELLOW + "[WARN] " + RESET + message + ": " + ctx.getMessage());
-        if (stacktrace) {
+        if (stackTrace) {
             ctx.printStackTrace();
         }
     }
@@ -169,12 +169,12 @@ public class Logger {
      *
      * @param message - Inhalt
      * @param ctx - Kontext, d.h. eine Exception
-     * @param stacktrace - ob ein StackTrace angezeigt werden soll
+     * @param stackTrace - ob ein StackTrace angezeigt werden soll
      * @since v0.2
      */
-    public static void info(String message, Exception ctx, boolean stacktrace) {
+    public static void info(String message, Exception ctx, boolean stackTrace) {
         System.out.println(CYAN + "[INFO] " + RESET + message + ": " + ctx.getMessage());
-        if (stacktrace) {
+        if (stackTrace) {
             ctx.printStackTrace();
         }
     }
