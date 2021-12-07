@@ -1,6 +1,8 @@
 package github.weichware10.util.data;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertThrows;
+import static org.junit.Assert.assertTrue;
 
 import github.weichware10.util.Enums.ToolType;
 import org.junit.Test;
@@ -63,7 +65,7 @@ public class TrialDataTest {
     }
 
     /**
-     * Testet toString stringy Strings zurückgibt.
+     * Testet ob toString stringy Strings zurückgibt.
      */
     @Test
     public void stringShouldStringStringy() {
@@ -88,14 +90,72 @@ public class TrialDataTest {
                 }""", data1.startTime.toString()),
                 data1.toString());
 
+        TrialData data2 = new TrialData(ToolType.ZOOMMAPS, "1", "2");
+        assertEquals(String.format("""
+                TrialData: {
+                    toolType: ZOOMMAPS
+                    trialId: 1
+                    configId: 2
+                    startTime: %s
+                    dataPoints: dataPoints[0]
+                }""", data2.startTime.toString()),
+                data2.toString());
+        data2.addDataPoint(new int[] { 1, 2 }, 42.0f);
+        assertEquals(String.format("""
+                TrialData: {
+                    toolType: ZOOMMAPS
+                    trialId: 1
+                    configId: 2
+                    startTime: %s
+                    dataPoints: dataPoints[1]
+                }""", data2.startTime.toString()),
+                data2.toString());
     }
 
     /**
-     * Testet, ob bei gleicher Hinzufügung der Daten das gleiche Datenobjekt
-     * erstellt wird.
+     * Testet, ob Länge der übegebenen Arrays ungleich 2 ist.
      */
     @Test
-    public void dataShouldBeSetCorrectly() {
-        ;
+    public void wrongListSizeShouldThrow() {
+        TrialData data1 = new TrialData(ToolType.ZOOMMAPS, "1", "2");
+        assertThrows(IllegalArgumentException.class, () -> {
+            data1.addDataPoint(new int[] { 1, 2, 3 }, 42);
+        });
+
+        TrialData data2 = new TrialData(ToolType.CODECHARTS, "1", "2");
+        assertThrows(IllegalArgumentException.class, () -> {
+            data2.addDataPoint(new int[] { 1, 2, 3 }, new int[] { 1, 2 });
+        });
+        assertThrows(IllegalArgumentException.class, () -> {
+            data2.addDataPoint(new int[] { 1, 2 }, new int[] { 1, 2, 3 });
+        });
+        assertThrows(IllegalArgumentException.class, () -> {
+            data2.addDataPoint(new int[] { 1, 2, 3 }, new int[] { 1, 2, 3 });
+        });
+    }
+
+    /**
+     * Testet, ob bei dem Versuch die Daten für den falschen ToolType
+     * hinzuzufügen ein Error geworfen wird.
+     */
+    @Test
+    public void wrongToolTypeShouldThrow() {
+        TrialData data1 = new TrialData(ToolType.ZOOMMAPS, "1", "2");
+        assertThrows(IllegalArgumentException.class, () -> {
+            data1.addDataPoint(new int[] { 1, 2 }, new int[] { 1, 2 });
+        });
+
+        TrialData data2 = new TrialData(ToolType.CODECHARTS, "1", "2");
+        assertThrows(IllegalArgumentException.class, () -> {
+            data2.addDataPoint(new int[] { 1, 2 }, 42);
+        });
+    }
+
+    @Test
+    public void shouldGetDataCorrectly() {
+        TrialData data1 = new TrialData(ToolType.ZOOMMAPS, "1", "2");
+        data1.addDataPoint(new int[] { 1, 2 }, 42.0f);
+        DataPoint dataPoint1 = data1.getData().get(0);
+        assertTrue(data1.getData().get(0).equals(dataPoint1));
     }
 }
