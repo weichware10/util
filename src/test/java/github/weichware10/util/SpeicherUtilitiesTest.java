@@ -1,12 +1,15 @@
 package github.weichware10.util;
 
 import static org.hamcrest.CoreMatchers.instanceOf;
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertThat;
 
 import github.weichware10.util.Enums.ToolType;
 import github.weichware10.util.data.TrialData;
 import org.junit.Test;
+
+
+
 
 /**
  * Unit Test für Speicherutilities.
