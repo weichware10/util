@@ -77,7 +77,7 @@ public class TrialData {
     }
 
     /**
-     * Add a DataPoint for CodeCharts.
+     * Add a DataPoint for ZoomMaps.
      *
      * @param coordinates - the coordinates on the viewed picture
      * @param zoomLevel   - how far the user is zoomed in
