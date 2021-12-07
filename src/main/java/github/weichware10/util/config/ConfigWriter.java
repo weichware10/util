@@ -3,6 +3,7 @@ package github.weichware10.util.config;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
+import github.weichware10.util.Logger;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -47,9 +48,9 @@ public final class ConfigWriter {
 
             return true; // Schreiben war erfolgreich
         } catch (JsonProcessingException e) {
-            System.err.println("[WARNING] An error occured while writing a config: " + e);
+            Logger.info("An error occured while writing a config", e);
         } catch (IOException e) {
-            System.err.println("[WARNING] An error occured while writing a config: " + e);
+            Logger.info("An error occured while writing a config", e);
         }
         return false; // Schreiben war nicht erfolgreich
     }
