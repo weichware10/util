@@ -1,13 +1,8 @@
 package github.weichware10.util.data;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
 
 import github.weichware10.util.Enums.ToolType;
-import java.util.ArrayList;
-import java.util.Arrays;
-import org.junit.Ignore;
 import org.junit.Test;
 
 /**
@@ -20,15 +15,15 @@ public class TrialDataTest {
     @Test
     public void toolTypeShouldBeSet() {
         TrialData zoomdata = new TrialData(ToolType.ZOOMMAPS, "1", "1");
-        assertEquals("zommdata sollte vom Typ ZOOMMAPS sein", ToolType.ZOOMMAPS, zoomdata.tooltype);
+        assertEquals("zommdata sollte vom Typ ZOOMMAPS sein", ToolType.ZOOMMAPS, zoomdata.toolType);
 
         TrialData eyetrackingdata = new TrialData(ToolType.EYETRACKING, "1", "1");
         assertEquals("zommdata sollte vom Typ EYETRACKING sein",
-            ToolType.EYETRACKING, eyetrackingdata.tooltype);
+                ToolType.EYETRACKING, eyetrackingdata.toolType);
 
         TrialData codechartsdata = new TrialData(ToolType.CODECHARTS, "1", "1");
         assertEquals("zommdata sollte vom Typ CODECHARTS sein",
-            ToolType.CODECHARTS, codechartsdata.tooltype);
+                ToolType.CODECHARTS, codechartsdata.toolType);
     }
 
     /**
@@ -68,50 +63,39 @@ public class TrialDataTest {
     }
 
     /**
-     * Testet ob die Daten richtig gesetzt wurden.
+     * Testet toString stringy Strings zurückgibt.
      */
     @Test
-    public void dataShouldBeCorrect() {
-        TrialData data1 = new TrialData(ToolType.CODECHARTS, "1", "1");
-        DataPoint dataPoint1 = new DataPoint(1, 2, new int[]{3, 4}, new int[]{5, 6});
-        DataPoint dataPoint2 = new DataPoint(2, 3, new int[]{4, 5}, new int[]{6, 7});
-        ArrayList<DataPoint> dataPoints1 = new ArrayList<DataPoint>(
-            Arrays.asList(dataPoint1, dataPoint2));
+    public void stringShouldStringStringy() {
+        TrialData data1 = new TrialData(ToolType.CODECHARTS, "1", "2");
+        assertEquals(String.format("""
+                TrialData: {
+                    toolType: CODECHARTS
+                    trialId: 1
+                    configId: 2
+                    startTime: %s
+                    dataPoints: dataPoints[0]
+                }""", data1.startTime.toString()),
+                data1.toString());
+        data1.addDataPoint(new int[] { 1, 2 }, new int[] { 3, 4 });
+        assertEquals(String.format("""
+                TrialData: {
+                    toolType: CODECHARTS
+                    trialId: 1
+                    configId: 2
+                    startTime: %s
+                    dataPoints: dataPoints[1]
+                }""", data1.startTime.toString()),
+                data1.toString());
 
-        data1.setData(dataPoints1);
-        assertTrue("dataPoints1 und data1.getData() sollten gleich sein",
-            dataPoints1.equals(data1.getData()));
-
-        TrialData data2 = new TrialData(ToolType.CODECHARTS, "1", "1");
-        DataPoint dataPoint3 = new DataPoint(5, 6, new int[]{7, 8}, new int[]{9, 10});
-        DataPoint dataPoint4 = new DataPoint(6, 7, new int[]{8, 9}, new int[]{10, 11});
-        ArrayList<DataPoint> dataPoints2 = new ArrayList<DataPoint>(
-            Arrays.asList(dataPoint3, dataPoint4));
-
-        data2.setData(dataPoints2);
-
-        assertTrue("dataPoints2 und data2.getData() sollten gleich sein",
-            dataPoints2.equals(data2.getData()));
-        assertFalse("data1.getData() und data2.getData() sollten nicht gleich sein",
-            data1.getData().equals(data2.getData()));
     }
 
     /**
-     * Testet, ob bei gleicher Hinzufügung der Daten das gleiche Datenobjekt erstellt wird.
+     * Testet, ob bei gleicher Hinzufügung der Daten das gleiche Datenobjekt
+     * erstellt wird.
      */
     @Test
-    @Ignore
-    public void addingTheSameDataCreatesAnEqualClass() {
-        TrialData data1 = new TrialData(ToolType.CODECHARTS, "1", "1");
-        TrialData data2 = new TrialData(ToolType.CODECHARTS, "1", "1");
-        DataPoint dataPoint1 = new DataPoint(1, 2, new int[]{3, 4}, new int[]{5, 6});
-        DataPoint dataPoint2 = new DataPoint(2, 3, new int[]{4, 5}, new int[]{6, 7});
-        ArrayList<DataPoint> dataPoints1 = new ArrayList<DataPoint>(
-            Arrays.asList(dataPoint1, dataPoint2));
-
-        data1.setData(dataPoints1);
-        data2.setData(dataPoints1);
-        assertTrue("data1.getData() und data2.getData() sollten gleich sein",
-            data1.getData().equals(data2.getData()));
+    public void dataShouldBeSetCorrectly() {
+        ;
     }
 }
