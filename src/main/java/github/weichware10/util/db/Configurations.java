@@ -38,7 +38,7 @@ public class Configurations {
      * @return Konfigurationsobjekt
      */
     public Configuration getConfiguration(String configId) {
-        final String query = "SELECT * FROM configurations WHERE configid LIKE %s";
+        final String query = "SELECT * FROM configurations WHERE configid LIKE '%s'";
 
         ResultSet rs;
 
@@ -63,6 +63,7 @@ public class Configurations {
             ToolType toolType = ToolType.valueOf(rs.getString("tooltype"));
             List<String> imageUrls = Util.stringsToList(rs.getString("imageurls"));
             boolean tutorial = (rs.getInt("tutorial") == 1) ? true : false;
+            String question = rs.getString("question");
 
             if (toolType == ToolType.CODECHARTS) {
                 // CODECHARTS spezifische Werte
@@ -70,14 +71,14 @@ public class Configurations {
                 int[] initialSize = new int[] {
                         rs.getInt("initialsize_x"),
                         rs.getInt("initialsize_y") };
-                long[] timings = new long[] { rs.getLong("timings0"), rs.getLong("timings1") };
+                long[] timings = new long[] { rs.getLong("timings_0"), rs.getLong("timings_1") };
 
                 // CodeChartsConfiguration erstellen
                 CodeChartsConfiguration codeChartsConfiguration = new CodeChartsConfiguration(
                         strings, initialSize, timings, tutorial, imageUrls);
 
                 // komplette Konfiguration zurückgeben
-                return new Configuration(configId, codeChartsConfiguration);
+                return new Configuration(configId, question, codeChartsConfiguration);
             } else {
                 // ZOOMMAPS spezifische Werte
                 float speed = rs.getFloat("speed");
@@ -87,7 +88,7 @@ public class Configurations {
                         speed, tutorial, imageUrls);
 
                 // komplette Konfiguration zurückgeben
-                return new Configuration(configId, zoomMapsConfiguration);
+                return new Configuration(configId, question, zoomMapsConfiguration);
             }
         } catch (SQLException e) {
             Logger.error("SQLException when processing query result", e);
@@ -125,15 +126,39 @@ public class Configurations {
                 Connection conn = DriverManager.getConnection(url, props);
                 Statement st = conn.createStatement();
                 if (configuration.getToolType() == ToolType.CODECHARTS) {
-                    st.executeQuery(String.format(zmQuery, id, "CODECHARTS", 1, "tst", "tst", 3.0f));
+                    CodeChartsConfiguration ccConfiguration =
+                            configuration.getCodeChartsConfiguration();
+                    st.executeUpdate(String.format(ccQuery,
+                            id,
+                            "CODECHARTS",
+                            ccConfiguration.getTutorial() ? 1 : 0,
+                            configuration.getQuestion(),
+                            ccConfiguration.getImageUrls(),
+                            ccConfiguration.getStrings(),
+                            ccConfiguration.getInitialSize()[0],
+                            ccConfiguration.getInitialSize()[1],
+                            ccConfiguration.getTimings()[0],
+                            ccConfiguration.getTimings()[1]
+                    ));
                 } else {
-                    st.executeQuery(String.format(zmQuery, id, "ZOOMMAPS", 1, "tst", "tst", 3.0f));
+                    ZoomMapsConfiguration zmConfiguration =
+                        configuration.getZoomMapsConfiguration();
+                    st.executeUpdate(String.format(zmQuery,
+                            id,
+                            "ZOOMMAPS",
+                            zmConfiguration.getTutorial() ? 1 : 0,
+                            configuration.getQuestion(),
+                            zmConfiguration.getImageUrls(),
+                            zmConfiguration.getSpeed()));
                 }
             } catch (SQLException e) {
                 if (e.toString().contentEquals(uniqueException)) {
                     idUnique = false;
+                    Logger.info("duplicate key value violates unique constraint (configId)", e);
+                } else {
+                    Logger.error("SQLException when executing query", e);
+                    return null;
                 }
-                Logger.error("SQLException when executing query", e);
             }
         }
         return id;
