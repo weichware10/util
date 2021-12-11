@@ -29,8 +29,10 @@ public class Configuration {
      * @param configId - configId der übergebenen Konfiguration
      * @param codeChartsConfiguration - Konfiguration von CodeCharts
      */
-    public Configuration(String configId, CodeChartsConfiguration codeChartsConfiguration) {
+    public Configuration(String configId, String question,
+            CodeChartsConfiguration codeChartsConfiguration) {
         this.toolType = ToolType.CODECHARTS;
+        this.question = question;
         this.configId = configId;
         this.codeChartsConfiguration = codeChartsConfiguration;
     }
@@ -53,9 +55,11 @@ public class Configuration {
      * @param configId - configId der übergebenen Konfiguration
      * @param zoomMapsConfiguration - Konfiguration von ZoomMaps
      */
-    public Configuration(String configId, ZoomMapsConfiguration zoomMapsConfiguration) {
+    public Configuration(String configId, String question,
+            ZoomMapsConfiguration zoomMapsConfiguration) {
         this.toolType = ToolType.ZOOMMAPS;
         this.configId = configId;
+        this.question = question;
         this.zoomMapsConfiguration = zoomMapsConfiguration;
     }
 
@@ -138,13 +142,17 @@ public class Configuration {
                 """
                         Configuration: {
                             toolType: %s
-                            saveLocation: %s
+                            configId: %s
+                            trialId: %s
+                            question: %s
                             %s,
                             %s
                         }
                         """,
                 toolType,
+                configId,
                 trialId,
+                question,
                 codeChartsConfiguration,
                 // eyeTrackingConfiguration,
                 zoomMapsConfiguration);
