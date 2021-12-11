@@ -2,13 +2,13 @@
     "toolType" : "CODECHARTS",
     "trialId" : "trialId",
     "configId" : "configId",
+    "question" : "Is this a question?",
     "codeChartsConfiguration" : {
       "imageUrls" : [ "www.weichware10.com/owlimage", "www.weichware10.com/running-owl" ],
       "tutorial" : true,
       "strings" : [ "foobar", "barfoo" ],
       "initialSize" : [ 10, 20 ],
-      "timings" : [ 2.0, 2.0 ]
+      "timings" : [ 200, 200 ]
     },
-    "eyeTrackingConfiguration" : null,
     "zoomMapsConfiguration" : null
   }

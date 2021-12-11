@@ -3,7 +3,6 @@ package github.weichware10.util.config;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
-import github.weichware10.util.Enums.ToolType;
 import org.junit.Test;
 
 
@@ -16,10 +15,10 @@ public class ConfigWriterTest {
     public void onlyWriteToValidLocation() {
         assertFalse("ConfigWriter should not write to shady locations.",
                 ConfigWriter.toDataBase(
-                        "www.downloadfreeramNOW.com", new Configuration(ToolType.ZOOMMAPS)));
+                        "www.downloadfreeramNOW.com", new Configuration()));
         assertTrue("ConfigWriter should write to valid locations.",
                 ConfigWriter.toDataBase(
-                        "www.weichware10.com/config", new Configuration(ToolType.ZOOMMAPS)));
+                        "www.weichware10.com/config", new Configuration()));
     }
 
     /**
@@ -29,14 +28,14 @@ public class ConfigWriterTest {
     public void canWriteToValidPath() {
         assertTrue("ConfigWriter should be able to write to 'target/CFG-zoommaps-path.json'",
                 ConfigWriter.toJson("target/CFG-zoommaps-path.json",
-                        new Configuration(ToolType.ZOOMMAPS)));
+                        new Configuration()));
 
         assertTrue("ConfigWriter should be able to write to 'target/CFG-codecharts-path.json'",
                 ConfigWriter.toJson("target/CFG-codecharts-path.json",
-                        new Configuration(ToolType.CODECHARTS)));
+                        new Configuration()));
 
         assertTrue("ConfigWriter should be able to write to 'target/CFG-eyetracking-path.json'",
                 ConfigWriter.toJson("target/CFG-eyetracking-path.json",
-                        new Configuration(ToolType.EYETRACKING)));
+                        new Configuration()));
     }
 }

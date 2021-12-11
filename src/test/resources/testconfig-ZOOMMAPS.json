@@ -2,8 +2,8 @@
   "toolType" : "ZOOMMAPS",
   "trialId" : "trialId",
   "configId" : "configId",
+  "question" : "Is this a question?",
   "codeChartsConfiguration" : null,
-  "eyeTrackingConfiguration" : null,
   "zoomMapsConfiguration" : {
     "imageUrls" : [ "www.weichware10.com/owlimage", "www.weichware10.com/running-owl" ],
     "tutorial" : true,
