@@ -1,14 +1,111 @@
 package github.weichware10.util.db;
 
-import java.util.Properties;
+import github.weichware10.util.Logger;
+import github.weichware10.util.data.DataPoint;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
+
 
 class Datapoints {
 
-    private final String url;
-    private final Properties props;
+    private final DataBaseClient dataBaseClient;
 
-    protected Datapoints(String url, Properties props) {
-        this.url = url;
-        this.props = props;
+    protected Datapoints(DataBaseClient dataBaseClient) {
+        this.dataBaseClient = dataBaseClient;
+    }
+
+    public List<DataPoint> getDataPoints(String trialId) {
+        final String query = "SELECT * FROM datapoints WHERE trialId LIKE '%s'";
+
+        List<DataPoint> dataPoints = new ArrayList<DataPoint>();
+
+        Connection conn = null;
+        Statement st = null;
+        ResultSet rs = null;
+
+        try {
+            conn = DriverManager.getConnection(dataBaseClient.url, dataBaseClient.props);
+            st = conn.createStatement();
+            rs = st.executeQuery(String.format(query, trialId));
+            while (rs.next()) {
+                dataPoints.add(new DataPoint(
+                        rs.getInt("dataid"),
+                        rs.getInt("timeoffset"),
+                        new int[] { rs.getInt("coordinates_x"), rs.getInt("coordinates_y") },
+                        new int[] { rs.getInt("rastersize_x"), rs.getInt("rastersize_y") },
+                        rs.getFloat("zoomlevel")));
+            }
+
+        } catch (SQLException e) {
+            Logger.error("SQLException when executing getDataPoints", e);
+        } finally {
+            Util.closeQuietly(rs);
+            Util.closeQuietly(st);
+            Util.closeQuietly(conn);
+        }
+
+        return dataPoints;
+    }
+
+    public void setDataPoints(List<DataPoint> dataPoints, String trialId) {
+        final String ccQuery = """
+                INSERT INTO datapoints
+                (trialid, dataid, timeoffset,
+                coordinates_x, coordinates_y, rastersize_x, rastersize_y,
+                zoomlevel)
+                VALUES
+                ('%s', %d, %d,
+                %d, %d, %d, %d,
+                null);""";
+
+        final String zmQuery = """
+                INSERT INTO datapoints
+                (trialid, dataid, timeoffset,
+                coordinates_x, coordinates_y, rastersize_x, rastersize_y,
+                zoomlevel)
+                VALUES
+                ('%s', %d, %d,
+                null, null, null, null,
+                %f);""";
+
+        Connection conn = null;
+        Statement st = null;
+
+        try {
+            conn = DriverManager.getConnection(dataBaseClient.url, dataBaseClient.props);
+            st = conn.createStatement();
+            for (int i = 0; i < dataPoints.size(); i++) {
+                DataPoint dp = dataPoints.get(i);
+                // CODECHARTS
+                if (dp.zoomLevel == null) {
+                    Logger.info("CODE");
+                    st.executeUpdate(String.format(ccQuery,
+                            trialId,
+                            dp.dataId,
+                            dp.timeOffset,
+                            dp.coordinates[0],
+                            dp.coordinates[1],
+                            dp.rasterSize[0],
+                            dp.rasterSize[1]));
+                } else { // ZOOMMAPS
+                    Logger.info("ZOOM");
+                    st.executeUpdate(String.format(zmQuery,
+                            trialId,
+                            dp.dataId,
+                            dp.timeOffset,
+                            dp.zoomLevel));
+                }
+            }
+        } catch (Exception e) {
+            Logger.error("SQLException when executing setDataPoints", e);
+        } finally {
+            Util.closeQuietly(st);
+            Util.closeQuietly(conn);
+        }
     }
 }

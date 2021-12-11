@@ -1,5 +1,8 @@
 package github.weichware10.util.db;
 
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.Statement;
 import java.util.Arrays;
 import java.util.List;
 
@@ -24,5 +27,44 @@ class Util {
             id += alphanumerics.charAt((int) Math.floor(Math.random() * alphanumerics.length()));
         }
         return id;
+    }
+
+    /**
+     * Schließt eine Connection, ohne Fehler zu werfen.
+     *
+     * @param conn - die zu schließende Connection
+     */
+    protected static void closeQuietly(Connection conn) {
+        try {
+            conn.close();
+        } catch (Exception e) {
+            /* Ignored */
+        }
+    }
+
+    /**
+     * Schließt eine Statement, ohne Fehler zu werfen.
+     *
+     * @param st - die zu schließende Statement
+     */
+    protected static void closeQuietly(Statement st) {
+        try {
+            st.close();
+        } catch (Exception e) {
+            /* Ignored */
+        }
+    }
+
+    /**
+     * Schließt eine ResultSet, ohne Fehler zu werfen.
+     *
+     * @param rs - die zu schließende ResultSet
+     */
+    protected static void closeQuietly(ResultSet rs) {
+        try {
+            rs.close();
+        } catch (Exception e) {
+            /* Ignored */
+        }
     }
 }

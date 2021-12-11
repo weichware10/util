@@ -11,6 +11,10 @@ import java.util.Properties;
  * Datenbank-Klasse, durch die auf die Datenbank zugegriffen wird.
  */
 public class DataBaseClient {
+
+    protected final String url;
+    protected final Properties props;
+
     public final Configurations configurations;
     public final Trials trials;
     public final Datapoints datapoints;
@@ -23,7 +27,8 @@ public class DataBaseClient {
      * @param password - Passwort
      */
     public DataBaseClient(String url, String user, String password) {
-        Properties props = new Properties();
+        this.url = url;
+        props = new Properties();
         props.setProperty("user", user);
         props.setProperty("password", password);
 
@@ -37,8 +42,8 @@ public class DataBaseClient {
         }
 
         // Tabellen
-        this.configurations = new Configurations(url, props);
-        this.trials = new Trials(url, props);
-        this.datapoints = new Datapoints(url, props);
+        this.configurations = new Configurations(this);
+        this.trials = new Trials(this);
+        this.datapoints = new Datapoints(this);
     }
 }
