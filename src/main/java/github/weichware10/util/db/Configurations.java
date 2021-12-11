@@ -96,6 +96,12 @@ public class Configurations {
         }
     }
 
+    /**
+     * Fügt die Konfiguration der Datenbank hinzu.
+     *
+     * @param configuration - Konfiguration die hinzugefügt werden soll
+     * @return Erstellte ID der hinzugefügten Konfiguration
+     */
     public String setConfiguration(Configuration configuration) {
         final String ccQuery = """
                 INSERT INTO configurations

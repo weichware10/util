@@ -1,7 +1,5 @@
 package github.weichware10.util.config;
 
-import github.weichware10.util.Enums.ToolType;
-
 /**
  * Setzt das Bearbeiten von Einstellungen via GUI um.
  */

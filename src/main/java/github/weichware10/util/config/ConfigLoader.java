@@ -3,7 +3,6 @@ package github.weichware10.util.config;
 import com.fasterxml.jackson.core.exc.StreamReadException;
 import com.fasterxml.jackson.databind.DatabindException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import github.weichware10.util.Enums.ToolType;
 import github.weichware10.util.Logger;
 import java.io.File;
 import java.io.IOException;

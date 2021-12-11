@@ -14,6 +14,13 @@ public class ZoomMapsConfiguration extends ToolConfiguration {
         // leer
     }
 
+    /**
+     * Konstruktor für die CodeCharts Konfiguration.
+     *
+     * @param speed - Zoomgeschwindigkeit
+     * @param tutorial - Anzeige des Tutorials
+     * @param imageUrls - Adressen der Bilder
+     */
     public ZoomMapsConfiguration(float speed, boolean tutorial, List<String> imageUrls) {
         this.speed = speed;
         this.tutorial = tutorial;

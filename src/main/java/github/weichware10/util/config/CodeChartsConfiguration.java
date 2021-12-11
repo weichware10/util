@@ -23,6 +23,8 @@ public class CodeChartsConfiguration extends ToolConfiguration {
      * @param initialSize - Rastergröße der CodeCharts Konfiguration
      * @param timings - Zeit zum Wechsel von Bild zu Raster & Raster zu Eingabefeld
      *                  der CodeCharts Konfiguration
+     * @param tutorial - Anzeige des Tutorials
+     * @param imageUrls - Adressen der Bilder
      */
     public CodeChartsConfiguration(List<String> strings, int[] initialSize, long[] timings,
             boolean tutorial, List<String> imageUrls) {
