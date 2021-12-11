@@ -12,7 +12,7 @@ public class ConfigGui {
      * Initialisiert die ConfigGui-Klasse mit der default-Konfiguration.
      */
     public ConfigGui() {
-        configState = new Configuration(ToolType.ZOOMMAPS);
+        configState = new Configuration();
     }
 
     /**

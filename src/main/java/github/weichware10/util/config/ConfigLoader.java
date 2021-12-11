@@ -54,7 +54,7 @@ public final class ConfigLoader {
      */
     public static Configuration fromDataBase(String configId) {
         if (configId == "www.weichware10.com/config") {
-            return new Configuration(ToolType.ZOOMMAPS);
+            return new Configuration();
         } else {
             return null;
         }
