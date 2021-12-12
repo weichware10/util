@@ -4,7 +4,11 @@ import github.weichware10.util.Logger;
 import java.security.InvalidParameterException;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Properties;
 
 /**
@@ -14,6 +18,7 @@ public class DataBaseClient {
 
     protected final String url;
     protected final Properties props;
+    protected final String schema;
 
     public final Configurations configurations;
     public final Trials trials;
@@ -25,9 +30,11 @@ public class DataBaseClient {
      * @param url - URL des Servers/Datenbank
      * @param user - Benutzername
      * @param password - Passwort
+     * @param schema - Das zu verwendende Schema
      */
-    public DataBaseClient(String url, String user, String password) {
+    public DataBaseClient(String url, String user, String password, String schema) {
         this.url = url;
+        this.schema = schema;
         props = new Properties();
         props.setProperty("user", user);
         props.setProperty("password", password);
@@ -41,9 +48,51 @@ public class DataBaseClient {
             throw new InvalidParameterException("Couldn't connect to server");
         }
 
+        // Zugriff überprüfen
+        final List<String> tables = Arrays.asList("configurations", "trials", "datapoints");
+        for (String table : tables) {
+            if (!hasAccess(table)) {
+                String msg = String.format("Couldn't find table %s.%s", schema, table);
+                throw new InvalidParameterException(msg);
+            }
+        }
+
         // Tabellen
         this.configurations = new Configurations(this);
         this.trials = new Trials(this);
         this.datapoints = new Datapoints(this);
+    }
+
+    /**
+     * Überprüft, ob Zugriff auf die spezifizierte Tabelle im Schema besteht.
+     *
+     * @param table - die zu überprüfende Tabelle
+     * @return Zugriffsboolean
+     */
+    private boolean hasAccess(String table) {
+        final String query = """
+                SELECT * FROM %s.%s LIMIT 1""";
+
+        boolean exists = false;
+
+        Connection conn = null;
+        Statement st = null;
+        ResultSet rs = null;
+
+        try {
+            conn = DriverManager.getConnection(url, props);
+            st = conn.createStatement();
+            st.executeQuery(String.format(query, schema, table));
+            // kein Error aufgetreten -> Tabelle existiert und Zugriff besteht
+            exists = true;
+        } catch (SQLException e) {
+            Logger.error("SQLException when checking access", e);
+        } finally {
+            Util.closeQuietly(rs);
+            Util.closeQuietly(st);
+            Util.closeQuietly(conn);
+        }
+
+        return exists;
     }
 }

@@ -20,7 +20,7 @@ class Datapoints {
     }
 
     public List<DataPoint> getDataPoints(String trialId) {
-        final String query = "SELECT * FROM datapoints WHERE trialId LIKE '%s'";
+        final String query = "SELECT * FROM %s.datapoints WHERE trialId LIKE '%s'";
 
         List<DataPoint> dataPoints = new ArrayList<DataPoint>();
 
@@ -31,7 +31,7 @@ class Datapoints {
         try {
             conn = DriverManager.getConnection(dataBaseClient.url, dataBaseClient.props);
             st = conn.createStatement();
-            rs = st.executeQuery(String.format(query, trialId));
+            rs = st.executeQuery(String.format(query, dataBaseClient.schema, trialId));
             while (rs.next()) {
                 dataPoints.add(new DataPoint(
                         rs.getInt("dataid"),
@@ -54,7 +54,7 @@ class Datapoints {
 
     public void setDataPoints(List<DataPoint> dataPoints, String trialId) {
         final String ccQuery = """
-                INSERT INTO datapoints
+                INSERT INTO %s.datapoints
                 (trialid, dataid, timeoffset,
                 coordinates_x, coordinates_y, rastersize_x, rastersize_y,
                 zoomlevel)
@@ -64,7 +64,7 @@ class Datapoints {
                 null);""";
 
         final String zmQuery = """
-                INSERT INTO datapoints
+                INSERT INTO %s.datapoints
                 (trialid, dataid, timeoffset,
                 coordinates_x, coordinates_y, rastersize_x, rastersize_y,
                 zoomlevel)
@@ -85,6 +85,7 @@ class Datapoints {
                 if (dp.zoomLevel == null) {
                     Logger.info("CODE");
                     st.executeUpdate(String.format(ccQuery,
+                            dataBaseClient.schema,
                             trialId,
                             dp.dataId,
                             dp.timeOffset,
@@ -95,6 +96,7 @@ class Datapoints {
                 } else { // ZOOMMAPS
                     Logger.info("ZOOM");
                     st.executeUpdate(String.format(zmQuery,
+                            dataBaseClient.schema,
                             trialId,
                             dp.dataId,
                             dp.timeOffset,

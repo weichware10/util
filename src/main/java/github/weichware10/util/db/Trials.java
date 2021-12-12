@@ -32,7 +32,7 @@ public class Trials {
      * @return ID der Konfiguration
      */
     public String getConfigId(String trialId) {
-        final String query = "SELECT configid FROM trials WHERE trialid LIKE '%s';";
+        final String query = "SELECT configid FROM %s.trials WHERE trialid LIKE '%s';";
 
         String configId = null;
 
@@ -44,7 +44,7 @@ public class Trials {
         try {
             conn = DriverManager.getConnection(dataBaseClient.url, dataBaseClient.props);
             st = conn.createStatement();
-            rs = st.executeQuery(String.format(query, trialId));
+            rs = st.executeQuery(String.format(query, dataBaseClient.schema, trialId));
             if (rs.next()) {
                 configId = rs.getString("configid");
             }
@@ -63,7 +63,7 @@ public class Trials {
     public TrialData getTrial(String trialId) {
         final String query = """
                 SELECT t.configid, c.tooltype, t.starttime, t.answer
-                FROM trials AS t, configurations AS c
+                FROM %s.trials AS t, %s.configurations AS c
                 WHERE t.configid LIKE c.configid AND t.trialid LIKE '%s'""";
 
         TrialData trialData = null;
@@ -75,7 +75,10 @@ public class Trials {
         try {
             conn = DriverManager.getConnection(dataBaseClient.url, dataBaseClient.props);
             st = conn.createStatement();
-            rs = st.executeQuery(String.format(query, trialId));
+            rs = st.executeQuery(String.format(query,
+                    dataBaseClient.schema,
+                    dataBaseClient.schema,
+                    trialId));
 
             // nur wenn Ergebnis gefunden Verarbeitung starten
             if (rs.next()) {
@@ -114,7 +117,7 @@ public class Trials {
      */
     public boolean setTrial(TrialData trialData) {
         final String query = """
-                UPDATE trials
+                UPDATE %s.trials
                 SET
                 starttime = '%s',
                 answer = '%s'
@@ -133,6 +136,7 @@ public class Trials {
             conn = DriverManager.getConnection(dataBaseClient.url, dataBaseClient.props);
             st = conn.createStatement();
             st.executeUpdate(String.format(query,
+                    dataBaseClient.schema,
                     new Timestamp(trialData.startTime.getMillis()),
                     trialData.answer,
                     trialData.trialId));
@@ -157,7 +161,7 @@ public class Trials {
     public boolean getTrialAvailability(String trialId) {
         // Benutzung von starttime um möglichst wenig Datenverbrauch zu erreichen
         // timestamp hat meistens eine kleiner Größe als text
-        final String query = "SELECT starttime FROM trials WHERE trialid LIKE '%s'";
+        final String query = "SELECT starttime FROM %s.trials WHERE trialid LIKE '%s'";
 
         boolean availabilty = false;
 
@@ -168,7 +172,7 @@ public class Trials {
         try {
             conn = DriverManager.getConnection(dataBaseClient.url, dataBaseClient.props);
             st = conn.createStatement();
-            rs = st.executeQuery(String.format(query, trialId));
+            rs = st.executeQuery(String.format(query, dataBaseClient.schema, trialId));
 
             // wenn es existiert, besteht Möglichkeit, dass availability true ist
             if (rs.next()) {
@@ -197,7 +201,7 @@ public class Trials {
      */
     public List<String> addTrials(String configId, int amount) {
         final String query = """
-                INSERT INTO trials
+                INSERT INTO %s.trials
                 (trialid, configid)
                 VALUES
                 ('%s', '%s')""";
@@ -229,7 +233,10 @@ public class Trials {
 
                     // INSERT try
                     try {
-                        st.executeUpdate(String.format(query, trialId, configId));
+                        st.executeUpdate(String.format(query,
+                                dataBaseClient.schema,
+                                trialId,
+                                configId));
                         trialIds.add(trialId);
                     } catch (SQLException e) {
                         if (e.toString().contentEquals(uniqueException)) {

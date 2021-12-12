@@ -34,7 +34,7 @@ public class Configurations {
      * @return Konfigurationsobjekt
      */
     public Configuration getConfiguration(String configId) {
-        final String query = "SELECT * FROM configurations WHERE configid LIKE '%s'";
+        final String query = "SELECT * FROM %s.configurations WHERE configid LIKE '%s'";
 
         Configuration configuration = null;
 
@@ -46,7 +46,7 @@ public class Configurations {
         try {
             conn = DriverManager.getConnection(dataBaseClient.url, dataBaseClient.props);
             st = conn.createStatement();
-            rs = st.executeQuery(String.format(query, configId));
+            rs = st.executeQuery(String.format(query, dataBaseClient.schema, configId));
 
             // nur wenn Ergebnis gefunden Verarbeitung starten
             if (rs.next()) {
@@ -104,7 +104,7 @@ public class Configurations {
      */
     public String setConfiguration(Configuration configuration) {
         final String ccQuery = """
-                INSERT INTO configurations
+                INSERT INTO %s.configurations
                 (configid, tooltype, tutorial, question, imageurls,
                 strings, initialsize_x, initialsize_y, timings_0, timings_1, speed)
                 VALUES
@@ -112,7 +112,7 @@ public class Configurations {
                 '%s', %d, %d, %d, %d, null);""";
 
         final String zmQuery = """
-                INSERT INTO configurations
+                INSERT INTO %s.configurations
                 (configid, tooltype, tutorial, question, imageurls,
                 strings, initialsize_x, initialsize_y, timings_0, timings_1, speed)
                 VALUES
@@ -138,6 +138,7 @@ public class Configurations {
                     CodeChartsConfiguration ccConfiguration =
                             configuration.getCodeChartsConfiguration();
                     st.executeUpdate(String.format(ccQuery,
+                            dataBaseClient.schema,
                             configId,
                             "CODECHARTS",
                             ccConfiguration.getTutorial() ? 1 : 0,
@@ -153,6 +154,7 @@ public class Configurations {
                     ZoomMapsConfiguration zmConfiguration =
                             configuration.getZoomMapsConfiguration();
                     st.executeUpdate(String.format(zmQuery,
+                            dataBaseClient.schema,
                             configId,
                             "ZOOMMAPS",
                             zmConfiguration.getTutorial() ? 1 : 0,
