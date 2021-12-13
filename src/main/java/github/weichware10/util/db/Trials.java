@@ -2,6 +2,7 @@ package github.weichware10.util.db;
 
 import github.weichware10.util.Enums.ToolType;
 import github.weichware10.util.Logger;
+import github.weichware10.util.config.Configuration;
 import github.weichware10.util.data.TrialData;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -13,7 +14,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import org.joda.time.DateTime;
-
 
 /**
  * Die Trials-Tabelle beinhaltet die gespeicherten Trials.
@@ -116,6 +116,15 @@ public class Trials {
      * @return Erfolgsboolean
      */
     public boolean setTrial(TrialData trialData) {
+        Configuration conf = dataBaseClient.configurations.getConfiguration(trialData.configId);
+        if (conf == null || conf.getToolType() != trialData.toolType) {
+            return false;
+        } else if (!getTrialAvailability(trialData.trialId)) {
+            return false;
+        } else if (!conf.getConfigId().equals(getConfigId(trialData.trialId))) {
+            return false;
+        }
+
         final String query = """
                 UPDATE %s.trials
                 SET
@@ -124,10 +133,6 @@ public class Trials {
                 WHERE trialid LIKE '%s';""";
 
         boolean success = false;
-
-        if (!getTrialAvailability(trialData.trialId)) {
-            return success;
-        }
 
         Connection conn = null;
         Statement st = null;
@@ -153,7 +158,8 @@ public class Trials {
     }
 
     /**
-     * Überprüft, ob trialID exisitiert und der Versuch dieser trialID bereits durchgeführt wurde.
+     * Überprüft, ob trialID exisitiert und der Versuch dieser trialID bereits
+     * durchgeführt wurde.
      *
      * @param trialId - ID des Versuchs
      * @return Verfügbarkeitsboolean
@@ -191,10 +197,11 @@ public class Trials {
     }
 
     /**
-     * Erstellt bestimmte Anzahl (amount) an Versuche (leer) mit der Konfiguration von configID.
+     * Erstellt bestimmte Anzahl (amount) an Versuche (leer) mit der Konfiguration
+     * von configID.
      *
      * @param configId - ID der Konfiguration
-     * @param amount - Anzahl der Versuche
+     * @param amount   - Anzahl der Versuche
      * @return Liste mit vergebenen trialIDs
      */
     public List<String> addTrials(String configId, int amount) {
@@ -217,7 +224,7 @@ public class Trials {
         Connection conn = null;
         Statement st = null;
 
-        //  Verbindungs try
+        // Verbindungs try
         try {
             conn = DriverManager.getConnection(dataBaseClient.url, dataBaseClient.props);
             st = conn.createStatement();
@@ -263,14 +270,15 @@ public class Trials {
 
     /**
      * Sucht nach Trials in der Trials-Tabelle, die den Suchparametern entsprechen.
-     * Es wird eine "Vorschau" der Daten geliefert, d.h. die Objekte beinhalten keine DataPoints.
+     * Es wird eine "Vorschau" der Daten geliefert, d.h. die Objekte beinhalten
+     * keine DataPoints.
      *
      * @param configId - configId nach der gesucht wird, kann `null` sein
      * @param toolType - ToolType nach dem gesucht wird, kann `null` sein
-     * @param minTime - Anfang des Zeitspannenfilters, kann `null` sein
-     * @param maxTime - Ende des Zeitspannenfilters, kann `null` sein
-     * @param amount - maximale Anzahl der zurückzugebenden Ergebnisse,
-     *     bei Werten <= 0 wird default 50 benutzt.
+     * @param minTime  - Anfang des Zeitspannenfilters, kann `null` sein
+     * @param maxTime  - Ende des Zeitspannenfilters, kann `null` sein
+     * @param amount   - maximale Anzahl der zurückzugebenden Ergebnisse,
+     *                 bei Werten <= 0 wird default 50 benutzt.
      * @return Liste von TrialData Objekten, die keine DataPoints besitzen.
      */
     public List<TrialData> getTrialList(String configId, ToolType toolType,
