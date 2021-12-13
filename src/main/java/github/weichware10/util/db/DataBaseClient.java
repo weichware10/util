@@ -40,12 +40,14 @@ public class DataBaseClient {
         props.setProperty("password", password);
 
         // Verbindung ausprobieren
+        Connection conn = null;
         try {
-            Connection conn = DriverManager.getConnection(url, props);
-            conn.close();
+            conn = DriverManager.getConnection(url, props);
         } catch (SQLException e) {
             Logger.warn("Couldn't connect to server", e);
             throw new InvalidParameterException("Couldn't connect to server");
+        } finally {
+            Util.closeQuietly(conn);
         }
 
         // Zugriff überprüfen
@@ -70,11 +72,14 @@ public class DataBaseClient {
      * @return Zugriffsboolean
      */
     private boolean hasAccess(String table) {
-        final String query = """
-                SELECT * FROM %s.%s LIMIT 1""";
+        // query
+        final String queryFormat = "SELECT * FROM %s.%s LIMIT 1";
+        final String query = String.format(queryFormat, schema, table);
 
+        // result
         boolean exists = false;
 
+        // database objects
         Connection conn = null;
         Statement st = null;
         ResultSet rs = null;
@@ -82,7 +87,7 @@ public class DataBaseClient {
         try {
             conn = DriverManager.getConnection(url, props);
             st = conn.createStatement();
-            st.executeQuery(String.format(query, schema, table));
+            st.executeQuery(query);
             // kein Error aufgetreten -> Tabelle existiert und Zugriff besteht
             exists = true;
         } catch (SQLException e) {
