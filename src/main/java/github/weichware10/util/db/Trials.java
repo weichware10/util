@@ -109,7 +109,6 @@ public class Trials {
         return trialData;
     }
 
-
     /**
      * Setzt die erhobenen Daten aus dem Versuch.
      *

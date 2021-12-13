@@ -86,7 +86,7 @@ public class Configurations {
             }
 
         } catch (SQLException e) {
-            Logger.error("SQLException when executing query", e);
+            Logger.error("SQLException when executing getConfiguration", e);
         } finally {
             Util.closeQuietly(rs);
             Util.closeQuietly(st);
@@ -103,7 +103,7 @@ public class Configurations {
      * @return Erstellte ID der hinzugefügten Konfiguration
      */
     public String setConfiguration(Configuration configuration) {
-        final String ccQuery = """
+        final String ccQueryFormat = """
                 INSERT INTO %s.configurations
                 (configid, tooltype, tutorial, question, imageurls,
                 strings, initialsize_x, initialsize_y, timings_0, timings_1, speed)
@@ -111,7 +111,7 @@ public class Configurations {
                 ('%s', '%s', %d, '%s', '%s',
                 '%s', %d, %d, %d, %d, null);""";
 
-        final String zmQuery = """
+        final String zmQueryFormat = """
                 INSERT INTO %s.configurations
                 (configid, tooltype, tutorial, question, imageurls,
                 strings, initialsize_x, initialsize_y, timings_0, timings_1, speed)
@@ -122,6 +122,8 @@ public class Configurations {
         final String uniqueException =
                 "ERROR: duplicate key value violates unique constraint \"configurations_pkey\"";
 
+        String query = null;
+
         boolean idUnique = false;
         String configId = null;
 
@@ -131,43 +133,42 @@ public class Configurations {
         while (!idUnique) {
             idUnique = true;
             configId = Util.generateId("con_", 5);
+            if (configuration.getToolType() == ToolType.CODECHARTS) {
+                CodeChartsConfiguration ccConfig = configuration.getCodeChartsConfiguration();
+                query = String.format(ccQueryFormat,
+                        dataBaseClient.schema,
+                        configId,
+                        "CODECHARTS",
+                        ccConfig.getTutorial() ? 1 : 0,
+                        configuration.getQuestion(),
+                        ccConfig.getImageUrls(),
+                        ccConfig.getStrings(),
+                        ccConfig.getInitialSize()[0],
+                        ccConfig.getInitialSize()[1],
+                        ccConfig.getTimings()[0],
+                        ccConfig.getTimings()[1]);
+            } else {
+                ZoomMapsConfiguration zmConfig = configuration.getZoomMapsConfiguration();
+                query = String.format(zmQueryFormat,
+                        dataBaseClient.schema,
+                        configId,
+                        "ZOOMMAPS",
+                        zmConfig.getTutorial() ? 1 : 0,
+                        configuration.getQuestion(),
+                        zmConfig.getImageUrls(),
+                        zmConfig.getSpeed());
+            }
+            Logger.debug(query);
             try {
                 conn = DriverManager.getConnection(dataBaseClient.url, dataBaseClient.props);
                 st = conn.createStatement();
-                if (configuration.getToolType() == ToolType.CODECHARTS) {
-                    CodeChartsConfiguration ccConfiguration =
-                            configuration.getCodeChartsConfiguration();
-                    st.executeUpdate(String.format(ccQuery,
-                            dataBaseClient.schema,
-                            configId,
-                            "CODECHARTS",
-                            ccConfiguration.getTutorial() ? 1 : 0,
-                            configuration.getQuestion(),
-                            ccConfiguration.getImageUrls(),
-                            ccConfiguration.getStrings(),
-                            ccConfiguration.getInitialSize()[0],
-                            ccConfiguration.getInitialSize()[1],
-                            ccConfiguration.getTimings()[0],
-                            ccConfiguration.getTimings()[1]
-                    ));
-                } else {
-                    ZoomMapsConfiguration zmConfiguration =
-                            configuration.getZoomMapsConfiguration();
-                    st.executeUpdate(String.format(zmQuery,
-                            dataBaseClient.schema,
-                            configId,
-                            "ZOOMMAPS",
-                            zmConfiguration.getTutorial() ? 1 : 0,
-                            configuration.getQuestion(),
-                            zmConfiguration.getImageUrls(),
-                            zmConfiguration.getSpeed()));
-                }
+                st.executeUpdate(query);
             } catch (SQLException e) {
                 if (e.toString().contentEquals(uniqueException)) {
                     idUnique = false;
                     Logger.info("duplicate key (configId)", e);
                 } else {
-                    Logger.error("SQLException when executing query", e);
+                    Logger.error("SQLException when executing setConfiguration", e);
                 }
             } finally {
                 Util.closeQuietly(st);
