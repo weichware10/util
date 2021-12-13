@@ -8,8 +8,10 @@ import java.util.List;
 public class ZoomMapsConfiguration extends ToolConfiguration {
     protected float speed = 3f;
 
-    // GETTER
-
+    /**
+     * leerer Konstruktor. Wird für Jackson gebraucht (json writer)
+     * smooth criminal.
+     */
     public ZoomMapsConfiguration() {
         // leer
     }
@@ -27,9 +29,13 @@ public class ZoomMapsConfiguration extends ToolConfiguration {
         this.imageUrls = imageUrls;
     }
 
+    // --- GETTER ---
+
     public float getSpeed() {
         return speed;
     }
+
+    // --- OVERRIDES ---
 
     @Override
     public boolean equals(Object obj) {

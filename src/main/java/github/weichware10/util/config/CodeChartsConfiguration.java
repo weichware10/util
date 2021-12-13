@@ -11,7 +11,10 @@ public class CodeChartsConfiguration extends ToolConfiguration {
     protected int[] initialSize = { 10, 20 };
     protected long[] timings = { 200, 200 };
 
-
+    /**
+     * leerer Konstruktor. Wird für Jackson gebraucht (json writer)
+     * smooth criminal.
+     */
     protected CodeChartsConfiguration() {
         // leer
     }
@@ -35,7 +38,7 @@ public class CodeChartsConfiguration extends ToolConfiguration {
         this.imageUrls = imageUrls;
     }
 
-    // GETTERS
+    // --- GETTERS ---
 
     public List<String> getStrings() {
         return strings;
@@ -48,6 +51,8 @@ public class CodeChartsConfiguration extends ToolConfiguration {
     public long[] getTimings() {
         return timings;
     }
+
+    // --- OVERRIDES ---
 
     @Override
     public boolean equals(Object obj) {

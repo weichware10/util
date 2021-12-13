@@ -12,12 +12,12 @@ public class Configuration {
     protected String question = "Is this a question?";
 
     protected CodeChartsConfiguration codeChartsConfiguration;
-    // protected EyeTrackingConfiguration eyeTrackingConfiguration;
     protected ZoomMapsConfiguration zoomMapsConfiguration;
 
     /**
      * Konstruktor ohne Initialisierungen,
      * sodass eine leere Konfiguration erstellt werden kann.
+     * auch wichtig für Michael JSON Jackson.
      */
     protected Configuration() {
         ; // ohne Initialisierungen
@@ -37,18 +37,6 @@ public class Configuration {
         this.codeChartsConfiguration = codeChartsConfiguration;
     }
 
-    // /**
-    //  * Konstruktor für Configuration vom Typ EyeTrackingConfiguration.
-    //  *
-    //  * @param configId - configId der übergebenen Konfiguration
-    //  * @param eyeTrackingConfiguration - Konfiguration von EyeTracking
-    //  */
-    // public Configuration(String configId, EyeTrackingConfiguration eyeTrackingConfiguration) {
-    //     this.toolType = ToolType.EYETRACKING;
-    //     this.configId = configId;
-    //     this.eyeTrackingConfiguration = eyeTrackingConfiguration;
-    // }
-
     /**
      * Konstruktor für Configuration vom Typ ZoomMapsConfiguration.
      *
@@ -63,27 +51,7 @@ public class Configuration {
         this.zoomMapsConfiguration = zoomMapsConfiguration;
     }
 
-    // /**
-    //  * allgemeiner Speicher-Ort für Einstellungen.
-    //  * (Constructor mit Übergabe von non-default-Tools)
-    //  */
-    // public Configuration(ToolType toolType) {
-
-    //     this.toolType = toolType;
-    //     switch (toolType) {
-    //         case CODECHARTS:
-    //             codeChartsConfiguration = new CodeChartsConfiguration();
-    //             break;
-    //         case EYETRACKING:
-    //             eyeTrackingConfiguration = new EyeTrackingConfiguration();
-    //             break;
-    //         default: // ZOOMMAPS
-    //             zoomMapsConfiguration = new ZoomMapsConfiguration();
-    //             break;
-    //     }
-    // }
-
-    // GETTERS
+    // --- GETTERS ---
 
     public ToolType getToolType() {
         return toolType;
@@ -105,10 +73,6 @@ public class Configuration {
         return codeChartsConfiguration;
     }
 
-    // public EyeTrackingConfiguration getEyeTrackingConfiguration() {
-    //     return eyeTrackingConfiguration;
-    // }
-
     public ZoomMapsConfiguration getZoomMapsConfiguration() {
         return zoomMapsConfiguration;
     }
@@ -116,6 +80,8 @@ public class Configuration {
     public String getConfigId() {
         return configId;
     }
+
+    // --- OVERRIDES ---
 
     @Override
     public boolean equals(Object obj) {
