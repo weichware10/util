@@ -37,12 +37,17 @@ class Datapoints {
             st = conn.createStatement();
             rs = st.executeQuery(String.format(query, dataBaseClient.schema, trialId));
             while (rs.next()) {
+                int[] rasterSize = new int[] { rs.getInt("rastersize_x"),
+                        rs.getInt("rastersize_y") };
+                rasterSize = rs.wasNull() ? null : rasterSize;
+                Float zoomLevel = rs.getFloat("zoomlevel");
+                zoomLevel = rs.wasNull() ? null : zoomLevel;
                 dataPoints.add(new DataPoint(
                         rs.getInt("dataid"),
                         rs.getInt("timeoffset"),
                         new int[] { rs.getInt("coordinates_x"), rs.getInt("coordinates_y") },
-                        new int[] { rs.getInt("rastersize_x"), rs.getInt("rastersize_y") },
-                        rs.getFloat("zoomlevel")));
+                        rasterSize,
+                        zoomLevel));
             }
 
         } catch (SQLException e) {
@@ -74,7 +79,7 @@ class Datapoints {
                 zoomlevel)
                 VALUES
                 ('%s', %d, %d,
-                null, null, null, null,
+                %d, %d, null, null,
                 %s);""";
 
         Connection conn = null;
@@ -104,6 +109,8 @@ class Datapoints {
                             trialId,
                             dp.dataId,
                             dp.timeOffset,
+                            dp.coordinates[0],
+                            dp.coordinates[1],
                             String.format(Locale.US, "%f", dp.zoomLevel)));
                 }
             }
