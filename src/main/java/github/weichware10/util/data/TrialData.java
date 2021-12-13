@@ -18,7 +18,7 @@ public class TrialData {
     public final String trialId;
     public final String configId;
     public final DateTime startTime;
-    public final String answer;
+    private String answer;
     private List<DataPoint> dataPoints;
 
     /**
@@ -30,12 +30,11 @@ public class TrialData {
      *
      * @since v0.2
      */
-    public TrialData(Enums.ToolType toolType, String trialId, String configId, String answer) {
+    public TrialData(Enums.ToolType toolType, String trialId, String configId) {
         this.toolType = toolType;
         this.trialId = trialId;
         this.configId = configId;
         this.startTime = DateTime.now();
-        this.answer = answer;
         this.dataPoints = new ArrayList<DataPoint>();
     }
 
@@ -70,6 +69,26 @@ public class TrialData {
      */
     public List<DataPoint> getData() {
         return dataPoints;
+    }
+
+    /**
+     * get the answer.
+     *
+     * @return the answer
+     *
+     * @since v0.3
+     */
+    public String getAnswer() {
+        return answer;
+    }
+
+    /**
+     * set the answer.
+     *
+     * @param answer - the answer
+     */
+    public void setAnswer(String answer) {
+        this.answer = answer;
     }
 
     /**

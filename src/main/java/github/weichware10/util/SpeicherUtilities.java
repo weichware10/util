@@ -60,7 +60,7 @@ public class SpeicherUtilities {
      * @return returns the requested Data
      */
     public TrialData searchData(String trialId) {
-        TrialData test = new TrialData(ToolType.ZOOMMAPS, "1", "1", "nichts");
+        TrialData test = new TrialData(ToolType.ZOOMMAPS, "1", "1");
         return test;
     }
 
