@@ -44,7 +44,7 @@ public class DataBaseClient {
         try {
             conn = DriverManager.getConnection(url, props);
         } catch (SQLException e) {
-            Logger.warn("Couldn't connect to server", e);
+            Logger.info("Couldn't connect to server", e);
             throw new InvalidParameterException("Couldn't connect to server");
         } finally {
             Util.closeQuietly(conn);
@@ -91,7 +91,7 @@ public class DataBaseClient {
             // kein Error aufgetreten -> Tabelle existiert und Zugriff besteht
             exists = true;
         } catch (SQLException e) {
-            Logger.error("SQLException when checking access", e);
+            Logger.info("SQLException when checking access", e);
         } finally {
             Util.closeQuietly(rs);
             Util.closeQuietly(st);
@@ -122,7 +122,7 @@ public class DataBaseClient {
             st = conn.createStatement();
             st.executeUpdate(query);
         } catch (SQLException e) {
-            Logger.error("SQLException when clearing test schema", e);
+            Logger.info("SQLException when clearing test schema", e);
         } finally {
             Util.closeQuietly(rs);
             Util.closeQuietly(st);
