@@ -299,13 +299,13 @@ public class Trials {
 
         // only query for minTime if provided
         final String minTimeQuery = (minTime != null)
-                ? String.format("t.starttime >= datetime '%s'",
+                ? String.format("t.starttime >= timestamp '%s'",
                         new Timestamp(minTime.getMillis()).toString())
                 : "true";
 
         // only query for maxTime if provided
         final String maxTimeQuery = (maxTime != null)
-                ? String.format("t.starttime <= datetime '%s'",
+                ? String.format("t.starttime <= timestamp '%s'",
                         new Timestamp(maxTime.getMillis()).toString())
                 : "true";
 
@@ -330,7 +330,6 @@ public class Trials {
             conn = DriverManager.getConnection(dataBaseClient.url, dataBaseClient.props);
             st = conn.createStatement();
             rs = st.executeQuery(query);
-
             while (rs.next()) {
                 TrialData td = new TrialData(
                         ToolType.valueOf(rs.getString("tooltype")),
