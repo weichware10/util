@@ -92,7 +92,6 @@ class Datapoints {
                 DataPoint dp = dataPoints.get(i);
                 // CODECHARTS
                 if (dp.zoomLevel == null) {
-                    Logger.info("CODE");
                     st.executeUpdate(String.format(ccQuery,
                             dataBaseClient.schema,
                             trialId,
@@ -103,7 +102,6 @@ class Datapoints {
                             dp.rasterSize[0],
                             dp.rasterSize[1]));
                 } else { // ZOOMMAPS
-                    Logger.info("ZOOM");
                     st.executeUpdate(String.format(zmQuery,
                             dataBaseClient.schema,
                             trialId,
