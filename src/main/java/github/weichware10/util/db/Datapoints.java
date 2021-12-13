@@ -11,7 +11,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-
 class Datapoints {
 
     private final DataBaseClient dataBaseClient;
@@ -21,7 +20,11 @@ class Datapoints {
     }
 
     public List<DataPoint> getDataPoints(String trialId) {
-        final String query = "SELECT * FROM %s.datapoints WHERE trialId LIKE '%s'";
+        final String query = """
+                SELECT *
+                FROM %s.datapoints
+                WHERE trialId LIKE '%s'
+                ORDER BY dataid ASC""";
 
         List<DataPoint> dataPoints = new ArrayList<DataPoint>();
 
