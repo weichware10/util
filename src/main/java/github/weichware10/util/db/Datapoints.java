@@ -9,6 +9,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 
 class Datapoints {
@@ -71,7 +72,7 @@ class Datapoints {
                 VALUES
                 ('%s', %d, %d,
                 null, null, null, null,
-                %f);""";
+                %s);""";
 
         Connection conn = null;
         Statement st = null;
@@ -100,7 +101,7 @@ class Datapoints {
                             trialId,
                             dp.dataId,
                             dp.timeOffset,
-                            dp.zoomLevel));
+                            String.format(Locale.US, "%f", dp.zoomLevel)));
                 }
             }
         } catch (Exception e) {

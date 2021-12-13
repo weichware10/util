@@ -11,6 +11,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.List;
+import java.util.Locale;
 
 /**
  * Die Configurations-Tabelle beinhaltet die gespeicherten Konfigurationen.
@@ -117,7 +118,7 @@ public class Configurations {
                 strings, initialsize_x, initialsize_y, timings_0, timings_1, speed)
                 VALUES
                 ('%s', '%s', %d, '%s', '%s',
-                null, null, null, null, null, %f);""";
+                null, null, null, null, null, %s);""";
 
         final String uniqueException =
                 "ERROR: duplicate key value violates unique constraint \"configurations_pkey\"";
@@ -156,9 +157,8 @@ public class Configurations {
                         zmConfig.getTutorial() ? 1 : 0,
                         configuration.getQuestion(),
                         zmConfig.getImageUrls(),
-                        zmConfig.getSpeed());
+                        String.format(Locale.US, "%f", zmConfig.getSpeed()));
             }
-            Logger.debug(query);
             try {
                 conn = DriverManager.getConnection(dataBaseClient.url, dataBaseClient.props);
                 st = conn.createStatement();
@@ -176,5 +176,43 @@ public class Configurations {
             }
         }
         return configId;
+    }
+
+    /**
+     * Überprüft, ob configID exisitiert.
+     *
+     * @param configId - ID der Konfiguration
+     * @return Verfügbarkeitsboolean
+     *
+     * @since v0.3
+     */
+    public boolean getConfigAvailability(String configId) {
+        // Benutzung von tutorial um möglichst wenig Datenverbrauch zu erreichen
+        final String query = "SELECT tutorial FROM %s.configurations WHERE configid LIKE '%s'";
+
+        boolean availabilty = false;
+
+        Connection conn = null;
+        Statement st = null;
+        ResultSet rs = null;
+
+        try {
+            conn = DriverManager.getConnection(dataBaseClient.url, dataBaseClient.props);
+            st = conn.createStatement();
+            rs = st.executeQuery(String.format(query, dataBaseClient.schema, configId));
+
+            // wenn es existiert, besteht Möglichkeit, dass availability true ist
+            if (rs.next()) {
+                availabilty = true;
+            }
+        } catch (SQLException e) {
+            Logger.error("SQLException when executing getTrialAvailability", e);
+        } finally {
+            Util.closeQuietly(rs);
+            Util.closeQuietly(st);
+            Util.closeQuietly(conn);
+        }
+
+        return availabilty;
     }
 }

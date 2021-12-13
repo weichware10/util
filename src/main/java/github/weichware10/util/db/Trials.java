@@ -138,7 +138,7 @@ public class Trials {
             st.executeUpdate(String.format(query,
                     dataBaseClient.schema,
                     new Timestamp(trialData.startTime.getMillis()),
-                    trialData.answer,
+                    trialData.getAnswer(),
                     trialData.trialId));
             // DATAPOINTS setzen
             dataBaseClient.datapoints.setDataPoints(trialData.getData(), trialData.trialId);
@@ -176,10 +176,8 @@ public class Trials {
 
             // wenn es existiert, besteht Möglichkeit, dass availability true ist
             if (rs.next()) {
-                Logger.info("rs.next()");
                 // falls starttime == null ist -> true
                 availabilty = (rs.getString("starttime") == null) ? true : false;
-                Logger.info("availability " + availabilty);
             }
         } catch (SQLException e) {
             Logger.error("SQLException when executing getTrialAvailability", e);
@@ -200,6 +198,11 @@ public class Trials {
      * @return Liste mit vergebenen trialIDs
      */
     public List<String> addTrials(String configId, int amount) {
+        // Überprüft, ob amount <= 0 ist
+        // oder Verfügbarkeit der Konfiguration mit der configId false ist
+        if (amount <= 0 || !dataBaseClient.configurations.getConfigAvailability(configId)) {
+            return null;
+        }
         final String query = """
                 INSERT INTO %s.trials
                 (trialid, configid)
