@@ -2,6 +2,8 @@ package github.weichware10.util.data;
 
 import java.util.Arrays;
 
+import github.weichware10.util.Logger;
+
 /**
  * Stores a single DataPoint.
  *
@@ -62,7 +64,7 @@ public class DataPoint {
      */
     public DataPoint(int dataId,
             int timeOffset, int[] coordinates, int[] rasterSize,
-            float zoomLevel) {
+            Float zoomLevel) {
         this.dataId = dataId;
         this.timeOffset = timeOffset;
         this.coordinates = coordinates;
@@ -85,5 +87,28 @@ public class DataPoint {
                 Arrays.toString(coordinates),
                 Arrays.toString(rasterSize),
                 (zoomLevel == null) ? "null" : zoomLevel.toString());
+    }
+
+    @Override
+    public boolean equals(Object other) {
+        if (this == other) {
+            return true;
+        }
+        if (other == null || getClass() != other.getClass()) {
+            return false;
+        }
+        DataPoint that = (DataPoint) (other);
+        return dataId == that.dataId && timeOffset == that.timeOffset
+                && Arrays.equals(coordinates, that.coordinates)
+                // Überprüfen ob rasterSize nicht gleichmäßig null / nicht null ist
+                && ((rasterSize == null && that.rasterSize == null)
+                        || (rasterSize != null && that.rasterSize != null))
+                && ((rasterSize == null && that.rasterSize == null)
+                        || Arrays.equals(rasterSize, that.rasterSize))
+                // Überprüfen ob zoomLevel nicht gleichmäßig null / nicht null ist
+                && ((zoomLevel == null && that.zoomLevel == null)
+                        || (zoomLevel != null && that.zoomLevel != null))
+                && ((zoomLevel == null && that.zoomLevel == null)
+                        || zoomLevel.equals(that.zoomLevel));
     }
 }

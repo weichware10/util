@@ -3,13 +3,15 @@ package github.weichware10.util.data;
 import github.weichware10.util.Enums;
 import github.weichware10.util.Enums.ToolType;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import org.joda.time.DateTime;
 
 /**
  * Stores the TrialData for the different tools internally.
  *
- * <p>also used to transfer Data
+ * <p>
+ * also used to transfer Data
  *
  * @since v0.2
  */
@@ -41,17 +43,17 @@ public class TrialData {
     /**
      * Stores the TrialData for the different tools internally.
      *
-     * @param toolType - the tooltype of the stored data
-     * @param trialId  - the id of the trial
-     * @param configId - the configuration of the stored data
-     * @param startTime - Startzeitpunkt des Versuchs
-     * @param answer - Anwort des Versuchs
+     * @param toolType   - the tooltype of the stored data
+     * @param trialId    - the id of the trial
+     * @param configId   - the configuration of the stored data
+     * @param startTime  - Startzeitpunkt des Versuchs
+     * @param answer     - Anwort des Versuchs
      * @param dataPoints - Daten des Versuchs
      *
      * @since v0.3
      */
     public TrialData(Enums.ToolType toolType, String trialId, String configId,
-                DateTime startTime, String answer, List<DataPoint> dataPoints) {
+            DateTime startTime, String answer, List<DataPoint> dataPoints) {
         this.toolType = toolType;
         this.trialId = trialId;
         this.configId = configId;
@@ -161,5 +163,19 @@ public class TrialData {
                 startTime.toString(),
                 answer,
                 dataPoints.size());
+    }
+
+    @Override
+    public boolean equals(Object other) {
+        if (this == other) {
+            return true;
+        }
+        if (other == null || getClass() != other.getClass()) {
+            return false;
+        }
+        TrialData that = (TrialData) (other);
+        return toolType.equals(that.toolType) && trialId.equals(that.trialId)
+                && configId.equals(that.configId) && startTime.equals(that.startTime)
+                && answer.equals(that.answer) && dataPoints.equals(that.dataPoints);
     }
 }
