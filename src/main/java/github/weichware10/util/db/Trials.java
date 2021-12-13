@@ -10,6 +10,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import org.joda.time.DateTime;
 
@@ -258,5 +259,87 @@ public class Trials {
         return trialIds;
     }
 
-    // TODO: getTrialList
+    /**
+     * Sucht nach Trials in der Trials-Tabelle, die den Suchparametern entsprechen.
+     * Es wird eine "Vorschau" der Daten geliefert, d.h. die Objekte beinhalten keine DataPoints.
+     *
+     * @param configId - configId nach der gesucht wird, kann `null` sein
+     * @param toolType - ToolType nach dem gesucht wird, kann `null` sein
+     * @param minTime - Anfang des Zeitspannenfilters, kann `null` sein
+     * @param maxTime - Ende des Zeitspannenfilters, kann `null` sein
+     * @param amount - maximale Anzahl der zurückzugebenden Ergebnisse,
+     *     bei Werten <= 0 wird default 50 benutzt.
+     * @return Liste von TrialData Objekten, die keine DataPoints besitzen.
+     */
+    public List<TrialData> getTrialList(String configId, ToolType toolType,
+            DateTime minTime, DateTime maxTime, int amount) {
+
+        // QUERY
+        final String queryFormat = """
+                SELECT t.trialid, t.configid, c.tooltype, t.starttime, t.answer
+                FROM %s.trials AS t
+                LEFT JOIN %s.configurations AS c
+                    ON t.configid LIKE c.configid
+                WHERE t.configid LIKE '%s'
+                    AND c.tooltype LIKE '%s'
+                    AND %s
+                    AND %s
+                LIMIT %d;
+                """;
+
+        // only query for minTime if provided
+        final String minTimeQuery = (minTime != null)
+                ? String.format("t.starttime >= datetime '%s'",
+                        new Timestamp(minTime.getMillis()).toString())
+                : "true";
+
+        // only query for maxTime if provided
+        final String maxTimeQuery = (maxTime != null)
+                ? String.format("t.starttime <= datetime '%s'",
+                        new Timestamp(maxTime.getMillis()).toString())
+                : "true";
+
+        final String query = String.format(queryFormat,
+                dataBaseClient.schema,
+                dataBaseClient.schema,
+                (configId != null) ? configId : '%', // match every configId
+                (toolType != null) ? toolType.toString() : '%', // match every tooltype
+                minTimeQuery,
+                maxTimeQuery,
+                (amount > 0) ? amount : 50);
+
+        // RESULT
+        List<TrialData> result = new ArrayList<TrialData>();
+
+        // DATABASE OBJECTS
+        Connection conn = null;
+        Statement st = null;
+        ResultSet rs = null;
+
+        try {
+            conn = DriverManager.getConnection(dataBaseClient.url, dataBaseClient.props);
+            st = conn.createStatement();
+            rs = st.executeQuery(query);
+
+            while (rs.next()) {
+                TrialData td = new TrialData(
+                        ToolType.valueOf(rs.getString("tooltype")),
+                        rs.getString("trialid"),
+                        rs.getString("configid"),
+                        new DateTime(rs.getTimestamp("starttime")),
+                        rs.getString("answer"),
+                        Arrays.asList()); // leere Liste
+
+                result.add(td);
+            }
+        } catch (SQLException e) {
+            Logger.error("SQLException when executing getTrialAvailability", e);
+        } finally {
+            Util.closeQuietly(rs);
+            Util.closeQuietly(st);
+            Util.closeQuietly(conn);
+        }
+
+        return result;
+    }
 }
