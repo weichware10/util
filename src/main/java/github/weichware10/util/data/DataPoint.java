@@ -2,8 +2,6 @@ package github.weichware10.util.data;
 
 import java.util.Arrays;
 
-import github.weichware10.util.Logger;
-
 /**
  * Stores a single DataPoint.
  *

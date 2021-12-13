@@ -3,15 +3,13 @@ package github.weichware10.util.data;
 import github.weichware10.util.Enums;
 import github.weichware10.util.Enums.ToolType;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import org.joda.time.DateTime;
 
 /**
  * Stores the TrialData for the different tools internally.
  *
- * <p>
- * also used to transfer Data
+ * <p>also used to transfer Data
  *
  * @since v0.2
  */

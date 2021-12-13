@@ -5,7 +5,6 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
-import github.weichware10.util.Logger;
 import github.weichware10.util.Enums.ToolType;
 import github.weichware10.util.config.CodeChartsConfiguration;
 import github.weichware10.util.config.Configuration;
@@ -13,11 +12,9 @@ import github.weichware10.util.config.ZoomMapsConfiguration;
 import github.weichware10.util.data.DataPoint;
 import github.weichware10.util.data.TrialData;
 import io.github.cdimascio.dotenv.Dotenv;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-
 import org.joda.time.DateTime;
 import org.junit.Test;
 
@@ -204,7 +201,7 @@ public class TrialsTest {
 
         TrialData trialData7 = new TrialData(ToolType.ZOOMMAPS, trialsZm2.get(0), configIdZm2,
                 new DateTime(2021, 12, 10, 14, 0, 0), "Ja", new ArrayList<DataPoint>());
-                trialData7.addDataPoint(new int[] { 4, 4 }, 4.0f);
+        trialData7.addDataPoint(new int[] { 4, 4 }, 4.0f);
         dbClient.trials.setTrial(trialData7);
 
         assertEquals(4, dbClient.trials.getTrialList(null, ToolType.ZOOMMAPS,
@@ -261,7 +258,7 @@ public class TrialsTest {
 
         TrialData trialData8 = new TrialData(ToolType.CODECHARTS, trialsCc2.get(0), configIdCc2,
                 new DateTime(2021, 12, 9, 14, 0, 0), "Ja", new ArrayList<DataPoint>());
-                trialData8.addDataPoint(new int[] { 4, 4 }, new int[] { 4, 4 });
+        trialData8.addDataPoint(new int[] { 4, 4 }, new int[] { 4, 4 });
         dbClient.trials.setTrial(trialData8);
 
         assertEquals(4, dbClient.trials.getTrialList(null, ToolType.CODECHARTS,
