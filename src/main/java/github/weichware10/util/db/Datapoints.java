@@ -20,11 +20,12 @@ class Datapoints {
     }
 
     public List<DataPoint> get(String trialId) {
-        final String query = """
+        final String queryF = """
                 SELECT *
                 FROM %s.datapoints
                 WHERE trialId LIKE '%s'
                 ORDER BY dataid ASC""";
+        final String query = String.format(queryF, dataBaseClient.schema, trialId);
 
         List<DataPoint> dataPoints = new ArrayList<DataPoint>();
 
@@ -35,7 +36,7 @@ class Datapoints {
         try {
             conn = DriverManager.getConnection(dataBaseClient.url, dataBaseClient.props);
             st = conn.createStatement();
-            rs = st.executeQuery(String.format(query, dataBaseClient.schema, trialId));
+            rs = st.executeQuery(query);
             while (rs.next()) {
                 int[] rasterSize = new int[] { rs.getInt("rastersize_x"),
                         rs.getInt("rastersize_y") };

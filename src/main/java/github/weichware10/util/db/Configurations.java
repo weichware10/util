@@ -35,7 +35,8 @@ public class Configurations {
      * @return Konfigurationsobjekt
      */
     public Configuration get(String configId) {
-        final String query = "SELECT * FROM %s.configurations WHERE configid LIKE '%s'";
+        final String queryF = "SELECT * FROM %s.configurations WHERE configid LIKE '%s'";
+        final String query = String.format(queryF, dataBaseClient.schema, configId);
 
         Configuration configuration = null;
 
@@ -47,7 +48,7 @@ public class Configurations {
         try {
             conn = DriverManager.getConnection(dataBaseClient.url, dataBaseClient.props);
             st = conn.createStatement();
-            rs = st.executeQuery(String.format(query, dataBaseClient.schema, configId));
+            rs = st.executeQuery(query);
 
             // nur wenn Ergebnis gefunden Verarbeitung starten
             if (rs.next()) {
@@ -188,7 +189,8 @@ public class Configurations {
      */
     public boolean getAvailability(String configId) {
         // Benutzung von tutorial um möglichst wenig Datenverbrauch zu erreichen
-        final String query = "SELECT tutorial FROM %s.configurations WHERE configid LIKE '%s'";
+        final String queryF = "SELECT tutorial FROM %s.configurations WHERE configid LIKE '%s'";
+        final String query = String.format(queryF, dataBaseClient.schema, configId);
 
         boolean availabilty = false;
 
@@ -199,7 +201,7 @@ public class Configurations {
         try {
             conn = DriverManager.getConnection(dataBaseClient.url, dataBaseClient.props);
             st = conn.createStatement();
-            rs = st.executeQuery(String.format(query, dataBaseClient.schema, configId));
+            rs = st.executeQuery(query);
 
             // wenn es existiert, besteht Möglichkeit, dass availability true ist
             if (rs.next()) {

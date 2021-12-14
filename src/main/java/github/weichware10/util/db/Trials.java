@@ -33,7 +33,8 @@ public class Trials {
      * @return ID der Konfiguration
      */
     public String getConfigId(String trialId) {
-        final String query = "SELECT configid FROM %s.trials WHERE trialid LIKE '%s';";
+        final String queryF = "SELECT configid FROM %s.trials WHERE trialid LIKE '%s';";
+        final String query = String.format(queryF, dataBaseClient.schema, trialId);
 
         String configId = null;
 
@@ -45,7 +46,7 @@ public class Trials {
         try {
             conn = DriverManager.getConnection(dataBaseClient.url, dataBaseClient.props);
             st = conn.createStatement();
-            rs = st.executeQuery(String.format(query, dataBaseClient.schema, trialId));
+            rs = st.executeQuery(query);
             if (rs.next()) {
                 configId = rs.getString("configid");
             }
@@ -62,10 +63,15 @@ public class Trials {
      * @return TrialData zu trialId
      */
     public TrialData getTrial(String trialId) {
-        final String query = """
+        final String queryF = """
                 SELECT t.configid, c.tooltype, t.starttime, t.answer
                 FROM %s.trials AS t, %s.configurations AS c
                 WHERE t.configid LIKE c.configid AND t.trialid LIKE '%s'""";
+        final String query = String.format(
+                    queryF,
+                    dataBaseClient.schema,
+                    dataBaseClient.schema,
+                    trialId);
 
         TrialData trialData = null;
 
@@ -76,10 +82,7 @@ public class Trials {
         try {
             conn = DriverManager.getConnection(dataBaseClient.url, dataBaseClient.props);
             st = conn.createStatement();
-            rs = st.executeQuery(String.format(query,
-                    dataBaseClient.schema,
-                    dataBaseClient.schema,
-                    trialId));
+            rs = st.executeQuery(query);
 
             // nur wenn Ergebnis gefunden Verarbeitung starten
             if (rs.next()) {
@@ -125,12 +128,18 @@ public class Trials {
             return false;
         }
 
-        final String query = """
+        final String queryF = """
                 UPDATE %s.trials
                 SET
                 starttime = '%s',
                 answer = '%s'
                 WHERE trialid LIKE '%s';""";
+
+        final String query = String.format(queryF,
+                dataBaseClient.schema,
+                new Timestamp(trialData.startTime.getMillis()),
+                trialData.getAnswer(),
+                trialData.trialId);
 
         boolean success = false;
 
@@ -140,11 +149,7 @@ public class Trials {
         try {
             conn = DriverManager.getConnection(dataBaseClient.url, dataBaseClient.props);
             st = conn.createStatement();
-            st.executeUpdate(String.format(query,
-                    dataBaseClient.schema,
-                    new Timestamp(trialData.startTime.getMillis()),
-                    trialData.getAnswer(),
-                    trialData.trialId));
+            st.executeUpdate(query);
             // DATAPOINTS setzen
             dataBaseClient.datapoints.set(trialData.getData(), trialData.trialId);
             success = true;
@@ -167,7 +172,8 @@ public class Trials {
     public boolean getAvailability(String trialId) {
         // Benutzung von starttime um möglichst wenig Datenverbrauch zu erreichen
         // timestamp hat meistens eine kleiner Größe als text
-        final String query = "SELECT starttime FROM %s.trials WHERE trialid LIKE '%s'";
+        final String queryF = "SELECT starttime FROM %s.trials WHERE trialid LIKE '%s'";
+        final String query = String.format(queryF, dataBaseClient.schema, trialId);
 
         boolean availabilty = false;
 
@@ -178,7 +184,7 @@ public class Trials {
         try {
             conn = DriverManager.getConnection(dataBaseClient.url, dataBaseClient.props);
             st = conn.createStatement();
-            rs = st.executeQuery(String.format(query, dataBaseClient.schema, trialId));
+            rs = st.executeQuery(query);
 
             // wenn es existiert, besteht Möglichkeit, dass availability true ist
             if (rs.next()) {
@@ -285,7 +291,7 @@ public class Trials {
             DateTime minTime, DateTime maxTime, int amount) {
 
         // QUERY
-        final String queryFormat = """
+        final String queryF = """
                 SELECT t.trialid, t.configid, c.tooltype, t.starttime, t.answer
                 FROM %s.trials AS t
                 LEFT JOIN %s.configurations AS c
@@ -309,7 +315,7 @@ public class Trials {
                         new Timestamp(maxTime.getMillis()).toString())
                 : "true";
 
-        final String query = String.format(queryFormat,
+        final String query = String.format(queryF,
                 dataBaseClient.schema,
                 dataBaseClient.schema,
                 (configId != null) ? configId : '%', // match every configId
