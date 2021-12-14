@@ -134,7 +134,7 @@ public class Configurations {
 
         while (!idUnique) {
             idUnique = true;
-            configId = Util.generateId("con_", 5);
+            configId = Util.generateId("con_", 7);
             if (configuration.getToolType() == ToolType.CODECHARTS) {
                 CodeChartsConfiguration ccConfig = configuration.getCodeChartsConfiguration();
                 query = String.format(ccQueryFormat,

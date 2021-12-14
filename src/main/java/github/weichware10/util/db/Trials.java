@@ -237,14 +237,14 @@ public class Trials {
             for (int i = 0; i < amount; i++) {
 
                 boolean idUnique = false;
-                String trialId = Util.generateId("tri_", 5);
+                String trialId = Util.generateId("tri_", 7);
 
                 while (!idUnique) {
                     idUnique = true;
 
                     // keine bereits enthaltenen benutzen
                     while (trialIds.contains(trialId)) {
-                        trialId = Util.generateId("tri_", 5);
+                        trialId = Util.generateId("tri_", 7);
                     }
 
                     // INSERT try
