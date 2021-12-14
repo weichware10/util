@@ -11,6 +11,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
+/**
+ * Die Datapoints-Tabelle beinhaltet die gespeicherten Datapoints.
+ */
 class Datapoints {
 
     private final DataBaseClient dataBaseClient;
@@ -19,6 +22,12 @@ class Datapoints {
         this.dataBaseClient = dataBaseClient;
     }
 
+    /**
+     * Gibt alle DataPoints zum Versuch mit trialId zurück.
+     *
+     * @param trialId - trialId des Versuchs
+     * @return Liste von trialId
+     */
     public List<DataPoint> get(String trialId) {
         final String queryF = """
                 SELECT *
@@ -62,6 +71,12 @@ class Datapoints {
         return dataPoints;
     }
 
+    /**
+     * Speichert DataPoints für das Trial mit trialId.
+     *
+     * @param dataPoints - die zu speichernden DataPoints
+     * @param trialId - trialId des Versuchs
+     */
     public void set(List<DataPoint> dataPoints, String trialId) {
         final String ccQuery = """
                 INSERT INTO %s.datapoints
