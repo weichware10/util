@@ -39,21 +39,21 @@ public class ConfigurationsTest {
                 Arrays.asList("url1", "url2"));
 
         ccConfig = new Configuration("dunno yet", "Test Question?", codeChartsConfiguration);
-        String ccConfigId = dbClient.configurations.setConfiguration(ccConfig);
+        String ccConfigId = dbClient.configurations.set(ccConfig);
         ccConfig = new Configuration(ccConfigId, "Test Question?", codeChartsConfiguration);
 
         ZoomMapsConfiguration zoomMapsConfiguration1 = new ZoomMapsConfiguration(4.2f, true,
                 Arrays.asList("url1", "url2", "url3"));
 
         zmConfig = new Configuration("dunno yet", "Test Question?", zoomMapsConfiguration1);
-        String zmConfigId = dbClient.configurations.setConfiguration(zmConfig);
+        String zmConfigId = dbClient.configurations.set(zmConfig);
         zmConfig = new Configuration(zmConfigId, "Test Question?", zoomMapsConfiguration1);
 
         ZoomMapsConfiguration zoomMapsConfiguratiom2 = new ZoomMapsConfiguration(4.2f, false,
                 Arrays.asList("url1", "url2", "url3"));
 
         zmConfigWoTu = new Configuration("dunno yet", "Test Question?", zoomMapsConfiguratiom2);
-        String zmConfigWoTuId = dbClient.configurations.setConfiguration(zmConfigWoTu);
+        String zmConfigWoTuId = dbClient.configurations.set(zmConfigWoTu);
         zmConfigWoTu = new Configuration(zmConfigWoTuId, "Test Question?", zoomMapsConfiguratiom2);
     }
 
@@ -70,23 +70,23 @@ public class ConfigurationsTest {
         String configId;
 
         config = new Configuration("", "Test Question?", codeChartsConfiguration);
-        configId = dbClient.configurations.setConfiguration(config);
+        configId = dbClient.configurations.set(config);
         assertTrue("configId sollte mit con_ anfangen.", configId.startsWith("con_"));
 
         ZoomMapsConfiguration zoomMapsConfiguration = new ZoomMapsConfiguration(4.2f, true,
                 Arrays.asList("url1", "url2", "url3"));
         config = new Configuration("", "Test Question?", zoomMapsConfiguration);
-        configId = dbClient.configurations.setConfiguration(config);
+        configId = dbClient.configurations.set(config);
         assertTrue("configId sollte mit con_ anfangen.", configId.startsWith("con_"));
     }
 
     @Test
     public void getConfigurationsShouldWork() {
         assertEquals(ccConfig,
-                dbClient.configurations.getConfiguration(ccConfig.getConfigId()));
+                dbClient.configurations.get(ccConfig.getConfigId()));
         assertEquals(zmConfig,
-                dbClient.configurations.getConfiguration(zmConfig.getConfigId()));
+                dbClient.configurations.get(zmConfig.getConfigId()));
         assertEquals(zmConfigWoTu,
-                dbClient.configurations.getConfiguration(zmConfigWoTu.getConfigId()));
+                dbClient.configurations.get(zmConfigWoTu.getConfigId()));
     }
 }

@@ -19,7 +19,7 @@ class Datapoints {
         this.dataBaseClient = dataBaseClient;
     }
 
-    public List<DataPoint> getDataPoints(String trialId) {
+    public List<DataPoint> get(String trialId) {
         final String query = """
                 SELECT *
                 FROM %s.datapoints
@@ -61,7 +61,7 @@ class Datapoints {
         return dataPoints;
     }
 
-    public void setDataPoints(List<DataPoint> dataPoints, String trialId) {
+    public void set(List<DataPoint> dataPoints, String trialId) {
         final String ccQuery = """
                 INSERT INTO %s.datapoints
                 (trialid, dataid, timeoffset,

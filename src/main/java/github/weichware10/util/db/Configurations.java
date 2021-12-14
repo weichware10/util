@@ -34,7 +34,7 @@ public class Configurations {
      * @param configId - ID der Konfiguration
      * @return Konfigurationsobjekt
      */
-    public Configuration getConfiguration(String configId) {
+    public Configuration get(String configId) {
         final String query = "SELECT * FROM %s.configurations WHERE configid LIKE '%s'";
 
         Configuration configuration = null;
@@ -103,7 +103,7 @@ public class Configurations {
      * @param configuration - Konfiguration die hinzugefügt werden soll
      * @return Erstellte ID der hinzugefügten Konfiguration
      */
-    public String setConfiguration(Configuration configuration) {
+    public String set(Configuration configuration) {
         final String ccQueryFormat = """
                 INSERT INTO %s.configurations
                 (configid, tooltype, tutorial, question, imageurls,
@@ -186,7 +186,7 @@ public class Configurations {
      *
      * @since v0.3
      */
-    public boolean getConfigAvailability(String configId) {
+    public boolean getAvailability(String configId) {
         // Benutzung von tutorial um möglichst wenig Datenverbrauch zu erreichen
         final String query = "SELECT tutorial FROM %s.configurations WHERE configid LIKE '%s'";
 

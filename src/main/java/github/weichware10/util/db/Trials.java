@@ -96,7 +96,7 @@ public class Trials {
                         configId,
                         startTime,
                         answer,
-                        dataBaseClient.datapoints.getDataPoints(trialId));
+                        dataBaseClient.datapoints.get(trialId));
             }
         } catch (SQLException e) {
             Logger.error("SQLException when executing getTrial", e);
@@ -115,11 +115,11 @@ public class Trials {
      * @param trialData - erhobene Daten
      * @return Erfolgsboolean
      */
-    public boolean setTrial(TrialData trialData) {
-        Configuration conf = dataBaseClient.configurations.getConfiguration(trialData.configId);
+    public boolean set(TrialData trialData) {
+        Configuration conf = dataBaseClient.configurations.get(trialData.configId);
         if (conf == null || conf.getToolType() != trialData.toolType) {
             return false;
-        } else if (!getTrialAvailability(trialData.trialId)) {
+        } else if (!getAvailability(trialData.trialId)) {
             return false;
         } else if (!conf.getConfigId().equals(getConfigId(trialData.trialId))) {
             return false;
@@ -146,7 +146,7 @@ public class Trials {
                     trialData.getAnswer(),
                     trialData.trialId));
             // DATAPOINTS setzen
-            dataBaseClient.datapoints.setDataPoints(trialData.getData(), trialData.trialId);
+            dataBaseClient.datapoints.set(trialData.getData(), trialData.trialId);
             success = true;
         } catch (SQLException e) {
             Logger.error("SQLException when executing setTrial", e);
@@ -164,7 +164,7 @@ public class Trials {
      * @param trialId - ID des Versuchs
      * @return Verfügbarkeitsboolean
      */
-    public boolean getTrialAvailability(String trialId) {
+    public boolean getAvailability(String trialId) {
         // Benutzung von starttime um möglichst wenig Datenverbrauch zu erreichen
         // timestamp hat meistens eine kleiner Größe als text
         final String query = "SELECT starttime FROM %s.trials WHERE trialid LIKE '%s'";
@@ -204,10 +204,10 @@ public class Trials {
      * @param amount   - Anzahl der Versuche
      * @return Liste mit vergebenen trialIDs
      */
-    public List<String> addTrials(String configId, int amount) {
+    public List<String> add(String configId, int amount) {
         // Überprüft, ob amount <= 0 ist
         // oder Verfügbarkeit der Konfiguration mit der configId false ist
-        if (amount <= 0 || !dataBaseClient.configurations.getConfigAvailability(configId)) {
+        if (amount <= 0 || !dataBaseClient.configurations.getAvailability(configId)) {
             return null;
         }
         final String query = """
@@ -281,7 +281,7 @@ public class Trials {
      *                 bei Werten <= 0 wird default 50 benutzt.
      * @return Liste von TrialData Objekten, die keine DataPoints besitzen.
      */
-    public List<TrialData> getTrialList(String configId, ToolType toolType,
+    public List<TrialData> getList(String configId, ToolType toolType,
             DateTime minTime, DateTime maxTime, int amount) {
 
         // QUERY
