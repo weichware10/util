@@ -65,11 +65,10 @@ public class Trials {
     public TrialData getTrial(String trialId) {
         final String queryF = """
                 SELECT t.configid, c.tooltype, t.starttime, t.answer
-                FROM %s.trials AS t, %s.configurations AS c
+                FROM %s.trials AS t, %<s.configurations AS c
                 WHERE t.configid LIKE c.configid AND t.trialid LIKE '%s'""";
         final String query = String.format(
                     queryF,
-                    dataBaseClient.schema,
                     dataBaseClient.schema,
                     trialId);
 
@@ -294,7 +293,7 @@ public class Trials {
         final String queryF = """
                 SELECT t.trialid, t.configid, c.tooltype, t.starttime, t.answer
                 FROM %s.trials AS t
-                LEFT JOIN %s.configurations AS c
+                LEFT JOIN %<s.configurations AS c
                     ON t.configid LIKE c.configid
                 WHERE t.configid LIKE '%s'
                     AND c.tooltype LIKE '%s'
@@ -316,7 +315,6 @@ public class Trials {
                 : "true";
 
         final String query = String.format(queryF,
-                dataBaseClient.schema,
                 dataBaseClient.schema,
                 (configId != null) ? configId : '%', // match every configId
                 (toolType != null) ? toolType.toString() : '%', // match every tooltype
