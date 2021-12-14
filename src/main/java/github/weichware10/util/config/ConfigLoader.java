@@ -3,7 +3,6 @@ package github.weichware10.util.config;
 import com.fasterxml.jackson.core.exc.StreamReadException;
 import com.fasterxml.jackson.databind.DatabindException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import github.weichware10.util.Enums.ToolType;
 import github.weichware10.util.Logger;
 import java.io.File;
 import java.io.IOException;
@@ -54,7 +53,7 @@ public final class ConfigLoader {
      */
     public static Configuration fromDataBase(String configId) {
         if (configId == "www.weichware10.com/config") {
-            return new Configuration(ToolType.ZOOMMAPS);
+            return new Configuration();
         } else {
             return null;
         }

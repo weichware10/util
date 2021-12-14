@@ -65,6 +65,16 @@ public class TrialDataTest {
     }
 
     /**
+     * Testet ob answer richtig gesetzt wurde.
+     */
+    @Test
+    public void answerShouldBeCorrect() {
+        TrialData data1 = new TrialData(ToolType.ZOOMMAPS, "1", "1");
+        data1.setAnswer("nichts");
+        assertEquals(("answer von data1 sollte 'nichts' sein"), "nichts", data1.getAnswer());
+    }
+
+    /**
      * Testet ob toString stringy Strings zurückgibt.
      */
     @Test
@@ -76,6 +86,7 @@ public class TrialDataTest {
                     trialId: 1
                     configId: 2
                     startTime: %s
+                    answer: null
                     dataPoints: dataPoints[0]
                 }""", data1.startTime.toString()),
                 data1.toString());
@@ -86,6 +97,7 @@ public class TrialDataTest {
                     trialId: 1
                     configId: 2
                     startTime: %s
+                    answer: null
                     dataPoints: dataPoints[1]
                 }""", data1.startTime.toString()),
                 data1.toString());
@@ -97,6 +109,7 @@ public class TrialDataTest {
                     trialId: 1
                     configId: 2
                     startTime: %s
+                    answer: null
                     dataPoints: dataPoints[0]
                 }""", data2.startTime.toString()),
                 data2.toString());
@@ -107,6 +120,7 @@ public class TrialDataTest {
                     trialId: 1
                     configId: 2
                     startTime: %s
+                    answer: null
                     dataPoints: dataPoints[1]
                 }""", data2.startTime.toString()),
                 data2.toString());

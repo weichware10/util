@@ -18,6 +18,7 @@ public class TrialData {
     public final String trialId;
     public final String configId;
     public final DateTime startTime;
+    private String answer;
     private List<DataPoint> dataPoints;
 
     /**
@@ -38,6 +39,28 @@ public class TrialData {
     }
 
     /**
+     * Stores the TrialData for the different tools internally.
+     *
+     * @param toolType   - the tooltype of the stored data
+     * @param trialId    - the id of the trial
+     * @param configId   - the configuration of the stored data
+     * @param startTime  - Startzeitpunkt des Versuchs
+     * @param answer     - Anwort des Versuchs
+     * @param dataPoints - Daten des Versuchs
+     *
+     * @since v0.3
+     */
+    public TrialData(Enums.ToolType toolType, String trialId, String configId,
+            DateTime startTime, String answer, List<DataPoint> dataPoints) {
+        this.toolType = toolType;
+        this.trialId = trialId;
+        this.configId = configId;
+        this.startTime = startTime;
+        this.answer = answer;
+        this.dataPoints = dataPoints;
+    }
+
+    /**
      * get the stored dataPoints.
      *
      * @return the stored dataPoints
@@ -46,6 +69,26 @@ public class TrialData {
      */
     public List<DataPoint> getData() {
         return dataPoints;
+    }
+
+    /**
+     * get the answer.
+     *
+     * @return the answer
+     *
+     * @since v0.3
+     */
+    public String getAnswer() {
+        return answer;
+    }
+
+    /**
+     * set the answer.
+     *
+     * @param answer - the answer
+     */
+    public void setAnswer(String answer) {
+        this.answer = answer;
     }
 
     /**
@@ -109,12 +152,28 @@ public class TrialData {
                     trialId: %s
                     configId: %s
                     startTime: %s
+                    answer: %s
                     dataPoints: dataPoints[%d]
                 }""",
                 toolType.toString(),
                 trialId,
                 configId,
                 startTime.toString(),
+                answer,
                 dataPoints.size());
+    }
+
+    @Override
+    public boolean equals(Object other) {
+        if (this == other) {
+            return true;
+        }
+        if (other == null || getClass() != other.getClass()) {
+            return false;
+        }
+        TrialData that = (TrialData) (other);
+        return toolType.equals(that.toolType) && trialId.equals(that.trialId)
+                && configId.equals(that.configId) && startTime.equals(that.startTime)
+                && answer.equals(that.answer) && dataPoints.equals(that.dataPoints);
     }
 }

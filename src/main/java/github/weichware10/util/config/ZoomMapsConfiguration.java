@@ -1,16 +1,41 @@
 package github.weichware10.util.config;
 
+import java.util.List;
+
 /**
  * Beinhaltet Konfiguration für ZoomMaps-Versuche.
  */
 public class ZoomMapsConfiguration extends ToolConfiguration {
     protected float speed = 3f;
 
-    // GETTER
+    /**
+     * leerer Konstruktor. Wird für Jackson gebraucht (json writer)
+     * smooth criminal.
+     */
+    public ZoomMapsConfiguration() {
+        // leer
+    }
+
+    /**
+     * Konstruktor für die CodeCharts Konfiguration.
+     *
+     * @param speed - Zoomgeschwindigkeit
+     * @param tutorial - Anzeige des Tutorials
+     * @param imageUrls - Adressen der Bilder
+     */
+    public ZoomMapsConfiguration(float speed, boolean tutorial, List<String> imageUrls) {
+        this.speed = speed;
+        this.tutorial = tutorial;
+        this.imageUrls = imageUrls;
+    }
+
+    // --- GETTER ---
 
     public float getSpeed() {
         return speed;
     }
+
+    // --- OVERRIDES ---
 
     @Override
     public boolean equals(Object obj) {

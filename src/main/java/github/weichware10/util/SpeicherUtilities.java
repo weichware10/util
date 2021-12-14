@@ -56,10 +56,10 @@ public class SpeicherUtilities {
      * Function to search for specific Data from a function.
      * TODO: Richtige Suche implementieren
      *
-     * @param inputString - Data to search
+     * @param trialId - Data to search
      * @return returns the requested Data
      */
-    public TrialData searchData(String inputString) {
+    public TrialData searchData(String trialId) {
         TrialData test = new TrialData(ToolType.ZOOMMAPS, "1", "1");
         return test;
     }

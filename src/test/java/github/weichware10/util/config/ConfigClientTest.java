@@ -90,9 +90,9 @@ public class ConfigClientTest {
         assertTrue("Should be able to write to target/testconfig-CODECHARTS.json",
                 client.writeToJson("target/testconfig-CODECHARTS.json"));
 
-        client.loadFromJson("src/test/resources/testconfig-EYETRACKING.json");
-        assertTrue("Should be able to write to target/testconfig-EYETRACKING.json",
-                client.writeToJson("target/testconfig-EYETRACKING.json"));
+        // client.loadFromJson("src/test/resources/testconfig-EYETRACKING.json");
+        // assertTrue("Should be able to write to target/testconfig-EYETRACKING.json",
+        //         client.writeToJson("target/testconfig-EYETRACKING.json"));
 
         client.loadFromJson("src/test/resources/testconfig-ZOOMMAPS.json");
         assertTrue("Should be able to write to target/testconfig-ZOOMMAPS.json",

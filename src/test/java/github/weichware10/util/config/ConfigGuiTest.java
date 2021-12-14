@@ -2,7 +2,6 @@ package github.weichware10.util.config;
 
 import static org.junit.Assert.assertEquals;
 
-import github.weichware10.util.Enums.ToolType;
 import org.junit.Test;
 
 
@@ -14,7 +13,7 @@ import org.junit.Test;
 public class ConfigGuiTest {
     @Test
     public void shouldInitializeWithDefaultConfig() {
-        Configuration defaultConfig = new Configuration(ToolType.ZOOMMAPS);
+        Configuration defaultConfig = new Configuration();
         ConfigGui gui = new ConfigGui();
         assertEquals(defaultConfig, gui.configState);
     }

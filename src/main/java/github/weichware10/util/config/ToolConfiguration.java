@@ -3,7 +3,6 @@ package github.weichware10.util.config;
 import java.util.Arrays;
 import java.util.List;
 
-
 /**
  * von dieser Klasse erben alle Tool-Konfigurationen,
  * sie enthält wichtige Daten für alle Tools.
@@ -13,7 +12,7 @@ abstract class ToolConfiguration {
             "www.weichware10.com/owlimage", "www.weichware10.com/running-owl");
     protected boolean tutorial = true;
 
-    // GETTER
+    // --- GETTER ---
 
     public List<String> getImageUrls() {
         return imageUrls;
@@ -22,6 +21,8 @@ abstract class ToolConfiguration {
     public boolean getTutorial() {
         return tutorial;
     }
+
+    // --- OVERRIDES ---
 
     @Override
     public boolean equals(Object obj) {

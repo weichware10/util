@@ -24,7 +24,7 @@ public class DataPoint {
      *
      * @since v0.2
      */
-    protected DataPoint(int dataId, int timeOffset, int[] coordinates, float zoomLevel) {
+    public DataPoint(int dataId, int timeOffset, int[] coordinates, float zoomLevel) {
         this.dataId = dataId;
         this.timeOffset = timeOffset;
         this.coordinates = coordinates;
@@ -42,12 +42,32 @@ public class DataPoint {
      *
      * @since v0.2
      */
-    protected DataPoint(int dataId, int timeOffset, int[] coordinates, int[] rasterSize) {
+    public DataPoint(int dataId, int timeOffset, int[] coordinates, int[] rasterSize) {
         this.dataId = dataId;
         this.timeOffset = timeOffset;
         this.coordinates = coordinates;
         this.rasterSize = rasterSize;
         this.zoomLevel = null;
+    }
+
+    /**
+     * Stores a single DataPoint with everyting (for database).
+     *
+     * @param dataId      - the id of the dataPoint
+     * @param timeOffset  - the time since the trial started
+     * @param coordinates - the coordinates on the viewed picture
+     * @param rasterSize  - width and height of the raster
+     *
+     * @since v0.3
+     */
+    public DataPoint(int dataId,
+            int timeOffset, int[] coordinates, int[] rasterSize,
+            Float zoomLevel) {
+        this.dataId = dataId;
+        this.timeOffset = timeOffset;
+        this.coordinates = coordinates;
+        this.rasterSize = rasterSize;
+        this.zoomLevel = zoomLevel;
     }
 
     @Override
@@ -65,5 +85,28 @@ public class DataPoint {
                 Arrays.toString(coordinates),
                 Arrays.toString(rasterSize),
                 (zoomLevel == null) ? "null" : zoomLevel.toString());
+    }
+
+    @Override
+    public boolean equals(Object other) {
+        if (this == other) {
+            return true;
+        }
+        if (other == null || getClass() != other.getClass()) {
+            return false;
+        }
+        DataPoint that = (DataPoint) (other);
+        return dataId == that.dataId && timeOffset == that.timeOffset
+                && Arrays.equals(coordinates, that.coordinates)
+                // Überprüfen ob rasterSize nicht gleichmäßig null / nicht null ist
+                && ((rasterSize == null && that.rasterSize == null)
+                        || (rasterSize != null && that.rasterSize != null))
+                && ((rasterSize == null && that.rasterSize == null)
+                        || Arrays.equals(rasterSize, that.rasterSize))
+                // Überprüfen ob zoomLevel nicht gleichmäßig null / nicht null ist
+                && ((zoomLevel == null && that.zoomLevel == null)
+                        || (zoomLevel != null && that.zoomLevel != null))
+                && ((zoomLevel == null && that.zoomLevel == null)
+                        || zoomLevel.equals(that.zoomLevel));
     }
 }

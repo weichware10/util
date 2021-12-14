@@ -7,6 +7,7 @@ import org.junit.Test;
 /**
  * Testet die EyeTrackingConfiguration-Klasse.
  */
+@SuppressWarnings("deprecation")
 public class EyeTrackingConfigurationTest {
 
     /**

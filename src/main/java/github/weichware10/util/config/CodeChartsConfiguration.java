@@ -9,9 +9,36 @@ import java.util.List;
 public class CodeChartsConfiguration extends ToolConfiguration {
     protected List<String> strings = Arrays.asList("foo", "bar");
     protected int[] initialSize = { 10, 20 };
-    protected float[] timings = { 2.0f, 2.0f };
+    protected long[] timings = { 200, 200 };
 
-    // GETTERS
+    /**
+     * leerer Konstruktor. Wird für Jackson gebraucht (json writer)
+     * smooth criminal.
+     */
+    protected CodeChartsConfiguration() {
+        // leer
+    }
+
+    /**
+     * Konstruktor für die CodeCharts Konfiguration.
+     *
+     * @param strings - Strings für die CodeCharts Konfiguration
+     * @param initialSize - Rastergröße der CodeCharts Konfiguration
+     * @param timings - Zeit zum Wechsel von Bild zu Raster & Raster zu Eingabefeld
+     *                  der CodeCharts Konfiguration
+     * @param tutorial - Anzeige des Tutorials
+     * @param imageUrls - Adressen der Bilder
+     */
+    public CodeChartsConfiguration(List<String> strings, int[] initialSize, long[] timings,
+            boolean tutorial, List<String> imageUrls) {
+        this.strings = strings;
+        this.initialSize = initialSize;
+        this.timings = timings;
+        this.tutorial = tutorial;
+        this.imageUrls = imageUrls;
+    }
+
+    // --- GETTERS ---
 
     public List<String> getStrings() {
         return strings;
@@ -21,9 +48,11 @@ public class CodeChartsConfiguration extends ToolConfiguration {
         return initialSize;
     }
 
-    public float[] getTimings() {
+    public long[] getTimings() {
         return timings;
     }
+
+    // --- OVERRIDES ---
 
     @Override
     public boolean equals(Object obj) {
