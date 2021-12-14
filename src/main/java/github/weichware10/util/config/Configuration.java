@@ -27,6 +27,7 @@ public class Configuration {
      * Konstruktor für Configuration vom Typ CodeChartsConfiguration.
      *
      * @param configId - configId der übergebenen Konfiguration
+     * @param question - Fragestellung zum Versuch
      * @param codeChartsConfiguration - Konfiguration von CodeCharts
      */
     public Configuration(String configId, String question,
@@ -41,6 +42,7 @@ public class Configuration {
      * Konstruktor für Configuration vom Typ ZoomMapsConfiguration.
      *
      * @param configId - configId der übergebenen Konfiguration
+     * @param question - Fragestellung zum Versuch
      * @param zoomMapsConfiguration - Konfiguration von ZoomMaps
      */
     public Configuration(String configId, String question,
