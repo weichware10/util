@@ -4,7 +4,6 @@ import github.weichware10.util.Logger;
 import java.security.InvalidParameterException;
 import java.sql.Connection;
 import java.sql.DriverManager;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Arrays;
@@ -82,7 +81,6 @@ public class DataBaseClient {
         // database objects
         Connection conn = null;
         Statement st = null;
-        ResultSet rs = null;
 
         try {
             conn = DriverManager.getConnection(url, props);
@@ -93,7 +91,6 @@ public class DataBaseClient {
         } catch (SQLException e) {
             Logger.info("SQLException when checking access", e);
         } finally {
-            Util.closeQuietly(rs);
             Util.closeQuietly(st);
             Util.closeQuietly(conn);
         }
