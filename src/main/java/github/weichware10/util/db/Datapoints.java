@@ -47,11 +47,16 @@ class Datapoints {
             st = conn.createStatement();
             rs = st.executeQuery(query);
             while (rs.next()) {
+                // bei codecharts versuchen
                 int[] rasterSize = new int[] { rs.getInt("rastersize_x"),
                         rs.getInt("rastersize_y") };
                 rasterSize = rs.wasNull() ? null : rasterSize;
+
+                // bei zoommaps versuchen
                 Float zoomLevel = rs.getFloat("zoomlevel");
                 zoomLevel = rs.wasNull() ? null : zoomLevel;
+
+                // neuen Punkt zur Liste hinzufügen
                 dataPoints.add(new DataPoint(
                         rs.getInt("dataid"),
                         rs.getInt("timeoffset"),
