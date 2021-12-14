@@ -39,8 +39,6 @@ public class TrialsTest {
                 dotenv.get("DB_PASSWORD"),
                 dotenv.get("DB_SCHEMA"));
 
-        dbClient.clearTestSchema();
-
         CodeChartsConfiguration ccConf = new CodeChartsConfiguration(
                 Arrays.asList("string1", "string2", "string3"),
                 new int[] { 1, 1 }, new long[] { 2, 2 }, true,

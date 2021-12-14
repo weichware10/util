@@ -30,7 +30,6 @@ public class ConfigurationsTest {
                 dotenv.get("DB_USERNAME"),
                 dotenv.get("DB_PASSWORD"),
                 dotenv.get("DB_SCHEMA"));
-        dbClient.clearTestSchema();
 
         CodeChartsConfiguration codeChartsConfiguration = new CodeChartsConfiguration(
                 Arrays.asList("test1", "test2"),

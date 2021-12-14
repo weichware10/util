@@ -100,33 +100,4 @@ public class DataBaseClient {
 
         return exists;
     }
-
-    /**
-     * Leert alle Tabellen im Schema 'test'.
-     * Wichtig für Tests.
-     */
-    protected void clearTestSchema() {
-        final String query = """
-                DELETE FROM test.datapoints;
-                DELETE FROM test.trials;
-                DELETE FROM test.configurations;
-                """;
-
-        // database objects
-        Connection conn = null;
-        Statement st = null;
-        ResultSet rs = null;
-
-        try {
-            conn = DriverManager.getConnection(url, props);
-            st = conn.createStatement();
-            st.executeUpdate(query);
-        } catch (SQLException e) {
-            Logger.info("SQLException when clearing test schema", e);
-        } finally {
-            Util.closeQuietly(rs);
-            Util.closeQuietly(st);
-            Util.closeQuietly(conn);
-        }
-    }
 }
