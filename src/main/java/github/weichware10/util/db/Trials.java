@@ -216,7 +216,7 @@ public class Trials {
         if (amount <= 0 || !dataBaseClient.configurations.getAvailability(configId)) {
             return null;
         }
-        final String query = """
+        final String queryF = """
                 INSERT INTO %s.trials
                 (trialid, configid)
                 VALUES
@@ -249,7 +249,7 @@ public class Trials {
 
                     // INSERT try
                     try {
-                        st.executeUpdate(String.format(query,
+                        st.executeUpdate(String.format(queryF,
                                 dataBaseClient.schema,
                                 trialId,
                                 configId));
