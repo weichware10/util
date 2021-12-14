@@ -180,17 +180,17 @@ public class TrialsTest {
         // ZOOMMAPS
         List<String> trialsZm = dbClient.trials.addTrials(configIdZm, 3);
         TrialData trialData1 = new TrialData(ToolType.ZOOMMAPS, trialsZm.get(0), configIdZm,
-                new DateTime(2021, 12, 12, 12, 0, 0), "Ja", new ArrayList<DataPoint>());
+                DateTime.now().minusHours(1), "Ja", new ArrayList<DataPoint>());
         trialData1.addDataPoint(new int[] { 1, 1 }, 1.0f);
         dbClient.trials.setTrial(trialData1);
 
         TrialData trialData2 = new TrialData(ToolType.ZOOMMAPS, trialsZm.get(1), configIdZm,
-                new DateTime(2021, 12, 12, 13, 0, 0), "Ja", new ArrayList<DataPoint>());
+                DateTime.now().minusHours(2), "Ja", new ArrayList<DataPoint>());
         trialData2.addDataPoint(new int[] { 2, 2 }, 2.0f);
         dbClient.trials.setTrial(trialData2);
 
         TrialData trialData3 = new TrialData(ToolType.ZOOMMAPS, trialsZm.get(2), configIdZm,
-                new DateTime(2021, 12, 13, 14, 0, 0), "Ja", new ArrayList<DataPoint>());
+                DateTime.now().minusHours(3), "Ja", new ArrayList<DataPoint>());
         trialData3.addDataPoint(new int[] { 3, 3 }, 3.0f);
         dbClient.trials.setTrial(trialData3);
 
@@ -198,7 +198,7 @@ public class TrialsTest {
         List<String> trialsZm2 = dbClient.trials.addTrials(configIdZm2, 1);
 
         TrialData trialData7 = new TrialData(ToolType.ZOOMMAPS, trialsZm2.get(0), configIdZm2,
-                new DateTime(2021, 12, 10, 14, 0, 0), "Ja", new ArrayList<DataPoint>());
+                DateTime.now().minusHours(4), "Ja", new ArrayList<DataPoint>());
         trialData7.addDataPoint(new int[] { 4, 4 }, 4.0f);
         dbClient.trials.setTrial(trialData7);
 
@@ -207,47 +207,43 @@ public class TrialsTest {
                 null, 50).size() >= 4);
 
         assertEquals(2, dbClient.trials.getTrialList(configIdZm, ToolType.ZOOMMAPS,
-                new DateTime(2021, 12, 12, 11, 0, 0),
-                new DateTime(2021, 12, 12, 13, 30, 0), 50).size());
+                DateTime.now().minusHours(2).minusMinutes(10),
+                DateTime.now(), 50).size());
 
         assertEquals(1, dbClient.trials.getTrialList(configIdZm, ToolType.ZOOMMAPS,
-                new DateTime(2021, 12, 12, 13, 15, 0),
-                new DateTime(2021, 12, 13, 14, 30, 0), 50).size());
+                DateTime.now().minusHours(2).minusMinutes(10),
+                DateTime.now().minusHours(1).minusMinutes(10), 50).size());
 
         assertEquals(0, dbClient.trials.getTrialList(configIdZm, ToolType.ZOOMMAPS,
-                new DateTime(2021, 12, 12, 13, 15, 0),
-                new DateTime(2021, 12, 13, 11, 30, 0), 50).size());
+                DateTime.now().minusHours(4),
+                DateTime.now().minusHours(3).minusMinutes(10), 50).size());
 
         assertEquals(1, dbClient.trials.getTrialList(configIdZm, ToolType.ZOOMMAPS,
                 null,
-                new DateTime(2021, 12, 12, 12, 10, 0), 50).size());
+                DateTime.now().minusHours(2).minusMinutes(10), 50).size());
 
         assertEquals(3, dbClient.trials.getTrialList(configIdZm, ToolType.ZOOMMAPS,
-                new DateTime(2021, 12, 11, 10, 15, 0),
-                null, 50).size());
-
-        assertEquals(3, dbClient.trials.getTrialList(configIdZm, ToolType.ZOOMMAPS,
-                new DateTime(2021, 12, 11, 10, 15, 0),
+                DateTime.now().minusHours(4),
                 null, 50).size());
 
         assertEquals(2, dbClient.trials.getTrialList(configIdZm, ToolType.ZOOMMAPS,
-                new DateTime(2021, 12, 11, 10, 15, 0),
+                DateTime.now().minusHours(2).minusMinutes(10),
                 null, 2).size());
 
         // CODECHARTS
         List<String> trialsCc = dbClient.trials.addTrials(configIdCc, 3);
         TrialData trialData4 = new TrialData(ToolType.CODECHARTS, trialsCc.get(0), configIdCc,
-                new DateTime(2021, 12, 11, 21, 0, 0), "Ja", new ArrayList<DataPoint>());
+                DateTime.now().minusHours(1), "Ja", new ArrayList<DataPoint>());
         trialData4.addDataPoint(new int[] { 1, 1 }, (new int[] { 1, 1 }));
         dbClient.trials.setTrial(trialData4);
 
         TrialData trialData5 = new TrialData(ToolType.CODECHARTS, trialsCc.get(1), configIdCc,
-                new DateTime(2021, 12, 11, 19, 0, 0), "Ja", new ArrayList<DataPoint>());
+                DateTime.now().minusHours(2), "Ja", new ArrayList<DataPoint>());
         trialData5.addDataPoint(new int[] { 2, 2 }, (new int[] { 2, 2 }));
         dbClient.trials.setTrial(trialData5);
 
         TrialData trialData6 = new TrialData(ToolType.CODECHARTS, trialsCc.get(2), configIdCc,
-                new DateTime(2021, 12, 11, 22, 0, 0), "Ja", new ArrayList<DataPoint>());
+                DateTime.now().minusHours(3), "Ja", new ArrayList<DataPoint>());
         trialData6.addDataPoint(new int[] { 2, 2 }, (new int[] { 2, 2 }));
         dbClient.trials.setTrial(trialData6);
 
@@ -255,7 +251,7 @@ public class TrialsTest {
         List<String> trialsCc2 = dbClient.trials.addTrials(configIdCc2, 1);
 
         TrialData trialData8 = new TrialData(ToolType.CODECHARTS, trialsCc2.get(0), configIdCc2,
-                new DateTime(2021, 12, 9, 14, 0, 0), "Ja", new ArrayList<DataPoint>());
+                DateTime.now().minusHours(4), "Ja", new ArrayList<DataPoint>());
         trialData8.addDataPoint(new int[] { 4, 4 }, new int[] { 4, 4 });
         dbClient.trials.setTrial(trialData8);
 
@@ -264,33 +260,33 @@ public class TrialsTest {
                 null, 50).size() >= 4);
 
         assertEquals(2, dbClient.trials.getTrialList(configIdCc, ToolType.CODECHARTS,
-                new DateTime(2021, 12, 11, 20, 0, 0),
-                new DateTime(2021, 12, 11, 22, 30, 0), 50).size());
+                DateTime.now().minusHours(2).minusMinutes(10),
+                DateTime.now(), 50).size());
 
         assertEquals(1, dbClient.trials.getTrialList(configIdCc, ToolType.CODECHARTS,
-                new DateTime(2021, 12, 11, 18, 15, 0),
-                new DateTime(2021, 12, 11, 19, 30, 0), 50).size());
+                DateTime.now().minusHours(2).minusMinutes(10),
+                DateTime.now().minusHours(1).minusMinutes(10), 50).size());
 
         assertEquals(0, dbClient.trials.getTrialList(configIdCc, ToolType.CODECHARTS,
-                new DateTime(2021, 12, 11, 10, 15, 0),
-                new DateTime(2021, 12, 11, 11, 30, 0), 50).size());
-
-        assertEquals(2, dbClient.trials.getTrialList(configIdCc, ToolType.CODECHARTS,
-                null,
-                new DateTime(2021, 12, 11, 21, 10, 0), 50).size());
-
-        assertEquals(3, dbClient.trials.getTrialList(configIdCc, ToolType.CODECHARTS,
-                new DateTime(2021, 12, 11, 10, 15, 0),
-                null, 50).size());
+                DateTime.now().minusHours(4),
+                DateTime.now().minusHours(3).minusMinutes(10), 50).size());
 
         assertEquals(1, dbClient.trials.getTrialList(configIdCc, ToolType.CODECHARTS,
-                new DateTime(2021, 12, 11, 10, 15, 0),
-                null, 1).size());
+                null,
+                DateTime.now().minusHours(2).minusMinutes(10), 50).size());
+
+        assertEquals(3, dbClient.trials.getTrialList(configIdCc, ToolType.CODECHARTS,
+                DateTime.now().minusHours(4),
+                null, 50).size());
+
+        assertEquals(2, dbClient.trials.getTrialList(configIdCc, ToolType.CODECHARTS,
+                DateTime.now().minusHours(2).minusMinutes(10),
+                null, 2).size());
 
         // GEMISCHT
         assertTrue(dbClient.trials.getTrialList(null, null,
-                new DateTime(2021, 12, 11, 19, 15, 0),
-                new DateTime(2021, 12, 12, 13, 20, 0), 11).size() >= 4);
+                DateTime.now().minusHours(3).minusMinutes(10),
+                DateTime.now().minusHours(1).minusMinutes(10), 11).size() >= 4);
 
         assertTrue(dbClient.trials.getTrialList(null, null,
                 null,
