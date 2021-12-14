@@ -202,9 +202,9 @@ public class TrialsTest {
         trialData7.addDataPoint(new int[] { 4, 4 }, 4.0f);
         dbClient.trials.setTrial(trialData7);
 
-        assertEquals(4, dbClient.trials.getTrialList(null, ToolType.ZOOMMAPS,
+        assertTrue(dbClient.trials.getTrialList(null, ToolType.ZOOMMAPS,
                 null,
-                null, 50).size());
+                null, 50).size() >= 4);
 
         assertEquals(2, dbClient.trials.getTrialList(configIdZm, ToolType.ZOOMMAPS,
                 new DateTime(2021, 12, 12, 11, 0, 0),
@@ -259,9 +259,9 @@ public class TrialsTest {
         trialData8.addDataPoint(new int[] { 4, 4 }, new int[] { 4, 4 });
         dbClient.trials.setTrial(trialData8);
 
-        assertEquals(4, dbClient.trials.getTrialList(null, ToolType.CODECHARTS,
+        assertTrue(dbClient.trials.getTrialList(null, ToolType.CODECHARTS,
                 null,
-                null, 50).size());
+                null, 50).size() >= 4);
 
         assertEquals(2, dbClient.trials.getTrialList(configIdCc, ToolType.CODECHARTS,
                 new DateTime(2021, 12, 11, 20, 0, 0),
@@ -288,17 +288,17 @@ public class TrialsTest {
                 null, 1).size());
 
         // GEMISCHT
-        assertEquals(4, dbClient.trials.getTrialList(null, null,
+        assertTrue(dbClient.trials.getTrialList(null, null,
                 new DateTime(2021, 12, 11, 19, 15, 0),
-                new DateTime(2021, 12, 12, 13, 20, 0), 11).size());
+                new DateTime(2021, 12, 12, 13, 20, 0), 11).size() >= 4);
 
-        assertEquals(8, dbClient.trials.getTrialList(null, null,
+        assertTrue(dbClient.trials.getTrialList(null, null,
                 null,
-                null, 11).size());
+                null, 11).size() >= 8);
 
-        assertEquals(8, dbClient.trials.getTrialList(null, null,
+        assertTrue(dbClient.trials.getTrialList(null, null,
                 null,
-                null, -1).size());
+                null, -1).size() >= 8);
     }
 
 }
