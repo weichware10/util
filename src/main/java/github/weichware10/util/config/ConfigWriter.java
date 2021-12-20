@@ -4,6 +4,8 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
 import github.weichware10.util.Logger;
+import github.weichware10.util.db.DataBaseClient;
+
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -58,15 +60,11 @@ public final class ConfigWriter {
     /**
      * Speichert eine Konfiguration ab.
      *
-     * @param configId - der gewünschte Speicherort
      * @param configuration - die zu speichernde Konfiguration
+     * @param dataBaseClient - Client für Datenbankzugriff
      * @return Erfolgsboolean
      */
-    public static boolean toDataBase(String configId, Configuration configuration) {
-        if (configId == "www.weichware10.com/config") {
-            return true;
-        } else {
-            return false;
-        }
+    public static String toDataBase(Configuration configuration, DataBaseClient dataBaseClient) {
+        return dataBaseClient.configurations.set(configuration);
     }
 }

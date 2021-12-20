@@ -4,6 +4,8 @@ import com.fasterxml.jackson.core.exc.StreamReadException;
 import com.fasterxml.jackson.databind.DatabindException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import github.weichware10.util.Logger;
+import github.weichware10.util.db.DataBaseClient;
+
 import java.io.File;
 import java.io.IOException;
 
@@ -47,15 +49,19 @@ public final class ConfigLoader {
      * Lädt eine Konfiguration in die interne Struktur
      * ({@link Configuration}).
      *
-     * @param configId - ID der Konfiguration
+     * @param trialId - ID der Konfiguration
+     * @param dataBaseClient - Client für Datenbankzugriff
      * @return die geladene Konfiguration
-     * @implNote noch nicht implementiert, wartet auf Datenbank-Modul
+     * @since v0.4
      */
-    public static Configuration fromDataBase(String configId) {
-        if (configId == "www.weichware10.com/config") {
-            return new Configuration();
-        } else {
+    public static Configuration fromDataBase(String trialId, DataBaseClient dataBaseClient) {
+        // get configId from database
+        final String configId = dataBaseClient.trials.getConfigId(trialId);
+        // trial not found or error
+        if (configId == null) {
             return null;
         }
+        // get config from database
+        return dataBaseClient.configurations.get(configId);
     }
 }
