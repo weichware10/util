@@ -188,10 +188,10 @@ public class TrialData {
      * @since v1.0
      */
     public static TrialData fromJson(String location) {
+        TrialData trialData = null;
         try {
             ObjectMapper mapper = new ObjectMapper();
             mapper.registerModule(new JodaModule());
-            TrialData trialData;
             // read from file
             trialData = mapper.readValue(new File(location), TrialData.class);
             return trialData;
@@ -202,7 +202,7 @@ public class TrialData {
         } catch (IOException e) {
             Logger.info("An error occured while loading a trial", e);
         }
-        return null;
+        return trialData;
     }
 
     /**
