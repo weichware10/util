@@ -17,7 +17,7 @@ public class ConfigurationTest {
                 new ZoomMapsConfiguration());
 
         assertTrue("toString should match", zmc.toString().matches("Configuration: [\\s\\S]+"));
-        assertTrue("toString should match", zmc.toString().matches("Configuration: [\\s\\S]+"));
+        assertTrue("toString should match", ccc.toString().matches("Configuration: [\\s\\S]+"));
     }
 
 }
