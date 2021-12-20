@@ -1,5 +1,7 @@
 package github.weichware10.util.data;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.Arrays;
 
 /**
@@ -13,6 +15,28 @@ public class DataPoint {
     public final int[] coordinates; // ! int[2]
     public final int[] rasterSize; // ! int[2]
     public final Float zoomLevel;
+
+    /**
+     * Konstruktor für Jackson.
+     *
+     * @param dataId      - the id of the dataPoint
+     * @param timeOffset  - the time since the trial started
+     * @param coordinates - the coordinates on the viewed picture
+     * @param rasterSize  - width and height of the raster
+     * @param zoomLevel   - how far the user is zoomed in
+     */
+    @JsonCreator(mode = JsonCreator.Mode.PROPERTIES)
+    public DataPoint(@JsonProperty("dataId") int dataId,
+            @JsonProperty("timeOffset") int timeOffset,
+            @JsonProperty("coordinates") int[] coordinates,
+            @JsonProperty("rasterSize") int[] rasterSize,
+            @JsonProperty("zoomLevel") Float zoomLevel) {
+        this.dataId = dataId;
+        this.timeOffset = timeOffset;
+        this.coordinates = coordinates;
+        this.rasterSize = rasterSize;
+        this.zoomLevel = zoomLevel;
+    }
 
     /**
      * Stores a single DataPoint with zoomLevel.
@@ -50,25 +74,25 @@ public class DataPoint {
         this.zoomLevel = null;
     }
 
-    /**
-     * Stores a single DataPoint with everyting (for database).
-     *
-     * @param dataId      - the id of the dataPoint
-     * @param timeOffset  - the time since the trial started
-     * @param coordinates - the coordinates on the viewed picture
-     * @param rasterSize  - width and height of the raster
-     *
-     * @since v0.3
-     */
-    public DataPoint(int dataId,
-            int timeOffset, int[] coordinates, int[] rasterSize,
-            Float zoomLevel) {
-        this.dataId = dataId;
-        this.timeOffset = timeOffset;
-        this.coordinates = coordinates;
-        this.rasterSize = rasterSize;
-        this.zoomLevel = zoomLevel;
-    }
+    // /**
+    //  * Stores a single DataPoint with everyting (for database).
+    //  *
+    //  * @param dataId      - the id of the dataPoint
+    //  * @param timeOffset  - the time since the trial started
+    //  * @param coordinates - the coordinates on the viewed picture
+    //  * @param rasterSize  - width and height of the raster
+    //  *
+    //  * @since v0.3
+    //  */
+    // public DataPoint(int dataId,
+    //         int timeOffset, int[] coordinates, int[] rasterSize,
+    //         Float zoomLevel) {
+    //     this.dataId = dataId;
+    //     this.timeOffset = timeOffset;
+    //     this.coordinates = coordinates;
+    //     this.rasterSize = rasterSize;
+    //     this.zoomLevel = zoomLevel;
+    // }
 
     @Override
     public String toString() {

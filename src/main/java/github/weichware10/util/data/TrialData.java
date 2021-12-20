@@ -1,7 +1,19 @@
 package github.weichware10.util.data;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.exc.StreamReadException;
+import com.fasterxml.jackson.databind.DatabindException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.joda.JodaModule;
 import github.weichware10.util.Enums;
 import github.weichware10.util.Enums.ToolType;
+import github.weichware10.util.Logger;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import org.joda.time.DateTime;
@@ -22,6 +34,27 @@ public class TrialData {
     private List<DataPoint> dataPoints;
 
     /**
+     * Konstruktor für Jackson.
+     *
+     * @param toolType  - the tooltype of the stored data
+     * @param trialId   - the id of the trial
+     * @param configId  - the configuration of the stored data
+     * @param startTime - Startzeitpunkt des Versuchs
+     */
+    @JsonCreator(mode = JsonCreator.Mode.PROPERTIES)
+    public TrialData(@JsonProperty("toolType") Enums.ToolType toolType,
+            @JsonProperty("trialId") String trialId, @JsonProperty("configId") String configId,
+            @JsonProperty("startTime") DateTime startTime, @JsonProperty("answer") String answer,
+            @JsonProperty("data") List<DataPoint> dataPoints) {
+        this.toolType = toolType;
+        this.trialId = trialId;
+        this.configId = configId;
+        this.startTime = startTime;
+        this.answer = answer;
+        this.dataPoints = dataPoints;
+    }
+
+    /**
      * Stores the TrialData for the different tools internally.
      *
      * @param toolType - the tooltype of the stored data
@@ -38,27 +71,29 @@ public class TrialData {
         this.dataPoints = new ArrayList<DataPoint>();
     }
 
-    /**
-     * Stores the TrialData for the different tools internally.
-     *
-     * @param toolType   - the tooltype of the stored data
-     * @param trialId    - the id of the trial
-     * @param configId   - the configuration of the stored data
-     * @param startTime  - Startzeitpunkt des Versuchs
-     * @param answer     - Anwort des Versuchs
-     * @param dataPoints - Daten des Versuchs
-     *
-     * @since v0.3
-     */
-    public TrialData(Enums.ToolType toolType, String trialId, String configId,
-            DateTime startTime, String answer, List<DataPoint> dataPoints) {
-        this.toolType = toolType;
-        this.trialId = trialId;
-        this.configId = configId;
-        this.startTime = startTime;
-        this.answer = answer;
-        this.dataPoints = dataPoints;
-    }
+    // /**
+    //  * Stores the TrialData for the different tools internally.
+    //  *
+    //  * @param toolType   - the tooltype of the stored data
+    //  * @param trialId    - the id of the trial
+    //  * @param configId   - the configuration of the stored data
+    //  * @param startTime  - Startzeitpunkt des Versuchs
+    //  * @param answer     - Anwort des Versuchs
+    //  * @param dataPoints - Daten des Versuchs
+    //  *
+    //  * @since v0.3
+    //  */
+    // public TrialData(Enums.ToolType toolType, String trialId, String configId,
+    //         DateTime startTime, String answer, List<DataPoint> dataPoints) {
+    //     this.toolType = toolType;
+    //     this.trialId = trialId;
+    //     this.configId = configId;
+    //     this.startTime = startTime;
+    //     this.answer = answer;
+    //     this.dataPoints = dataPoints;
+    // }
+
+    // --- GETTERS ---
 
     /**
      * get the stored dataPoints.
@@ -81,6 +116,8 @@ public class TrialData {
     public String getAnswer() {
         return answer;
     }
+
+    // --- SETTERS ---
 
     /**
      * set the answer.
@@ -143,6 +180,69 @@ public class TrialData {
 
         dataPoints.add(new DataPoint(dataPoints.size(), timeOffset, coordinates, zoomLevel));
     }
+
+    /**
+     * Lädt eine Versuch/Trial aus einer JSON-Datei.
+     *
+     * @param location - Speicherort der Datei.
+     * @since v1.0
+     */
+    public static TrialData fromJson(String location) {
+        try {
+            ObjectMapper mapper = new ObjectMapper();
+            mapper.registerModule(new JodaModule());
+            TrialData trialData;
+            // read from file
+            trialData = mapper.readValue(new File(location), TrialData.class);
+            return trialData;
+        } catch (StreamReadException e) {
+            Logger.info("An error occured while loading a trial", e);
+        } catch (DatabindException e) {
+            Logger.info("An error occured while loading a trial", e);
+        } catch (IOException e) {
+            Logger.info("An error occured while loading a trial", e);
+        }
+        return null;
+    }
+
+    /**
+     * Speichert eine {@link TrialData} in einer JSON-Datei.
+     *
+     * @param location  - Speicherort der JSON-Datei
+     * @param trialData - den abzuspeichernden Versuch/Trial
+     * @return Erfolgsboolean
+     * @since v1.0
+     */
+    public static boolean toJson(String location, TrialData trialData) {
+        // only write to JSON files
+        if (!location.endsWith(".json")) {
+            return false;
+        }
+        try {
+            // umwandeln von TrialData zu JSON String
+            // ObjectWriter ow = new ObjectMapper().writer().withDefaultPrettyPrinter();
+            ObjectMapper ow = new ObjectMapper();
+            ow.registerModule(new JodaModule());
+            ow.writer().withDefaultPrettyPrinter();
+            String json = ow.writeValueAsString(trialData);
+
+            // Öffnen der Datei
+            BufferedWriter writer = new BufferedWriter(new FileWriter(location, false));
+
+            // Schreiben des JSON
+            writer.append(json);
+            writer.close();
+
+            return true; // Schreiben war erfolgreich
+        } catch (JsonProcessingException e) {
+            Logger.info("An error occured while writing a trial", e);
+        } catch (IOException e) {
+            Logger.info("An error occured while writing a trial", e);
+        }
+        return false; // Schreiben war nicht erfolgreich
+    }
+
+    // --- OVERRIDES ---
 
     @Override
     public String toString() {
