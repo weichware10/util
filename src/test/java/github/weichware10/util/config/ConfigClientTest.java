@@ -20,7 +20,7 @@ public class ConfigClientTest {
      */
     @Test
     public void configShouldBeNullBeforeLoading() {
-        ConfigClient client = new ConfigClient();
+        ConfigClient client = new ConfigClient(null);
         assertNull("getConfig() does not return null", client.getConfig());
         client.loadFromDataBase("www.weichware10.com/config");
         assertThat("getConfig does not return instance of Configuration class",
@@ -35,7 +35,7 @@ public class ConfigClientTest {
      */
     @Test
     public void loadingShouldReturnCorrectBoolean() {
-        ConfigClient client = new ConfigClient();
+        ConfigClient client = new ConfigClient(null);
         assertFalse("Loading should return false", client.loadFromDataBase(
                 "https://preview.redd.it/epoet6lk5au71.jpg?auto=webp&s=145f91aa106ea927791f87af7bbb2b7a0f2e3e94"));
 
@@ -49,7 +49,7 @@ public class ConfigClientTest {
      */
     @Test
     public void loadingShouldHaveCorrectEffect() {
-        ConfigClient client = new ConfigClient();
+        ConfigClient client = new ConfigClient(null);
         client.loadFromDataBase("https://www.youtube.com/watch?v=dQw4w9WgXcQ");
         assertNull("Configuration should not be set", client.getConfig());
         client.loadFromDataBase("www.weichware10.com/config");
@@ -64,7 +64,7 @@ public class ConfigClientTest {
      */
     @Test
     public void shouldNotWriteNullishConfig() {
-        ConfigClient client = new ConfigClient();
+        ConfigClient client = new ConfigClient(null);
         assertFalse("Client should not export before loading", client.writeToJson("config.json"));
     }
 
@@ -73,7 +73,7 @@ public class ConfigClientTest {
      */
     @Test
     public void shouldNotWriteToInvalidPath() {
-        ConfigClient client = new ConfigClient();
+        ConfigClient client = new ConfigClient(null);
         client.loadFromJson("src/test/resources/testconfig-CODECHARTS.json");
         assertFalse("should not write to invalid path", client.writeToJson("badpath/config.json"));
         assertFalse("should not write to invalid path", client.writeToJson("config"));
@@ -84,7 +84,7 @@ public class ConfigClientTest {
      */
     @Test
     public void shouldSaveToValidPath() {
-        ConfigClient client = new ConfigClient();
+        ConfigClient client = new ConfigClient(null);
 
         client.loadFromJson("src/test/resources/testconfig-CODECHARTS.json");
         assertTrue("Should be able to write to target/testconfig-CODECHARTS.json",
@@ -105,8 +105,8 @@ public class ConfigClientTest {
      */
     @Test
     public void loadingShouldBeReliable() {
-        ConfigClient client1 = new ConfigClient();
-        ConfigClient client2 = new ConfigClient();
+        ConfigClient client1 = new ConfigClient(null);
+        ConfigClient client2 = new ConfigClient(null);
 
         client1.loadFromJson("src/test/resources/testconfig-CODECHARTS.json");
         client2.loadFromJson("src/test/resources/testconfig-CODECHARTS.json");

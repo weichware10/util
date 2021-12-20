@@ -20,11 +20,11 @@ public class ConfigLoaderTest {
     @Test
     public void shouldOnlyLoadFromValidLocation() {
         Configuration config = ConfigLoader.fromDataBase(
-                "www.weichware10.com/funny-owl-pics-haha");
+                "www.weichware10.com/funny-owl-pics-haha", null);
         assertNull("loadConfiguration should return null,", config);
 
         assertThat("loadConfiguration should return instance of Configuration class",
-                ConfigLoader.fromDataBase("www.weichware10.com/config"),
+                ConfigLoader.fromDataBase("www.weichware10.com/config", null),
                 instanceOf(Configuration.class));
     }
 

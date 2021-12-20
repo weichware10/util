@@ -14,11 +14,9 @@ public class ConfigWriterTest {
     @Test
     public void onlyWriteToValidLocation() {
         assertFalse("ConfigWriter should not write to shady locations.",
-                ConfigWriter.toDataBase(
-                        "www.downloadfreeramNOW.com", new Configuration()));
+                ConfigWriter.toDataBase(new Configuration(), null) != null);
         assertTrue("ConfigWriter should write to valid locations.",
-                ConfigWriter.toDataBase(
-                        "www.weichware10.com/config", new Configuration()));
+                ConfigWriter.toDataBase(new Configuration(), null) != null);
     }
 
     /**
