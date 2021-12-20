@@ -5,7 +5,7 @@ import static org.junit.Assert.assertTrue;
 import org.junit.Test;
 
 /**
- * Testen Configuration
+ * Testet Configuration.
  */
 public class ConfigurationTest {
 

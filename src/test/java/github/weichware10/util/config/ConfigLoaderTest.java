@@ -6,12 +6,10 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.fail;
 
-import java.util.List;
-
-import org.junit.Test;
-
 import github.weichware10.util.db.DataBaseClient;
 import io.github.cdimascio.dotenv.Dotenv;
+import java.util.List;
+import org.junit.Test;
 
 
 /**
