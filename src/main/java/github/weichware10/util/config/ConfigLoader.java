@@ -51,7 +51,7 @@ public final class ConfigLoader {
      * @param trialId - ID der Konfiguration
      * @param dataBaseClient - Client für Datenbankzugriff
      * @return die geladene Konfiguration
-     * @since v0.4
+     * @since v1.0
      */
     public static Configuration fromDataBase(String trialId, DataBaseClient dataBaseClient) {
         // get configId from database

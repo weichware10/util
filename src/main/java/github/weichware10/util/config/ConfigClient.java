@@ -63,7 +63,7 @@ public class ConfigClient {
      *
      * @param trialId - ID des Versuchs.
      * @return Erfolgsboolean
-     * @since v0.4
+     * @since v1.0
      */
     public boolean loadFromDataBase(String trialId) {
         // ohne DataBaseClient initialisiert
@@ -80,6 +80,7 @@ public class ConfigClient {
      * und gibt die erstellte ConfigId zurück.
      *
      * @return configId oder null bei Misserfolg
+     * @since v1.0
      */
     public String writeToDataBase() {
         // noch nichts zum Schreiben oder kein Datenbankzugriff

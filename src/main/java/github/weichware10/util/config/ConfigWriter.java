@@ -62,6 +62,7 @@ public final class ConfigWriter {
      * @param configuration - die zu speichernde Konfiguration
      * @param dataBaseClient - Client für Datenbankzugriff
      * @return Erfolgsboolean
+     * @since v1.0
      */
     public static String toDataBase(Configuration configuration, DataBaseClient dataBaseClient) {
         return dataBaseClient.configurations.set(configuration);
