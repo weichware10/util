@@ -1,0 +1,23 @@
+{
+    "toolType": "ZOOMMAPS",
+    "trialId": "trialId",
+    "configId": "configId",
+    "startTime": 1640032273564,
+    "answer": "answer",
+    "data": [
+        {
+            "dataId": 0,
+            "timeOffset": 40,
+            "zoomLevel": 3,
+            "coordinates": [ 1, 2 ],
+            "rasterSize": null
+        },
+        {
+            "dataId": 1,
+            "timeOffset": 41,
+            "zoomLevel": 6,
+            "coordinates": [ 4, 5 ],
+            "rasterSize": null
+        }
+    ]
+}
