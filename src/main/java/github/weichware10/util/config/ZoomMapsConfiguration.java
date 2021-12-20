@@ -55,7 +55,7 @@ public class ZoomMapsConfiguration extends ToolConfiguration {
     @Override
     public String toString() {
         return String.format("""
-                zoomMapsConfiguration:{
+                zoomMapsConfiguration: {
                         %s, speed: %f }""",
                 super.toString(),
                 speed);
