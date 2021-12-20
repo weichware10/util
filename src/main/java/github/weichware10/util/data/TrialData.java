@@ -194,7 +194,6 @@ public class TrialData {
             mapper.registerModule(new JodaModule());
             // read from file
             trialData = mapper.readValue(new File(location), TrialData.class);
-            return trialData;
         } catch (StreamReadException e) {
             Logger.info("An error occured while loading a trial", e);
         } catch (DatabindException e) {
