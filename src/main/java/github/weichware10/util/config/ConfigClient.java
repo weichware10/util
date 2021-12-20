@@ -75,7 +75,17 @@ public class ConfigClient {
         return (configuration == null) ? false : true;
     }
 
+    /**
+     * schreibt die aktuelle Konfiguration in die Datenbank
+     * und gibt die erstellte ConfigId zurück.
+     *
+     * @return configId oder null bei Misserfolg
+     */
     public String writeToDataBase() {
+        // noch nichts zum Schreiben oder kein Datenbankzugriff
+        if (configuration == null || dataBaseClient == null) {
+            return null;
+        }
         return ConfigWriter.toDataBase(configuration, dataBaseClient);
     }
 }
