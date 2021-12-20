@@ -5,7 +5,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
 import github.weichware10.util.Logger;
 import github.weichware10.util.db.DataBaseClient;
-
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
