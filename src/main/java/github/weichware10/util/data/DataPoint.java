@@ -64,7 +64,7 @@ public class DataPoint {
      * @param coordinates - the coordinates on the viewed picture
      * @param rasterSize  - width and height of the raster
      *
-     * @since v0.2
+     * @since v0.3
      */
     public DataPoint(int dataId, int timeOffset, int[] coordinates, int[] rasterSize) {
         this.dataId = dataId;
