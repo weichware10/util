@@ -6,7 +6,11 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
+import github.weichware10.util.db.DataBaseClient;
+import io.github.cdimascio.dotenv.Dotenv;
+import java.util.List;
 import org.junit.Test;
 
 /**
@@ -20,9 +24,9 @@ public class ConfigClientTest {
      */
     @Test
     public void configShouldBeNullBeforeLoading() {
-        ConfigClient client = new ConfigClient();
+        ConfigClient client = new ConfigClient(null);
         assertNull("getConfig() does not return null", client.getConfig());
-        client.loadFromDataBase("www.weichware10.com/config");
+        client.loadFromJson("src/test/resources/testconfig-CODECHARTS.json");
         assertThat("getConfig does not return instance of Configuration class",
                 client.getConfig(),
                 instanceOf(Configuration.class));
@@ -30,17 +34,42 @@ public class ConfigClientTest {
 
     /**
      * Testet ob {@link ConfigClient#loadConfiguration} {@code false} zurückgibt,
-     * wenn eine falsche {@code location} angegeben wurde,
-     * und {@code true} wenn eine korrekte {@code location} angegeben wurde.
+     * wenn ohne {@link DataBaseClient} geladen werden soll,
+     * und {@code true} wenn mit {@link DataBaseClient} geladen werden soll.
      */
     @Test
-    public void loadingShouldReturnCorrectBoolean() {
-        ConfigClient client = new ConfigClient();
-        assertFalse("Loading should return false", client.loadFromDataBase(
-                "https://preview.redd.it/epoet6lk5au71.jpg?auto=webp&s=145f91aa106ea927791f87af7bbb2b7a0f2e3e94"));
+    public void loadingShouldReturnCorrectBooleanDataBase() {
+        ConfigClient client1 = new ConfigClient(null);
+        assertFalse("Loading should return false", client1.loadFromDataBase("con_test"));
 
-        assertTrue("Loading should return true", client.loadFromDataBase(
-                "www.weichware10.com/config"));
+        // prepare dbclient
+        Dotenv dotenv = Dotenv.load();
+        DataBaseClient dbClient = new DataBaseClient(
+                dotenv.get("DB_URL"),
+                dotenv.get("DB_USERNAME"),
+                dotenv.get("DB_PASSWORD"),
+                dotenv.get("DB_SCHEMA"));
+        // set config to test with
+        final String configId = dbClient.configurations.set(new Configuration("null", "question?",
+                new CodeChartsConfiguration()));
+        final List<String> trialIds = dbClient.trials.add(configId, 5);
+        if (trialIds.size() < 5) {
+            fail("dbClient didn't write enough trials");
+        }
+        // prepare configclient
+        ConfigClient client2 = new ConfigClient(dbClient);
+
+        assertTrue("Loading should return true", client2.loadFromDataBase(trialIds.get(1)));
+    }
+
+    @Test
+    public void loadingShouldReturnCorrectBooleanJson() {
+        ConfigClient client = new ConfigClient(null);
+        assertFalse("ConfigClient should not JSON load from weird location",
+                client.loadFromJson("weirdlocation"));
+
+        assertTrue("ConfigClient should load from valid location",
+                client.loadFromJson("src/test/resources/testconfig-CODECHARTS.json"));
     }
 
     /**
@@ -49,12 +78,26 @@ public class ConfigClientTest {
      */
     @Test
     public void loadingShouldHaveCorrectEffect() {
-        ConfigClient client = new ConfigClient();
-        client.loadFromDataBase("https://www.youtube.com/watch?v=dQw4w9WgXcQ");
-        assertNull("Configuration should not be set", client.getConfig());
-        client.loadFromDataBase("www.weichware10.com/config");
+        // DATABASE
+        ConfigClient client1 = new ConfigClient(null);
+        client1.loadFromDataBase("https://www.youtube.com/watch?v=dQw4w9WgXcQ");
+        assertNull("Configuration should not be set", client1.getConfig());
+        // prepare dbclient
+        Dotenv dotenv = Dotenv.load();
+        DataBaseClient dbClient = new DataBaseClient(
+                dotenv.get("DB_URL"),
+                dotenv.get("DB_USERNAME"),
+                dotenv.get("DB_PASSWORD"),
+                dotenv.get("DB_SCHEMA"));
+        ConfigClient client2 = new ConfigClient(dbClient);
+        client2.loadFromDataBase("https://www.youtube.com/watch?v=dQw4w9WgXcQ");
+        assertNull("Configuration should not be set", client2.getConfig());
+
+
+        // JSON
+        client1.loadFromJson("src/test/resources/testconfig-CODECHARTS.json");
         assertThat("Configuration should be set",
-                client.getConfig(),
+                client1.getConfig(),
                 instanceOf(Configuration.class));
     }
 
@@ -64,7 +107,7 @@ public class ConfigClientTest {
      */
     @Test
     public void shouldNotWriteNullishConfig() {
-        ConfigClient client = new ConfigClient();
+        ConfigClient client = new ConfigClient(null);
         assertFalse("Client should not export before loading", client.writeToJson("config.json"));
     }
 
@@ -73,7 +116,7 @@ public class ConfigClientTest {
      */
     @Test
     public void shouldNotWriteToInvalidPath() {
-        ConfigClient client = new ConfigClient();
+        ConfigClient client = new ConfigClient(null);
         client.loadFromJson("src/test/resources/testconfig-CODECHARTS.json");
         assertFalse("should not write to invalid path", client.writeToJson("badpath/config.json"));
         assertFalse("should not write to invalid path", client.writeToJson("config"));
@@ -84,7 +127,7 @@ public class ConfigClientTest {
      */
     @Test
     public void shouldSaveToValidPath() {
-        ConfigClient client = new ConfigClient();
+        ConfigClient client = new ConfigClient(null);
 
         client.loadFromJson("src/test/resources/testconfig-CODECHARTS.json");
         assertTrue("Should be able to write to target/testconfig-CODECHARTS.json",
@@ -105,8 +148,8 @@ public class ConfigClientTest {
      */
     @Test
     public void loadingShouldBeReliable() {
-        ConfigClient client1 = new ConfigClient();
-        ConfigClient client2 = new ConfigClient();
+        ConfigClient client1 = new ConfigClient(null);
+        ConfigClient client2 = new ConfigClient(null);
 
         client1.loadFromJson("src/test/resources/testconfig-CODECHARTS.json");
         client2.loadFromJson("src/test/resources/testconfig-CODECHARTS.json");
@@ -119,5 +162,28 @@ public class ConfigClientTest {
         client1.loadFromJson("src/test/resources/testconfig-ZOOMMAPS.json");
         client2.loadFromJson("src/test/resources/testconfig-ZOOMMAPS.json");
         assertEquals("Configs should be the same", client1.getConfig(), client2.getConfig());
+    }
+
+    @Test
+    public void shouldWriteToDataBase() {
+        ConfigClient client1 = new ConfigClient(null);
+        client1.loadFromJson("src/test/resources/testconfig-ZOOMMAPS.json");
+        assertNull("Writing should not return an id", client1.writeToDataBase());
+
+        // prepare dbclient
+        Dotenv dotenv = Dotenv.load();
+        DataBaseClient dbClient = new DataBaseClient(
+            dotenv.get("DB_URL"),
+            dotenv.get("DB_USERNAME"),
+            dotenv.get("DB_PASSWORD"),
+            dotenv.get("DB_SCHEMA"));
+        // prepare configclient
+        ConfigClient client2 = new ConfigClient(dbClient);
+        assertNull("Writing should not return an id", client2.writeToDataBase());
+        client2.loadFromJson("src/test/resources/testconfig-ZOOMMAPS.json");
+
+        assertThat("Writing should return a string",
+                client2.writeToDataBase(),
+                instanceOf(String.class));
     }
 }

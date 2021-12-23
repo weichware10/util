@@ -1,5 +1,7 @@
 package github.weichware10.util.config;
 
+import github.weichware10.util.db.DataBaseClient;
+
 /**
  * Koordinator des Config-Moduls.
  *
@@ -11,6 +13,11 @@ package github.weichware10.util.config;
  */
 public class ConfigClient {
     protected Configuration configuration;
+    private final DataBaseClient dataBaseClient;
+
+    public ConfigClient(DataBaseClient dataBaseClient) {
+        this.dataBaseClient = dataBaseClient;
+    }
 
     /**
      * Gibt das komplette Einstellungs-Objekt zurück.
@@ -56,13 +63,30 @@ public class ConfigClient {
      *
      * @param trialId - ID des Versuchs.
      * @return Erfolgsboolean
+     * @since v1.0
      */
     public boolean loadFromDataBase(String trialId) {
-        if (trialId == "www.weichware10.com/config") {
-            configuration = ConfigLoader.fromDataBase(trialId);
-            return true;
-        } else {
+        // ohne DataBaseClient initialisiert
+        if (dataBaseClient == null) {
             return false;
         }
+        configuration = ConfigLoader.fromDataBase(trialId, dataBaseClient);
+        // Rückgabe von false, wenn keine Konfiguration geladen wurde
+        return (configuration == null) ? false : true;
+    }
+
+    /**
+     * schreibt die aktuelle Konfiguration in die Datenbank
+     * und gibt die erstellte ConfigId zurück.
+     *
+     * @return configId oder null bei Misserfolg
+     * @since v1.0
+     */
+    public String writeToDataBase() {
+        // noch nichts zum Schreiben oder kein Datenbankzugriff
+        if (configuration == null || dataBaseClient == null) {
+            return null;
+        }
+        return ConfigWriter.toDataBase(configuration, dataBaseClient);
     }
 }

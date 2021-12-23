@@ -1,8 +1,9 @@
 package github.weichware10.util.config;
 
-import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
+import github.weichware10.util.db.DataBaseClient;
+import io.github.cdimascio.dotenv.Dotenv;
 import org.junit.Test;
 
 
@@ -12,13 +13,19 @@ import org.junit.Test;
  */
 public class ConfigWriterTest {
     @Test
-    public void onlyWriteToValidLocation() {
-        assertFalse("ConfigWriter should not write to shady locations.",
-                ConfigWriter.toDataBase(
-                        "www.downloadfreeramNOW.com", new Configuration()));
-        assertTrue("ConfigWriter should write to valid locations.",
-                ConfigWriter.toDataBase(
-                        "www.weichware10.com/config", new Configuration()));
+    public void onlyWriteToDataBase() {
+
+        // prepare dbclient
+        Dotenv dotenv = Dotenv.load();
+        DataBaseClient dbClient = new DataBaseClient(
+                dotenv.get("DB_URL"),
+                dotenv.get("DB_USERNAME"),
+                dotenv.get("DB_PASSWORD"),
+                dotenv.get("DB_SCHEMA"));
+
+        String configId = ConfigWriter.toDataBase(new Configuration("null", "question?",
+                        new CodeChartsConfiguration()), dbClient);
+        assertTrue("ConfigWriter should write to valid database", configId != null);
     }
 
     /**

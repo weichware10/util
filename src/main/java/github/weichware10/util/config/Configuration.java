@@ -113,7 +113,7 @@ public class Configuration {
                             configId: %s
                             trialId: %s
                             question: %s
-                            %s,
+                            %s
                             %s
                         }
                         """,
