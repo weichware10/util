@@ -24,6 +24,8 @@ public class DataPoint {
      * @param coordinates - the coordinates on the viewed picture
      * @param rasterSize  - width and height of the raster
      * @param zoomLevel   - how far the user is zoomed in
+     *
+     * @since v1.0
      */
     @JsonCreator(mode = JsonCreator.Mode.PROPERTIES)
     public DataPoint(@JsonProperty("dataId") int dataId,

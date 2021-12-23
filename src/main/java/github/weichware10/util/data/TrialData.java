@@ -40,6 +40,8 @@ public class TrialData {
      * @param trialId   - the id of the trial
      * @param configId  - the configuration of the stored data
      * @param startTime - Startzeitpunkt des Versuchs
+     *
+     * @since v1.0
      */
     @JsonCreator(mode = JsonCreator.Mode.PROPERTIES)
     public TrialData(@JsonProperty("toolType") Enums.ToolType toolType,
@@ -163,6 +165,7 @@ public class TrialData {
      * Lädt eine Versuch/Trial aus einer JSON-Datei.
      *
      * @param location - Speicherort der Datei.
+     *
      * @since v1.0
      */
     public static TrialData fromJson(String location) {
@@ -188,6 +191,7 @@ public class TrialData {
      * @param location  - Speicherort der JSON-Datei
      * @param trialData - den abzuspeichernden Versuch/Trial
      * @return Erfolgsboolean
+     *
      * @since v1.0
      */
     public static boolean toJson(String location, TrialData trialData) {
