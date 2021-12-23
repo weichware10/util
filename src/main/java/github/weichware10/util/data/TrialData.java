@@ -71,28 +71,6 @@ public class TrialData {
         this.dataPoints = new ArrayList<DataPoint>();
     }
 
-    // /**
-    //  * Stores the TrialData for the different tools internally.
-    //  *
-    //  * @param toolType   - the tooltype of the stored data
-    //  * @param trialId    - the id of the trial
-    //  * @param configId   - the configuration of the stored data
-    //  * @param startTime  - Startzeitpunkt des Versuchs
-    //  * @param answer     - Anwort des Versuchs
-    //  * @param dataPoints - Daten des Versuchs
-    //  *
-    //  * @since v0.3
-    //  */
-    // public TrialData(Enums.ToolType toolType, String trialId, String configId,
-    //         DateTime startTime, String answer, List<DataPoint> dataPoints) {
-    //     this.toolType = toolType;
-    //     this.trialId = trialId;
-    //     this.configId = configId;
-    //     this.startTime = startTime;
-    //     this.answer = answer;
-    //     this.dataPoints = dataPoints;
-    // }
-
     // --- GETTERS ---
 
     /**

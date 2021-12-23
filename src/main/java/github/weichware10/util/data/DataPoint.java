@@ -74,26 +74,6 @@ public class DataPoint {
         this.zoomLevel = null;
     }
 
-    // /**
-    //  * Stores a single DataPoint with everyting (for database).
-    //  *
-    //  * @param dataId      - the id of the dataPoint
-    //  * @param timeOffset  - the time since the trial started
-    //  * @param coordinates - the coordinates on the viewed picture
-    //  * @param rasterSize  - width and height of the raster
-    //  *
-    //  * @since v0.3
-    //  */
-    // public DataPoint(int dataId,
-    //         int timeOffset, int[] coordinates, int[] rasterSize,
-    //         Float zoomLevel) {
-    //     this.dataId = dataId;
-    //     this.timeOffset = timeOffset;
-    //     this.coordinates = coordinates;
-    //     this.rasterSize = rasterSize;
-    //     this.zoomLevel = zoomLevel;
-    // }
-
     @Override
     public String toString() {
         return String.format("""
