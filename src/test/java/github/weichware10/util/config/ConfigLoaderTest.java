@@ -4,7 +4,11 @@ import static org.hamcrest.CoreMatchers.instanceOf;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
+import static org.junit.Assert.fail;
 
+import github.weichware10.util.db.DataBaseClient;
+import io.github.cdimascio.dotenv.Dotenv;
+import java.util.List;
 import org.junit.Test;
 
 
@@ -15,16 +19,34 @@ public class ConfigLoaderTest {
 
     /**
      * Testet, ob {@link ConfigLoader#loadConfiguration}
-     * nur bei korrekten URLs ein Objekt zurückgibt.
+     * nur bei korrekten trialIds ein Objekt zurückgibt.
      */
     @Test
-    public void shouldOnlyLoadFromValidLocation() {
+    public void shouldOnlyLoadFromValidTrialId() {
+
+        // prepare dbclient
+        Dotenv dotenv = Dotenv.load();
+        DataBaseClient dbClient = new DataBaseClient(
+                dotenv.get("DB_URL"),
+                dotenv.get("DB_USERNAME"),
+                dotenv.get("DB_PASSWORD"),
+                dotenv.get("DB_SCHEMA"));
+        // set config to test with
+        final String configId = dbClient.configurations.set(new Configuration("null", "question?",
+                new CodeChartsConfiguration()));
+        final List<String> trialIds = dbClient.trials.add(configId, 5);
+        if (trialIds.size() < 5) {
+            fail("dbClient didn't write enough trials");
+        }
+
         Configuration config = ConfigLoader.fromDataBase(
-                "www.weichware10.com/funny-owl-pics-haha");
+                "wrongId", dbClient);
         assertNull("loadConfiguration should return null,", config);
 
+
+
         assertThat("loadConfiguration should return instance of Configuration class",
-                ConfigLoader.fromDataBase("www.weichware10.com/config"),
+                ConfigLoader.fromDataBase(trialIds.get(1), dbClient),
                 instanceOf(Configuration.class));
     }
 
