@@ -1,6 +1,7 @@
 package github.weichware10.util.data;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertThrows;
 import static org.junit.Assert.assertTrue;
 
@@ -171,5 +172,53 @@ public class TrialDataTest {
         data1.addDataPoint(new int[] { 1, 2 }, 42.0f);
         DataPoint dataPoint1 = data1.getData().get(0);
         assertTrue(data1.getData().get(0).equals(dataPoint1));
+    }
+
+    @Test
+    public void toJsonShouldWork() {
+        TrialData data1 = new TrialData(ToolType.ZOOMMAPS, "trialId", "configId");
+        data1.setAnswer("answer");
+        data1.addDataPoint(new int[] { 1, 2 }, 3.0f);
+        data1.addDataPoint(new int[] { 4, 5 }, 6.0f);
+        assertTrue(TrialData.toJson("target/TD-ZOOMMAPS.json", data1));
+
+        TrialData data2 = new TrialData(ToolType.CODECHARTS, "trialId", "configId");
+        data2.setAnswer("answer");
+        data2.addDataPoint(new int[] { 1, 2 }, new int[] { 3, 4 });
+        data2.addDataPoint(new int[] { 5, 6 }, new int[] { 7, 8 });
+        assertTrue(TrialData.toJson("target/TD-CODECHARTS.json", data2));
+
+        assertFalse(TrialData.toJson("target/TD-ZOOMMAPS.jpg", data1));
+        assertFalse(TrialData.toJson("target/TD-CODECHARTS.jpg", data2));
+    }
+
+    @Test
+    public void fromJsonShouldWork() {
+        assertEquals(TrialData.class,
+                TrialData.fromJson("src/test/resources/testtrial-ZOOMMAPS.json").getClass());
+        assertEquals(TrialData.class,
+                TrialData.fromJson("src/test/resources/testtrial-CODECHARTS.json").getClass());
+
+        TrialData dataZm = TrialData.fromJson("src/test/resources/testtrial-ZOOMMAPS.json");
+
+        assertEquals(ToolType.ZOOMMAPS, dataZm.toolType);
+        assertEquals("trialId", dataZm.trialId);
+        assertEquals("configId", dataZm.configId);
+        assertEquals("answer", dataZm.getAnswer());
+        assertEquals(2, dataZm.getData().size());
+        assertEquals(40, dataZm.getData().get(0).timeOffset);
+        assertEquals(1, dataZm.getData().get(1).dataId);
+        System.out.println(dataZm.startTime);
+
+        TrialData dataCc = TrialData.fromJson("src/test/resources/testtrial-CODECHARTS.json");
+
+        assertEquals(ToolType.CODECHARTS, dataCc.toolType);
+        assertEquals("trialId", dataCc.trialId);
+        assertEquals("configId", dataCc.configId);
+        assertEquals("answer", dataCc.getAnswer());
+        assertEquals(2, dataCc.getData().size());
+        assertEquals(0, dataCc.getData().get(0).timeOffset);
+        assertEquals(1, dataCc.getData().get(1).dataId);
+        System.out.println(dataCc.startTime);
     }
 }
