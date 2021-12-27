@@ -44,7 +44,7 @@ public class DataBaseClient {
             conn = DriverManager.getConnection(url, props);
         } catch (SQLException e) {
             Logger.info("Couldn't connect to server", e);
-            throw new InvalidParameterException("Couldn't connect to server: " + e.toString());
+            throw new InvalidParameterException("Couldn't connect to server: " + e.getMessage());
         } finally {
             Util.closeQuietly(conn);
         }
