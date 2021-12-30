@@ -52,9 +52,9 @@ public class PermissionsTest {
                 dotenv.get("DB_PASSWORD"),
                 dotenv.get("DB_SCHEMA"));
 
-        assertFalse("test_spectator should be admin", spectatorClient.permissions.isAdmin);
-        assertFalse("test_spectator should be author", spectatorClient.permissions.isAuthor);
-        assertFalse("test_spectator should be subject", spectatorClient.permissions.isSubject);
+        assertFalse("test_spectator should not be admin", spectatorClient.permissions.isAdmin);
+        assertFalse("test_spectator should not be author", spectatorClient.permissions.isAuthor);
+        assertFalse("test_spectator should not be subject", spectatorClient.permissions.isSubject);
         assertTrue("test_spectator should be spectator", spectatorClient.permissions.isSpectator);
     }
 
