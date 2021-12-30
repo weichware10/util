@@ -46,7 +46,7 @@ public class ConfigClientTest {
         Dotenv dotenv = Dotenv.load();
         DataBaseClient dbClient = new DataBaseClient(
                 dotenv.get("DB_URL"),
-                dotenv.get("DB_USERNAME"),
+                "test_admin",
                 dotenv.get("DB_PASSWORD"),
                 dotenv.get("DB_SCHEMA"));
         // set config to test with
@@ -86,7 +86,7 @@ public class ConfigClientTest {
         Dotenv dotenv = Dotenv.load();
         DataBaseClient dbClient = new DataBaseClient(
                 dotenv.get("DB_URL"),
-                dotenv.get("DB_USERNAME"),
+                "test_admin",
                 dotenv.get("DB_PASSWORD"),
                 dotenv.get("DB_SCHEMA"));
         ConfigClient client2 = new ConfigClient(dbClient);
@@ -174,7 +174,7 @@ public class ConfigClientTest {
         Dotenv dotenv = Dotenv.load();
         DataBaseClient dbClient = new DataBaseClient(
             dotenv.get("DB_URL"),
-            dotenv.get("DB_USERNAME"),
+            "test_admin",
             dotenv.get("DB_PASSWORD"),
             dotenv.get("DB_SCHEMA"));
         // prepare configclient

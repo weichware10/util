@@ -27,7 +27,7 @@ public class ConfigurationsTest {
         Dotenv dotenv = Dotenv.load();
         dbClient = new DataBaseClient(
                 dotenv.get("DB_URL"),
-                dotenv.get("DB_USERNAME"),
+                "test_admin",
                 dotenv.get("DB_PASSWORD"),
                 dotenv.get("DB_SCHEMA"));
 
