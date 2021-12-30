@@ -1,6 +1,5 @@
 package github.weichware10.util;
 
-import github.weichware10.util.Enums.ToolType;
 import github.weichware10.util.config.ConfigClient;
 
 
@@ -13,6 +12,7 @@ import github.weichware10.util.config.ConfigClient;
  *
  * <p>Aufgerufen wird die start()-Funktion.
  */
+@SuppressWarnings("unused")
 public abstract class Tutorial {
     private final ToolType toolType;
     private final ConfigClient configClient;

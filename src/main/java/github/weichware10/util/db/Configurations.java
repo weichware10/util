@@ -1,7 +1,7 @@
 package github.weichware10.util.db;
 
-import github.weichware10.util.Enums.ToolType;
 import github.weichware10.util.Logger;
+import github.weichware10.util.ToolType;
 import github.weichware10.util.config.CodeChartsConfiguration;
 import github.weichware10.util.config.Configuration;
 import github.weichware10.util.config.ZoomMapsConfiguration;

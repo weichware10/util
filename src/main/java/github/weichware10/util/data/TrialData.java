@@ -7,9 +7,8 @@ import com.fasterxml.jackson.core.exc.StreamReadException;
 import com.fasterxml.jackson.databind.DatabindException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.joda.JodaModule;
-import github.weichware10.util.Enums;
-import github.weichware10.util.Enums.ToolType;
 import github.weichware10.util.Logger;
+import github.weichware10.util.ToolType;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
@@ -26,7 +25,7 @@ import org.joda.time.DateTime;
  * @since v0.2
  */
 public class TrialData {
-    public final Enums.ToolType toolType;
+    public final ToolType toolType;
     public final String trialId;
     public final String configId;
     public final DateTime startTime;
@@ -44,7 +43,7 @@ public class TrialData {
      * @since v1.0
      */
     @JsonCreator(mode = JsonCreator.Mode.PROPERTIES)
-    public TrialData(@JsonProperty("toolType") Enums.ToolType toolType,
+    public TrialData(@JsonProperty("toolType") ToolType toolType,
             @JsonProperty("trialId") String trialId, @JsonProperty("configId") String configId,
             @JsonProperty("startTime") DateTime startTime, @JsonProperty("answer") String answer,
             @JsonProperty("data") List<DataPoint> dataPoints) {
@@ -65,7 +64,7 @@ public class TrialData {
      *
      * @since v0.2
      */
-    public TrialData(Enums.ToolType toolType, String trialId, String configId) {
+    public TrialData(ToolType toolType, String trialId, String configId) {
         this.toolType = toolType;
         this.trialId = trialId;
         this.configId = configId;

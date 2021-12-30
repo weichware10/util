@@ -1,6 +1,6 @@
 package github.weichware10.util.config;
 
-import github.weichware10.util.Enums.ToolType;
+import github.weichware10.util.ToolType;
 
 /**
  * Speichert allgemeine Konfiguration sowie Tool-Konfigurationen.

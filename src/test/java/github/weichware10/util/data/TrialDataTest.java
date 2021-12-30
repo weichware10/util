@@ -5,7 +5,7 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertThrows;
 import static org.junit.Assert.assertTrue;
 
-import github.weichware10.util.Enums.ToolType;
+import github.weichware10.util.ToolType;
 import org.junit.Test;
 
 /**
@@ -208,7 +208,6 @@ public class TrialDataTest {
         assertEquals(2, dataZm.getData().size());
         assertEquals(40, dataZm.getData().get(0).timeOffset);
         assertEquals(1, dataZm.getData().get(1).dataId);
-        System.out.println(dataZm.startTime);
 
         TrialData dataCc = TrialData.fromJson("src/test/resources/testtrial-CODECHARTS.json");
 
@@ -219,6 +218,5 @@ public class TrialDataTest {
         assertEquals(2, dataCc.getData().size());
         assertEquals(0, dataCc.getData().get(0).timeOffset);
         assertEquals(1, dataCc.getData().get(1).dataId);
-        System.out.println(dataCc.startTime);
     }
 }
