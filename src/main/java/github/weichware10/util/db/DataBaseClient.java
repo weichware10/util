@@ -22,6 +22,7 @@ public class DataBaseClient {
     public final Configurations configurations;
     public final Trials trials;
     public final Datapoints datapoints;
+    public final Permissions permissions;
 
     /**
      * Erstellt einen neuen DatenbankClient.
@@ -62,6 +63,7 @@ public class DataBaseClient {
         this.configurations = new Configurations(this);
         this.trials = new Trials(this);
         this.datapoints = new Datapoints(this);
+        this.permissions = new Permissions(this);
     }
 
     /**

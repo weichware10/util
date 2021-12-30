@@ -16,7 +16,7 @@ public class DataBaseClientTest {
         Dotenv dotenv = Dotenv.load();
         new DataBaseClient(
                 dotenv.get("DB_URL"),
-                dotenv.get("DB_USERNAME"),
+                "test_admin",
                 dotenv.get("DB_PASSWORD"),
                 dotenv.get("DB_SCHEMA"));
     }
@@ -26,7 +26,7 @@ public class DataBaseClientTest {
         Dotenv dotenv = Dotenv.load();
         assertThrows(InvalidParameterException.class, () -> new DataBaseClient(
                 "DB_URL",
-                dotenv.get("DB_USERNAME"),
+                "test_admin",
                 dotenv.get("DB_PASSWORD"),
                 dotenv.get("DB_SCHEMA")));
         assertThrows(InvalidParameterException.class, () -> new DataBaseClient(
@@ -36,12 +36,12 @@ public class DataBaseClientTest {
                 dotenv.get("DB_SCHEMA")));
         assertThrows(InvalidParameterException.class, () -> new DataBaseClient(
                 dotenv.get("DB_URL"),
-                dotenv.get("DB_USERNAME"),
+                "test_admin",
                 "DB_PASSWORD",
                 dotenv.get("DB_SCHEMA")));
         assertThrows(InvalidParameterException.class, () -> new DataBaseClient(
                 dotenv.get("DB_URL"),
-                dotenv.get("DB_USERNAME"),
+                "test_admin",
                 dotenv.get("DB_PASSWORD"),
                 "DB_SCHEMA"));
     }
