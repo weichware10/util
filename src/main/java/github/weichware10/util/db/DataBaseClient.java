@@ -68,7 +68,7 @@ public class DataBaseClient {
     }
 
     /**
-     * Überprüft, ob die spezifizierte Tabelle im schema existiert.
+     * Überprüft, ob die spezifizierte Tabelle im Schema existiert.
      *
      * @param table - die zu überprüfende Tabelle
      * @return Existenzboolean
