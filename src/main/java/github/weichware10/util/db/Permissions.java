@@ -151,6 +151,6 @@ public class Permissions {
         return satisfies(
                 Set.of(SELECT),
                 Set.of(SELECT, UPDATE),
-                Set.of(SELECT, INSERT));
+                Set.of(INSERT));
     }
 }

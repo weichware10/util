@@ -44,7 +44,7 @@ public class PermissionsTest {
         assertFalse("test_subject should not be admin", subjectClient.permissions.isAdmin);
         assertFalse("test_subject should not be author", subjectClient.permissions.isAuthor);
         assertTrue("test_subject should be subject", subjectClient.permissions.isSubject);
-        assertTrue("test_subject should be spectator", subjectClient.permissions.isSpectator);
+        assertFalse("test_subject should not be spectator", subjectClient.permissions.isSpectator);
 
         DataBaseClient spectatorClient = new DataBaseClient(
                 dotenv.get("DB_URL"),
