@@ -3,10 +3,12 @@ package github.weichware10.util.db;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
+import io.github.cdimascio.dotenv.Dotenv;
 import org.junit.Test;
 
-import io.github.cdimascio.dotenv.Dotenv;
-
+/**
+ * Testet {@link Permissions}.
+ */
 public class PermissionsTest {
     @Test
     public void rolesAreCorrect() {
