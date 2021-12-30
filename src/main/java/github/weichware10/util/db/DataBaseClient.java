@@ -4,6 +4,7 @@ import github.weichware10.util.Logger;
 import java.security.InvalidParameterException;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Arrays;
@@ -53,7 +54,7 @@ public class DataBaseClient {
         // Zugriff überprüfen
         final List<String> tables = Arrays.asList("configurations", "trials", "datapoints");
         for (String table : tables) {
-            if (!hasAccess(table)) {
+            if (!tableExists(table)) {
                 String msg = String.format("Couldn't find table %s.%s", schema, table);
                 throw new InvalidParameterException(msg);
             }
@@ -67,14 +68,17 @@ public class DataBaseClient {
     }
 
     /**
-     * Überprüft, ob Zugriff auf die spezifizierte Tabelle im Schema besteht.
+     * Überprüft, ob die spezifizierte Tabelle im schema existiert.
      *
      * @param table - die zu überprüfende Tabelle
-     * @return Zugriffsboolean
+     * @return Existenzboolean
      */
-    private boolean hasAccess(String table) {
+    private boolean tableExists(String table) {
         // query
-        final String queryFormat = "SELECT * FROM %s.%s LIMIT 1";
+        final String queryFormat = """
+                SELECT table_schema, table_name FROM information_schema.tables
+                WHERE table_schema='%s' AND table_name='%s';
+            """;
         final String query = String.format(queryFormat, schema, table);
 
         // result
@@ -83,13 +87,16 @@ public class DataBaseClient {
         // database objects
         Connection conn = null;
         Statement st = null;
+        ResultSet rs = null;
 
         try {
             conn = DriverManager.getConnection(url, props);
             st = conn.createStatement();
-            st.executeQuery(query);
-            // kein Error aufgetreten -> Tabelle existiert und Zugriff besteht
-            exists = true;
+            rs = st.executeQuery(query);
+            // Tabelle existiert
+            if (rs.next()) {
+                exists = true;
+            }
         } catch (SQLException e) {
             Logger.info("SQLException when checking access", e);
         } finally {
