@@ -42,12 +42,12 @@ public class TrialsTest {
         CodeChartsConfiguration ccConf = new CodeChartsConfiguration(
                 Arrays.asList("string1", "string2", "string3"),
                 new int[] { 1, 1 }, new long[] { 2, 2 }, true,
-                Arrays.asList("imgUrl1", "imgUrl2", "imgUrl3"));
+                "imgUrl");
         codeConfig = new Configuration("temp", "Warum ist die Banane krumm?", ccConf);
         configIdCc = dbClient.configurations.set(codeConfig);
 
         ZoomMapsConfiguration zmConf = new ZoomMapsConfiguration(1f, true,
-                Arrays.asList("imgUrl1", "imgUrl2", "imgUrl3"));
+                "imgUrl");
         zoomConfig = new Configuration("temp", "Warum ist die Banane krumm?", zmConf);
         configIdZm = dbClient.configurations.set(zoomConfig);
     }

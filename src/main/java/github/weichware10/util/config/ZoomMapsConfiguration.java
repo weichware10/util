@@ -1,7 +1,5 @@
 package github.weichware10.util.config;
 
-import java.util.List;
-
 /**
  * Beinhaltet Konfiguration für ZoomMaps-Versuche.
  */
@@ -21,12 +19,12 @@ public class ZoomMapsConfiguration extends ToolConfiguration {
      *
      * @param speed - Zoomgeschwindigkeit
      * @param tutorial - Anzeige des Tutorials
-     * @param imageUrls - Adressen der Bilder
+     * @param imageUrl - Adressen des Bildes
      */
-    public ZoomMapsConfiguration(float speed, boolean tutorial, List<String> imageUrls) {
+    public ZoomMapsConfiguration(float speed, boolean tutorial, String imageUrl) {
         this.speed = speed;
         this.tutorial = tutorial;
-        this.imageUrls = imageUrls;
+        this.imageUrl = imageUrl;
     }
 
     // --- GETTER ---

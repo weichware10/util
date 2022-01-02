@@ -7,7 +7,7 @@ import java.util.Arrays;
 import java.util.List;
 
 class Util {
-
+    //TODO - Eventuell entfernen, wenn nicht gebraucht
     // wandelt eine als String gespeicherte Liste um
     protected static List<String> stringsToList(String strings) {
         return Arrays.asList(strings.substring(1, strings.length() - 1).split(", "));

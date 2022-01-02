@@ -54,7 +54,7 @@ public class Configurations {
             if (rs.next()) {
                 // bei jedem Typ existent
                 ToolType toolType = ToolType.valueOf(rs.getString("tooltype"));
-                List<String> imageUrls = Util.stringsToList(rs.getString("imageurls"));
+                String imageUrl = rs.getString("imageurls");
                 boolean tutorial = (rs.getInt("tutorial") == 1) ? true : false;
                 String question = rs.getString("question");
 
@@ -70,7 +70,7 @@ public class Configurations {
 
                     // CodeChartsConfiguration erstellen
                     CodeChartsConfiguration codeChartsConfiguration = new CodeChartsConfiguration(
-                            strings, initialSize, timings, tutorial, imageUrls);
+                            strings, initialSize, timings, tutorial, imageUrl);
 
                     // komplette Konfiguration zurückgeben
                     configuration = new Configuration(configId, question, codeChartsConfiguration);
@@ -80,7 +80,7 @@ public class Configurations {
 
                     // ZoomMapsConfiguration erstellen
                     ZoomMapsConfiguration zoomMapsConfiguration = new ZoomMapsConfiguration(
-                            speed, tutorial, imageUrls);
+                            speed, tutorial, imageUrl);
 
                     // komplette Konfiguration zurückgeben
                     configuration = new Configuration(configId, question, zoomMapsConfiguration);
@@ -107,7 +107,7 @@ public class Configurations {
     public String set(Configuration configuration) {
         final String ccQueryFormat = """
                 INSERT INTO %s.configurations
-                (configid, tooltype, tutorial, question, imageurls,
+                (configid, tooltype, tutorial, question, imageurl,
                 strings, initialsize_x, initialsize_y, timings_0, timings_1, speed)
                 VALUES
                 ('%s', '%s', %d, '%s', '%s',
@@ -115,7 +115,7 @@ public class Configurations {
 
         final String zmQueryFormat = """
                 INSERT INTO %s.configurations
-                (configid, tooltype, tutorial, question, imageurls,
+                (configid, tooltype, tutorial, question, imageurl,
                 strings, initialsize_x, initialsize_y, timings_0, timings_1, speed)
                 VALUES
                 ('%s', '%s', %d, '%s', '%s',
@@ -143,7 +143,7 @@ public class Configurations {
                         "CODECHARTS",
                         ccConfig.getTutorial() ? 1 : 0,
                         configuration.getQuestion(),
-                        ccConfig.getImageUrls(),
+                        ccConfig.getImageUrl(),
                         ccConfig.getStrings(),
                         ccConfig.getInitialSize()[0],
                         ccConfig.getInitialSize()[1],
@@ -157,7 +157,7 @@ public class Configurations {
                         "ZOOMMAPS",
                         zmConfig.getTutorial() ? 1 : 0,
                         configuration.getQuestion(),
-                        zmConfig.getImageUrls(),
+                        zmConfig.getImageUrl(),
                         String.format(Locale.US, "%f", zmConfig.getSpeed()));
             }
             try {

@@ -27,15 +27,15 @@ public class CodeChartsConfiguration extends ToolConfiguration {
      * @param timings - Zeit zum Wechsel von Bild zu Raster & Raster zu Eingabefeld
      *                  der CodeCharts Konfiguration
      * @param tutorial - Anzeige des Tutorials
-     * @param imageUrls - Adressen der Bilder
+     * @param imageUrl - Adresse des Bildes
      */
     public CodeChartsConfiguration(List<String> strings, int[] initialSize, long[] timings,
-            boolean tutorial, List<String> imageUrls) {
+            boolean tutorial, String imageUrl) {
         this.strings = strings;
         this.initialSize = initialSize;
         this.timings = timings;
         this.tutorial = tutorial;
-        this.imageUrls = imageUrls;
+        this.imageUrl = imageUrl;
     }
 
     // --- GETTERS ---

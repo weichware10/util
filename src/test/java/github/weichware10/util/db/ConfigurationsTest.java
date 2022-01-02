@@ -36,21 +36,21 @@ public class ConfigurationsTest {
                 new int[] { 20, 40 },
                 new long[] { 200, 400 },
                 true,
-                Arrays.asList("url1", "url2"));
+                "url");
 
         ccConfig = new Configuration("dunno yet", "Test Question?", codeChartsConfiguration);
         String ccConfigId = dbClient.configurations.set(ccConfig);
         ccConfig = new Configuration(ccConfigId, "Test Question?", codeChartsConfiguration);
 
         ZoomMapsConfiguration zoomMapsConfiguration1 = new ZoomMapsConfiguration(4.2f, true,
-                Arrays.asList("url1", "url2", "url3"));
+                "url");
 
         zmConfig = new Configuration("dunno yet", "Test Question?", zoomMapsConfiguration1);
         String zmConfigId = dbClient.configurations.set(zmConfig);
         zmConfig = new Configuration(zmConfigId, "Test Question?", zoomMapsConfiguration1);
 
         ZoomMapsConfiguration zoomMapsConfiguratiom2 = new ZoomMapsConfiguration(4.2f, false,
-                Arrays.asList("url1", "url2", "url3"));
+                "url");
 
         zmConfigWoTu = new Configuration("dunno yet", "Test Question?", zoomMapsConfiguratiom2);
         String zmConfigWoTuId = dbClient.configurations.set(zmConfigWoTu);
@@ -64,7 +64,7 @@ public class ConfigurationsTest {
                 new int[] { 20, 40 },
                 new long[] { 200, 400 },
                 true,
-                Arrays.asList("url1", "url2"));
+                "url");
 
         Configuration config;
         String configId;
@@ -74,7 +74,7 @@ public class ConfigurationsTest {
         assertTrue("configId sollte mit con_ anfangen.", configId.startsWith("con_"));
 
         ZoomMapsConfiguration zoomMapsConfiguration = new ZoomMapsConfiguration(4.2f, true,
-                Arrays.asList("url1", "url2", "url3"));
+                "url");
         config = new Configuration("", "Test Question?", zoomMapsConfiguration);
         configId = dbClient.configurations.set(config);
         assertTrue("configId sollte mit con_ anfangen.", configId.startsWith("con_"));
