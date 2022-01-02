@@ -48,17 +48,17 @@ class Datapoints {
             rs = st.executeQuery(query);
             while (rs.next()) {
                 // bei codecharts versuchen
-                double[] rasterSize = new double[] { rs.getInt("rastersize_x"),
-                        rs.getInt("rastersize_y") };
+                double[] rasterSize = new double[] { rs.getDouble("rastersize_x"),
+                        rs.getDouble("rastersize_y") };
                 rasterSize = rs.wasNull() ? null : rasterSize;
 
                 // bei zoommaps versuchen
                 Float zoomLevel = rs.getFloat("zoomlevel");
                 zoomLevel = rs.wasNull() ? null : zoomLevel;
-                double[] viewport = { rs.getDouble("viewportMin_x"),
-                rs.getDouble("viewportMin_y"),
-                rs.getDouble("viewportSize_x"),
-                rs.getDouble("viewportSize_y")};
+                double[] viewport = new double[] { rs.getDouble("viewportmin_x"),
+                        rs.getDouble("viewportmin_y"),
+                        rs.getDouble("viewportsize_x"),
+                        rs.getDouble("viewportsize_y")};
                 viewport = rs.wasNull() ? null : viewport;
 
                 // neuen Punkt zur Liste hinzufügen
@@ -66,7 +66,7 @@ class Datapoints {
                         rs.getInt("dataid"),
                         rs.getInt("timeoffset"),
                         new double[] { rs.getDouble("coordinates_x"),
-                        rs.getDouble("coordinates_y") },
+                                rs.getDouble("coordinates_y") },
                         rasterSize,
                         zoomLevel,
                         viewport));
@@ -95,7 +95,7 @@ class Datapoints {
                 (trialid, dataid, timeoffset,
                 coordinates_x, coordinates_y, rastersize_x, rastersize_y,
                 zoomlevel,
-                viewportMin_x, viewportMin_y, viewportSize_x, viewportSize_y)
+                viewportmin_x, viewportmin_y, viewportsize_x, viewportsize_y)
                 VALUES
                 ('%s', %d, %d,
                 %d, %d, %d, %d,
@@ -107,7 +107,7 @@ class Datapoints {
                 (trialid, dataid, timeoffset,
                 coordinates_x, coordinates_y, rastersize_x, rastersize_y,
                 zoomlevel,
-                viewportMin_x, viewportMin_y, viewportSize_x, viewportSize_y)
+                viewportmin_x, viewportmin_y, viewportsize_x, viewportsize_y)
                 VALUES
                 ('%s', %d, %d,
                 %d, %d, null, null,
