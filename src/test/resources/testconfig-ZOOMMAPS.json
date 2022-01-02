@@ -5,7 +5,7 @@
   "question" : "Is this a question?",
   "codeChartsConfiguration" : null,
   "zoomMapsConfiguration" : {
-    "imageUrls" : [ "www.weichware10.com/owlimage", "www.weichware10.com/running-owl" ],
+    "imageUrl" : "www.weichware10.com/owlimage",
     "tutorial" : true,
     "speed" : 3.0
   }

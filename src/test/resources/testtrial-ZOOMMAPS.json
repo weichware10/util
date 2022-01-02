@@ -10,6 +10,7 @@
             "timeOffset": 40,
             "zoomLevel": 3,
             "coordinates": [ 1, 2 ],
+            "viewport": [ 3, 4, 5, 6],
             "rasterSize": null
         },
         {
@@ -17,6 +18,7 @@
             "timeOffset": 41,
             "zoomLevel": 6,
             "coordinates": [ 4, 5 ],
+            "viewport": [ 6, 7, 8, 9],
             "rasterSize": null
         }
     ]
