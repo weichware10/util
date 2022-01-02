@@ -55,6 +55,11 @@ class Datapoints {
                 // bei zoommaps versuchen
                 Float zoomLevel = rs.getFloat("zoomlevel");
                 zoomLevel = rs.wasNull() ? null : zoomLevel;
+                double[] viewport = { rs.getDouble("viewportMin_x"),
+                rs.getDouble("viewportMin_y"),
+                rs.getDouble("viewportSize_x"),
+                rs.getDouble("viewportSize_y")};
+                viewport = rs.wasNull() ? null : viewport;
 
                 // neuen Punkt zur Liste hinzufügen
                 dataPoints.add(new DataPoint(
@@ -63,7 +68,8 @@ class Datapoints {
                         new double[] { rs.getDouble("coordinates_x"),
                         rs.getDouble("coordinates_y") },
                         rasterSize,
-                        zoomLevel));
+                        zoomLevel,
+                        viewport));
             }
 
         } catch (SQLException e) {
@@ -88,21 +94,25 @@ class Datapoints {
                 INSERT INTO %s.datapoints
                 (trialid, dataid, timeoffset,
                 coordinates_x, coordinates_y, rastersize_x, rastersize_y,
-                zoomlevel)
+                zoomlevel,
+                viewportMin_x, viewportMin_y, viewportSize_x, viewportSize_y)
                 VALUES
                 ('%s', %d, %d,
                 %d, %d, %d, %d,
-                null);""";
+                null,
+                null, null, null, null);""";
 
         final String zmQuery = """
                 INSERT INTO %s.datapoints
                 (trialid, dataid, timeoffset,
                 coordinates_x, coordinates_y, rastersize_x, rastersize_y,
-                zoomlevel)
+                zoomlevel,
+                viewportMin_x, viewportMin_y, viewportSize_x, viewportSize_y)
                 VALUES
                 ('%s', %d, %d,
                 %d, %d, null, null,
-                %s);""";
+                %s,
+                %d, %d, %d, %d);""";
 
         Connection conn = null;
         Statement st = null;
@@ -131,7 +141,11 @@ class Datapoints {
                             dp.timeOffset,
                             dp.coordinates[0],
                             dp.coordinates[1],
-                            String.format(Locale.US, "%f", dp.zoomLevel)));
+                            String.format(Locale.US, "%f", dp.zoomLevel),
+                            dp.viewport[0],
+                            dp.viewport[1],
+                            dp.viewport[2],
+                            dp.viewport[3]));
                 }
             }
         } catch (Exception e) {

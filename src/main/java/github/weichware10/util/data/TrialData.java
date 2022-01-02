@@ -140,10 +140,11 @@ public class TrialData {
      *
      * @param coordinates - the coordinates on the viewed picture
      * @param zoomLevel   - how far the user is zoomed in
+     * @param viewport    - aktueller Ausschnitt beim ZoomBild
      *
      * @since v0.2
      */
-    public void addDataPoint(double[] coordinates, float zoomLevel) {
+    public void addDataPoint(double[] coordinates, float zoomLevel, double[] viewport) {
 
         if (toolType != ToolType.ZOOMMAPS) {
             throw new IllegalArgumentException("Can only add ZOOMMAPS DataPoints.");
@@ -153,11 +154,16 @@ public class TrialData {
             throw new IllegalArgumentException("coordinates[] needs to have a length of 2");
         }
 
+        if (viewport.length != 4) {
+            throw new IllegalArgumentException("viewport[] needs to have a length of 4");
+        }
+
         // kann "ohne" Bedenken gecastet werden,
         // damit Overflow auftritt, müsste zwischen Anfang und jetzt ca 25 Tage liegen.
         int timeOffset = (int) (DateTime.now().getMillis() - startTime.getMillis());
 
-        dataPoints.add(new DataPoint(dataPoints.size(), timeOffset, coordinates, zoomLevel));
+        dataPoints.add(new DataPoint(dataPoints.size(), timeOffset, coordinates, zoomLevel,
+                       viewport));
     }
 
     /**

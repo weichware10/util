@@ -15,6 +15,7 @@ public class DataPoint {
     public final double[] coordinates; // ! double[2]
     public final double[] rasterSize; // ! double[2]
     public final Float zoomLevel;
+    public final double[] viewport; //[4]
 
     /**
      * Konstruktor für Jackson.
@@ -24,6 +25,7 @@ public class DataPoint {
      * @param coordinates - the coordinates on the viewed picture
      * @param rasterSize  - width and height of the raster
      * @param zoomLevel   - how far the user is zoomed in
+     * @param viewport    - aktueller Ausschnitt beim ZoomBild
      *
      * @since v1.0
      */
@@ -32,12 +34,14 @@ public class DataPoint {
             @JsonProperty("timeOffset") int timeOffset,
             @JsonProperty("coordinates") double[] coordinates,
             @JsonProperty("rasterSize") double[] rasterSize,
-            @JsonProperty("zoomLevel") Float zoomLevel) {
+            @JsonProperty("zoomLevel") Float zoomLevel,
+            @JsonProperty("viewport") double[] viewport) {
         this.dataId = dataId;
         this.timeOffset = timeOffset;
         this.coordinates = coordinates;
         this.rasterSize = rasterSize;
         this.zoomLevel = zoomLevel;
+        this.viewport = viewport;
     }
 
     /**
@@ -47,19 +51,22 @@ public class DataPoint {
      * @param timeOffset  - the time since the trial started
      * @param coordinates - the coordinates of the viewed picture
      * @param zoomLevel   - how far the user is zoomed in
+     * @param viewport    - aktueller Ausschnitt beim ZoomBild
      *
      * @since v0.2
      */
-    public DataPoint(int dataId, int timeOffset, double[] coordinates, float zoomLevel) {
+    public DataPoint(int dataId, int timeOffset, double[] coordinates, float zoomLevel,
+                     double[] viewport) {
         this.dataId = dataId;
         this.timeOffset = timeOffset;
         this.coordinates = coordinates;
         this.rasterSize = null;
         this.zoomLevel = zoomLevel;
+        this.viewport = viewport;
     }
 
     /**
-     * Stores a single DataPoint without zoomLevel.
+     * Stores a single DataPoint without zoomLevel and viewport.
      *
      * @param dataId      - the id of the dataPoint
      * @param timeOffset  - the time since the trial started
@@ -74,6 +81,7 @@ public class DataPoint {
         this.coordinates = coordinates;
         this.rasterSize = rasterSize;
         this.zoomLevel = null;
+        this.viewport = null;
     }
 
     @Override
@@ -84,13 +92,15 @@ public class DataPoint {
                     timeOffset: %d,
                     coordinates: %s,
                     rasterSize: %s,
-                    zoomLevel: %s
+                    zoomLevel: %s,
+                    viewport: %s
                 }""",
                 dataId,
                 timeOffset,
                 Arrays.toString(coordinates),
                 Arrays.toString(rasterSize),
-                (zoomLevel == null) ? "null" : zoomLevel.toString());
+                (zoomLevel == null) ? "null" : zoomLevel.toString(),
+                Arrays.toString(viewport));
     }
 
     @Override
@@ -113,6 +123,11 @@ public class DataPoint {
                 && ((zoomLevel == null && that.zoomLevel == null)
                         || (zoomLevel != null && that.zoomLevel != null))
                 && ((zoomLevel == null && that.zoomLevel == null)
-                        || zoomLevel.equals(that.zoomLevel));
+                        || viewport.equals(that.viewport))
+                // Überprüfen ob viewport nicht gleichmäßig null / nicht null ist
+                && ((viewport == null && that.viewport == null)
+                        || (zoomLevel != null && that.zoomLevel != null))
+                && ((viewport == null && that.viewport == null)
+                        || viewport.equals(that.viewport));
     }
 }
