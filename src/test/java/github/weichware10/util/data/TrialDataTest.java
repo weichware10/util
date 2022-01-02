@@ -2,6 +2,7 @@ package github.weichware10.util.data;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertThrows;
 import static org.junit.Assert.assertTrue;
 
@@ -207,7 +208,10 @@ public class TrialDataTest {
         assertEquals("answer", dataZm.getAnswer());
         assertEquals(2, dataZm.getData().size());
         assertEquals(40, dataZm.getData().get(0).timeOffset);
+        assertEquals(4.0f, dataZm.getData().get(0).viewport[1], 0.0001f);
+        assertNull(dataZm.getData().get(0).rasterSize);
         assertEquals(1, dataZm.getData().get(1).dataId);
+        assertEquals(8.0f, dataZm.getData().get(1).viewport[2], 0.0001f);
 
         TrialData dataCc = TrialData.fromJson("src/test/resources/testtrial-CODECHARTS.json");
 
@@ -217,6 +221,10 @@ public class TrialDataTest {
         assertEquals("answer", dataCc.getAnswer());
         assertEquals(2, dataCc.getData().size());
         assertEquals(0, dataCc.getData().get(0).timeOffset);
+        assertNull(dataCc.getData().get(0).zoomLevel);
+        assertNull(dataCc.getData().get(0).viewport);
         assertEquals(1, dataCc.getData().get(1).dataId);
+        assertNull(dataCc.getData().get(1).zoomLevel);
+        assertNull(dataCc.getData().get(1).viewport);
     }
 }

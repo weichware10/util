@@ -115,10 +115,10 @@ public class DataPointTest {
                 DataPoint: {
                     dataId: 1,
                     timeOffset: 2,
-                    coordinates: [3, 4],
+                    coordinates: [3.0, 4.0],
                     rasterSize: null,
                     zoomLevel: 42.0,
-                    viewport: [1, 2, 3, 4]
+                    viewport: [1.0, 2.0, 3.0, 4.0]
                 }""", dataPoint1.toString());
 
         DataPoint dataPoint2 = new DataPoint(5, 6, new double[] { 7, 8 }, new double[] { 9, 10 });
@@ -126,8 +126,8 @@ public class DataPointTest {
                 DataPoint: {
                     dataId: 5,
                     timeOffset: 6,
-                    coordinates: [7, 8],
-                    rasterSize: [9, 10],
+                    coordinates: [7.0, 8.0],
+                    rasterSize: [9.0, 10.0],
                     zoomLevel: null,
                     viewport: null
                 }""", dataPoint2.toString());

@@ -31,7 +31,7 @@ public class CodeChartsConfigurationTest {
             new long[]{ 200, 200 }, true, "imgUrl");
         CodeChartsConfiguration config2 = new CodeChartsConfiguration(
             Arrays.asList("a"), new int[] { 1, 2 },
-            new long[]{ 200, 200 }, true, "a");
+            new long[]{ 200, 200 }, true, "imgUrl");
         assertEquals("The two Configurations should be equal", config1, config2);
     }
 }
