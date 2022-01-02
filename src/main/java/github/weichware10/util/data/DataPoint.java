@@ -12,8 +12,8 @@ import java.util.Arrays;
 public class DataPoint {
     public final int dataId;
     public final int timeOffset;
-    public final int[] coordinates; // ! int[2]
-    public final int[] rasterSize; // ! int[2]
+    public final double[] coordinates; // ! double[2]
+    public final double[] rasterSize; // ! double[2]
     public final Float zoomLevel;
 
     /**
@@ -30,8 +30,8 @@ public class DataPoint {
     @JsonCreator(mode = JsonCreator.Mode.PROPERTIES)
     public DataPoint(@JsonProperty("dataId") int dataId,
             @JsonProperty("timeOffset") int timeOffset,
-            @JsonProperty("coordinates") int[] coordinates,
-            @JsonProperty("rasterSize") int[] rasterSize,
+            @JsonProperty("coordinates") double[] coordinates,
+            @JsonProperty("rasterSize") double[] rasterSize,
             @JsonProperty("zoomLevel") Float zoomLevel) {
         this.dataId = dataId;
         this.timeOffset = timeOffset;
@@ -50,7 +50,7 @@ public class DataPoint {
      *
      * @since v0.2
      */
-    public DataPoint(int dataId, int timeOffset, int[] coordinates, float zoomLevel) {
+    public DataPoint(int dataId, int timeOffset, double[] coordinates, float zoomLevel) {
         this.dataId = dataId;
         this.timeOffset = timeOffset;
         this.coordinates = coordinates;
@@ -68,7 +68,7 @@ public class DataPoint {
      *
      * @since v0.3
      */
-    public DataPoint(int dataId, int timeOffset, int[] coordinates, int[] rasterSize) {
+    public DataPoint(int dataId, int timeOffset, double[] coordinates, double[] rasterSize) {
         this.dataId = dataId;
         this.timeOffset = timeOffset;
         this.coordinates = coordinates;

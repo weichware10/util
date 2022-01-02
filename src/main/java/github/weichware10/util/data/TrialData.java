@@ -115,7 +115,7 @@ public class TrialData {
      *
      * @since v0.2
      */
-    public void addDataPoint(int[] coordinates, int[] rasterSize) {
+    public void addDataPoint(double[] coordinates, double[] rasterSize) {
 
         if (toolType != ToolType.CODECHARTS) {
             throw new IllegalArgumentException("Can only add CODECHARTS DataPoints.");
@@ -143,7 +143,7 @@ public class TrialData {
      *
      * @since v0.2
      */
-    public void addDataPoint(int[] coordinates, float zoomLevel) {
+    public void addDataPoint(double[] coordinates, float zoomLevel) {
 
         if (toolType != ToolType.ZOOMMAPS) {
             throw new IllegalArgumentException("Can only add ZOOMMAPS DataPoints.");

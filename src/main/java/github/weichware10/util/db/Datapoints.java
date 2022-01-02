@@ -48,7 +48,7 @@ class Datapoints {
             rs = st.executeQuery(query);
             while (rs.next()) {
                 // bei codecharts versuchen
-                int[] rasterSize = new int[] { rs.getInt("rastersize_x"),
+                double[] rasterSize = new double[] { rs.getInt("rastersize_x"),
                         rs.getInt("rastersize_y") };
                 rasterSize = rs.wasNull() ? null : rasterSize;
 
@@ -60,7 +60,8 @@ class Datapoints {
                 dataPoints.add(new DataPoint(
                         rs.getInt("dataid"),
                         rs.getInt("timeoffset"),
-                        new int[] { rs.getInt("coordinates_x"), rs.getInt("coordinates_y") },
+                        new double[] { rs.getDouble("coordinates_x"),
+                        rs.getDouble("coordinates_y") },
                         rasterSize,
                         zoomLevel));
             }
