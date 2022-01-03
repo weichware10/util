@@ -99,7 +99,7 @@ class Datapoints {
                 viewportmin_x, viewportmin_y, viewport_width, viewport_height)
                 VALUES
                 ('%s', %d, %d,
-                %f, %f, %f, %f,
+                %s, %s, %s, %s,
                 null, null, null, null);""";
 
         final String zmQuery = """
@@ -127,10 +127,10 @@ class Datapoints {
                             trialId,
                             dp.dataId,
                             dp.timeOffset,
-                            dp.coordinates[0],
-                            dp.coordinates[1],
-                            dp.rasterSize[0],
-                            dp.rasterSize[1]));
+                            String.format(Locale.US, "%f", dp.coordinates[0]),
+                            String.format(Locale.US, "%f", dp.coordinates[1]),
+                            String.format(Locale.US, "%f", dp.rasterSize[0]),
+                            String.format(Locale.US, "%f", dp.rasterSize[1])));
                 } else { // ZOOMMAPS
                     st.executeUpdate(String.format(zmQuery,
                             dataBaseClient.schema,
