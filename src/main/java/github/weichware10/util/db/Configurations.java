@@ -127,7 +127,7 @@ public class Configurations {
                 VALUES
                 ('%s', '%s', %d, '%s', '%s',
                 null, null, null, null, null,
-                %f, %f, %s);""";
+                %s, %s, %s);""";
 
         final String uniqueException =
                 "ERROR: duplicate key value violates unique constraint \"configurations_pkey\"";
