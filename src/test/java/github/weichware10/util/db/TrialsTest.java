@@ -45,11 +45,13 @@ public class TrialsTest {
                 new int[] { 1, 1 },
                 new long[] { 2, 2 },
                 true);
-        codeConfig = new Configuration("temp", "Warum ist die Banane krumm?", "url", ccConf);
+        codeConfig = new Configuration("temp", "Warum ist die Banane krumm?", "url",
+                        "intro", "outro", ccConf);
         configIdCc = dbClient.configurations.set(codeConfig);
 
         ZoomMapsConfiguration zmConf = new ZoomMapsConfiguration(4.3, 300, 300, true);
-        zoomConfig = new Configuration("temp", "Warum ist die Banane krumm?", "url", zmConf);
+        zoomConfig = new Configuration("temp", "Warum ist die Banane krumm?", "url",
+                        "intro", "outro", zmConf);
         configIdZm = dbClient.configurations.set(zoomConfig);
     }
 

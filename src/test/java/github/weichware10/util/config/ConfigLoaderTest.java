@@ -11,7 +11,6 @@ import io.github.cdimascio.dotenv.Dotenv;
 import java.util.List;
 import org.junit.Test;
 
-
 /**
  * Testet {@link ConfigLoader}.
  */
@@ -36,6 +35,8 @@ public class ConfigLoaderTest {
                 "null",
                 "question?",
                 "url",
+                "intro",
+                "outro",
                 new CodeChartsConfiguration()));
         final List<String> trialIds = dbClient.trials.add(configId, 5);
         if (trialIds.size() < 5) {
@@ -46,8 +47,6 @@ public class ConfigLoaderTest {
                 "wrongId", dbClient);
         assertNull("loadConfiguration should return null,", config);
 
-
-
         assertThat("loadConfiguration should return instance of Configuration class",
                 ConfigLoader.fromDataBase(trialIds.get(1), dbClient),
                 instanceOf(Configuration.class));
@@ -55,7 +54,8 @@ public class ConfigLoaderTest {
 
     /**
      * Testet, ob das Laden aus einer Datei erfolgreich ist,
-     * indem Testkonfigurationen doppelt geladen werden und dann miteinander verglichen werden.
+     * indem Testkonfigurationen doppelt geladen werden und dann miteinander
+     * verglichen werden.
      */
     @Test
     public void loadingIsSuccesfull() {
@@ -73,7 +73,7 @@ public class ConfigLoaderTest {
                 "src/test/resources/testconfig-EYETRACKING.json");
         Configuration configZ2 = ConfigLoader.fromJson(
                 "src/test/resources/testconfig-ZOOMMAPS.json");
-        //  Vergleichen
+        // Vergleichen
         assertEquals("Configs should be the same", configC1, configC2);
         assertEquals("Configs should be the same", configE1, configE2);
         assertEquals("Configs should be the same", configZ1, configZ2);

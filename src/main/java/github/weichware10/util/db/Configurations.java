@@ -57,6 +57,8 @@ public class Configurations {
                 String imageUrl = rs.getString("imageurl");
                 boolean tutorial = (rs.getInt("tutorial") == 1) ? true : false;
                 String question = rs.getString("question");
+                String intro = rs.getString("intro");
+                String outro = rs.getString("outro");
 
                 if (toolType == ToolType.CODECHARTS) {
                     // CODECHARTS spezifische Werte
@@ -74,7 +76,7 @@ public class Configurations {
 
                     // komplette Konfiguration zurückgeben
                     configuration = new Configuration(
-                            configId, question, imageUrl, codeChartsConfiguration);
+                            configId, question, imageUrl, intro, outro, codeChartsConfiguration);
                 } else {
                     // ZOOMMAPS spezifische Werte
                     double speed = rs.getDouble("speed");
@@ -87,7 +89,7 @@ public class Configurations {
 
                     // komplette Konfiguration zurückgeben
                     configuration = new Configuration(
-                            configId, question, imageUrl, zoomMapsConfiguration);
+                            configId, question, imageUrl, intro, outro, zoomMapsConfiguration);
                 }
             }
 
@@ -112,20 +114,24 @@ public class Configurations {
         final String ccQueryFormat = """
                 INSERT INTO %s.configurations
                 (configid, tooltype, tutorial, question, imageurl,
+                intro, outro,
                 strings, initialsize_x, initialsize_y, timings_0, timings_1,
                 imageview_width, imageview_height, speed)
                 VALUES
                 ('%s', '%s', %d, '%s', '%s',
+                '%s', '%s',
                 '%s', %d, %d, %d, %d,
                 null, null, null);""";
 
         final String zmQueryFormat = """
                 INSERT INTO %s.configurations
                 (configid, tooltype, tutorial, question, imageurl,
+                intro, outro,
                 strings, initialsize_x, initialsize_y, timings_0, timings_1,
                 imageview_width, imageview_height, speed)
                 VALUES
                 ('%s', '%s', %d, '%s', '%s',
+                '%s', '%s',
                 null, null, null, null, null,
                 %s, %s, %s);""";
 
@@ -152,6 +158,8 @@ public class Configurations {
                         configuration.getTutorial() ? 1 : 0,
                         configuration.getQuestion(),
                         configuration.getImageUrl(),
+                        configuration.getIntro(),
+                        configuration.getOutro(),
                         ccConfig.getStrings(),
                         ccConfig.getInitialSize()[0],
                         ccConfig.getInitialSize()[1],
@@ -166,6 +174,8 @@ public class Configurations {
                         configuration.getTutorial() ? 1 : 0,
                         configuration.getQuestion(),
                         configuration.getImageUrl(),
+                        configuration.getIntro(),
+                        configuration.getOutro(),
                         String.format(Locale.US, "%f", zmConfig.getImageViewWidth()),
                         String.format(Locale.US, "%f", zmConfig.getImageViewHeight()),
                         String.format(Locale.US, "%f", zmConfig.getSpeed()));
