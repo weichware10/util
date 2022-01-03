@@ -166,8 +166,8 @@ public class Configurations {
                         configuration.getTutorial() ? 1 : 0,
                         configuration.getQuestion(),
                         configuration.getImageUrl(),
-                        zmConfig.getImageViewWidth(),
-                        zmConfig.getImageViewHeight(),
+                        String.format(Locale.US, "%f", zmConfig.getImageViewWidth()),
+                        String.format(Locale.US, "%f", zmConfig.getImageViewHeight()),
                         String.format(Locale.US, "%f", zmConfig.getSpeed()));
             }
             try {
