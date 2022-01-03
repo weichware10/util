@@ -10,6 +10,8 @@ public class Configuration {
     protected String trialId = "trialId";
     protected String configId = "configId";
     protected String question = "Is this a question?";
+    protected String into = "hello there";
+    protected String outro = "bye bye general kenobi";
     protected String imageUrl = "url";
     protected boolean tutorial = true;
 
