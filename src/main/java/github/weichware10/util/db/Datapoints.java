@@ -10,6 +10,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 /**
@@ -109,7 +110,7 @@ class Datapoints {
                 VALUES
                 ('%s', %d, %d,
                 null, null, null, null,
-                %f, %f, %f, %f);""";
+                %s, %s, %s, %s);""";
 
         Connection conn = null;
         Statement st = null;
@@ -136,10 +137,10 @@ class Datapoints {
                             trialId,
                             dp.dataId,
                             dp.timeOffset,
-                            dp.viewport.getMinX(),
-                            dp.viewport.getMinY(),
-                            dp.viewport.getWidth(),
-                            dp.viewport.getHeight()));
+                            String.format(Locale.US, "%f", dp.viewport.getMinX()),
+                            String.format(Locale.US, "%f", dp.viewport.getMinY()),
+                            String.format(Locale.US, "%f", dp.viewport.getWidth()),
+                            String.format(Locale.US, "%f", dp.viewport.getHeight())));
                 }
             }
         } catch (Exception e) {
