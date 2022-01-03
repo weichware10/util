@@ -9,7 +9,6 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 
 /**
  * Die Datapoints-Tabelle beinhaltet die gespeicherten Datapoints.
@@ -48,27 +47,26 @@ class Datapoints {
             rs = st.executeQuery(query);
             while (rs.next()) {
                 // bei codecharts versuchen
+                double[] coordinates = new double[] { rs.getDouble("coordinates_x"),
+                        rs.getDouble("coordinates_y") };
+                coordinates = rs.wasNull() ? null : coordinates;
                 double[] rasterSize = new double[] { rs.getDouble("rastersize_x"),
                         rs.getDouble("rastersize_y") };
                 rasterSize = rs.wasNull() ? null : rasterSize;
 
                 // bei zoommaps versuchen
-                Float zoomLevel = rs.getFloat("zoomlevel");
-                zoomLevel = rs.wasNull() ? null : zoomLevel;
                 double[] viewport = new double[] { rs.getDouble("viewportmin_x"),
                         rs.getDouble("viewportmin_y"),
-                        rs.getDouble("viewportsize_x"),
-                        rs.getDouble("viewportsize_y")};
+                        rs.getDouble("viewport_width"),
+                        rs.getDouble("viewport_height")};
                 viewport = rs.wasNull() ? null : viewport;
 
                 // neuen Punkt zur Liste hinzufügen
                 dataPoints.add(new DataPoint(
                         rs.getInt("dataid"),
                         rs.getInt("timeoffset"),
-                        new double[] { rs.getDouble("coordinates_x"),
-                                rs.getDouble("coordinates_y") },
+                        coordinates,
                         rasterSize,
-                        zoomLevel,
                         viewport));
             }
 
@@ -94,25 +92,21 @@ class Datapoints {
                 INSERT INTO %s.datapoints
                 (trialid, dataid, timeoffset,
                 coordinates_x, coordinates_y, rastersize_x, rastersize_y,
-                zoomlevel,
-                viewportmin_x, viewportmin_y, viewportsize_x, viewportsize_y)
+                viewportmin_x, viewportmin_y, viewport_width, viewport_height)
                 VALUES
                 ('%s', %d, %d,
-                %d, %d, %d, %d,
-                null,
+                %f, %f, %f, %f,
                 null, null, null, null);""";
 
         final String zmQuery = """
                 INSERT INTO %s.datapoints
                 (trialid, dataid, timeoffset,
                 coordinates_x, coordinates_y, rastersize_x, rastersize_y,
-                zoomlevel,
-                viewportmin_x, viewportmin_y, viewportsize_x, viewportsize_y)
+                viewportmin_x, viewportmin_y, viewport_width, viewport_height)
                 VALUES
                 ('%s', %d, %d,
-                %d, %d, null, null,
-                %s,
-                %d, %d, %d, %d);""";
+                null, null, null, null,
+                %f, %f, %f, %f);""";
 
         Connection conn = null;
         Statement st = null;
@@ -123,7 +117,7 @@ class Datapoints {
             for (int i = 0; i < dataPoints.size(); i++) {
                 DataPoint dp = dataPoints.get(i);
                 // CODECHARTS
-                if (dp.zoomLevel == null) {
+                if (dp.viewport == null) {
                     st.executeUpdate(String.format(ccQuery,
                             dataBaseClient.schema,
                             trialId,
@@ -139,9 +133,6 @@ class Datapoints {
                             trialId,
                             dp.dataId,
                             dp.timeOffset,
-                            dp.coordinates[0],
-                            dp.coordinates[1],
-                            String.format(Locale.US, "%f", dp.zoomLevel),
                             dp.viewport[0],
                             dp.viewport[1],
                             dp.viewport[2],
@@ -149,7 +140,7 @@ class Datapoints {
                 }
             }
         } catch (Exception e) {
-            Logger.error("SQLException when executing setDataPoints", e);
+            Logger.error("SQLException when executing setDataPoints", e, true);
         } finally {
             Util.closeQuietly(st);
             Util.closeQuietly(conn);

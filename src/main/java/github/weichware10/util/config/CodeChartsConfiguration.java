@@ -6,7 +6,7 @@ import java.util.List;
 /**
  * Beinhaltet Konfiguration für CodeCharts-Versuche.
  */
-public class CodeChartsConfiguration extends ToolConfiguration {
+public class CodeChartsConfiguration {
     protected List<String> strings = Arrays.asList("foo", "bar");
     protected int[] initialSize = { 10, 20 };
     protected long[] timings = { 200, 200 };
@@ -27,15 +27,12 @@ public class CodeChartsConfiguration extends ToolConfiguration {
      * @param timings - Zeit zum Wechsel von Bild zu Raster & Raster zu Eingabefeld
      *                  der CodeCharts Konfiguration
      * @param tutorial - Anzeige des Tutorials
-     * @param imageUrl - Adresse des Bildes
      */
     public CodeChartsConfiguration(List<String> strings, int[] initialSize, long[] timings,
-            boolean tutorial, String imageUrl) {
+            boolean tutorial) {
         this.strings = strings;
         this.initialSize = initialSize;
         this.timings = timings;
-        this.tutorial = tutorial;
-        this.imageUrl = imageUrl;
     }
 
     // --- GETTERS ---
@@ -56,9 +53,6 @@ public class CodeChartsConfiguration extends ToolConfiguration {
 
     @Override
     public boolean equals(Object obj) {
-        if (!super.equals(obj)) {
-            return false;
-        }
         if (this == obj) {
             return true;
         }
@@ -75,8 +69,7 @@ public class CodeChartsConfiguration extends ToolConfiguration {
     public String toString() {
         return String.format("""
                 codeChartsConfiguration: {
-                        %s, strings: %s, initialSize: %s, timings: %s }""",
-                super.toString(),
+                        strings: %s, initialSize: %s, timings: %s }""",
                 strings.toString(),
                 Arrays.toString(initialSize),
                 Arrays.toString(timings));

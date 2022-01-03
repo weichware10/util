@@ -32,7 +32,10 @@ public class ConfigLoaderTest {
                 dotenv.get("DB_PASSWORD"),
                 dotenv.get("DB_SCHEMA"));
         // set config to test with
-        final String configId = dbClient.configurations.set(new Configuration("null", "question?",
+        final String configId = dbClient.configurations.set(new Configuration(
+                "null",
+                "question?",
+                "url",
                 new CodeChartsConfiguration()));
         final List<String> trialIds = dbClient.trials.add(configId, 5);
         if (trialIds.size() < 5) {

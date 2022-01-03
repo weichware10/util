@@ -19,8 +19,8 @@ public class DataPointTest {
         assertEquals("dataPoint1.dataId sollte " + id1 + " sein", id1, dataPoint1.dataId);
 
         int id2 = (int) Math.random() * 1000;
-        DataPoint dataPoint2 = new DataPoint(id1, 0, new double[] { 0, 0 }, 0.0f,
-            new double[] { 1, 2, 3, 4 });
+        DataPoint dataPoint2 = new DataPoint(
+                id1, 0, new double[] { 0, 0 }, new double[] { 1, 2, 3, 4 });
         assertEquals("dataPoint2.dataId sollte " + id2 + " sein", id2, dataPoint2.dataId);
     }
 
@@ -35,8 +35,8 @@ public class DataPointTest {
                 id1, dataPoint1.timeOffset, 0.0001f);
 
         int id2 = (int) Math.random() * 1000;
-        DataPoint dataPoint2 = new DataPoint(0, id2, new double[] { 0, 0 }, 0.0f,
-            new double[] { 1, 2, 3, 4 });
+        DataPoint dataPoint2 = new DataPoint(
+            0, id2, new double[] { 0, 0 }, new double[] { 1, 2, 3, 4 });
         assertEquals("dataPoint2.timeOffset sollte " + id2 + " sein",
                 id2, dataPoint2.timeOffset, 0.0001f);
     }
@@ -54,8 +54,7 @@ public class DataPointTest {
 
         double[] coordinates2 = new double[] { (double) Math.random() * 1000,
                                                (double) Math.random() * 1000 };
-        DataPoint dataPoint2 = new DataPoint(0, 0, coordinates2, 0.0f,
-            new double[] { 1, 2, 3, 4 });
+        DataPoint dataPoint2 = new DataPoint(0, 0, coordinates2, new double[] { 1, 2, 3, 4 });
         assertTrue("dataPoint2.coordinates sollten {" + coordinates2[0]
                 + ", " + coordinates2[1] + "} sein", dataPoint2.coordinates.equals(coordinates2));
     }
@@ -73,22 +72,9 @@ public class DataPointTest {
 
         double[] rasterSize2 = new double[] { (double) Math.random() * 1000,
                                               (double) Math.random() * 1000 };
-        DataPoint dataPoint2 = new DataPoint(0, 0, rasterSize2, 0.0f,
-            new double[] { 1, 2, 3, 4 });
+        DataPoint dataPoint2 = new DataPoint(0, 0, rasterSize2, new double[] { 1, 2, 3, 4 });
         assertTrue("dataPoint2.rasterSize sollten {" + rasterSize2[0]
                 + ", " + rasterSize2[1] + "} sein", dataPoint2.coordinates.equals(rasterSize2));
-    }
-
-    /**
-     * Testet, ob zoomLevel richtig gesetzt wird.
-     */
-    @Test
-    public void zoomLevelShouldBeSetCorrectly() {
-        float zoomLevel1 = (float) Math.random() * 1000;
-        DataPoint dataPoint1 = new DataPoint(0, 0, new double[] { 0, 0 }, zoomLevel1,
-            new double[] { 1, 2, 3, 4 });
-        assertEquals("dataPoint1.getZoomLevel() sollte " + zoomLevel1 + " sein",
-                zoomLevel1, dataPoint1.zoomLevel, 0.0001f);
     }
 
     /**
@@ -97,8 +83,7 @@ public class DataPointTest {
     @Test
     public void viewportShouldBeSetCorrectly() {
         double[] viewport = new double[] { 1, 2, 3, 4 };
-        DataPoint dataPoint1 = new DataPoint(0, 0, new double[] { 0, 0 }, 0.0f,
-            viewport);
+        DataPoint dataPoint1 = new DataPoint(0, 0, viewport);
         assertTrue("dataPoint1.viewport sollten {" + viewport[0]
             + ", " + viewport[1] + ", " + viewport[2] + ", " + viewport[3] + "} sein",
             dataPoint1.viewport.equals(viewport));
@@ -109,15 +94,13 @@ public class DataPointTest {
      */
     @Test
     public void toStringShouldStringGood() {
-        DataPoint dataPoint1 = new DataPoint(1, 2, new double[] { 3, 4 }, 42,
-            new double[] { 1, 2, 3, 4 });
+        DataPoint dataPoint1 = new DataPoint(1, 2, new double[] { 1, 2, 3, 4 });
         assertEquals("""
                 DataPoint: {
                     dataId: 1,
                     timeOffset: 2,
-                    coordinates: [3.0, 4.0],
+                    coordinates: null,
                     rasterSize: null,
-                    zoomLevel: 42.0,
                     viewport: [1.0, 2.0, 3.0, 4.0]
                 }""", dataPoint1.toString());
 
@@ -128,7 +111,6 @@ public class DataPointTest {
                     timeOffset: 6,
                     coordinates: [7.0, 8.0],
                     rasterSize: [9.0, 10.0],
-                    zoomLevel: null,
                     viewport: null
                 }""", dataPoint2.toString());
     }

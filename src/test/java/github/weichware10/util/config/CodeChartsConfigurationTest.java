@@ -16,8 +16,10 @@ public class CodeChartsConfigurationTest {
     @Test
     public void toStringShouldWork() {
         CodeChartsConfiguration config = new CodeChartsConfiguration(
-                Arrays.asList("a"), new int[] { 1, 2 },
-                new long[]{ 200, 200 }, true, "imgUrl");
+                Arrays.asList("a"),
+                new int[] { 1, 2 },
+                new long[] { 200, 200 },
+                true);
         config.toString();
     }
 
@@ -27,11 +29,15 @@ public class CodeChartsConfigurationTest {
     @Test
     public void newlyCreatedConfigsShouldBeEqual() {
         CodeChartsConfiguration config1 = new CodeChartsConfiguration(
-            Arrays.asList("a"), new int[] { 1, 2 },
-            new long[]{ 200, 200 }, true, "imgUrl");
+            Arrays.asList("a"),
+            new int[] { 1, 2 },
+            new long[] { 200, 200 },
+            true);
         CodeChartsConfiguration config2 = new CodeChartsConfiguration(
-            Arrays.asList("a"), new int[] { 1, 2 },
-            new long[]{ 200, 200 }, true, "imgUrl");
+            Arrays.asList("a"),
+            new int[] { 1, 2 },
+            new long[] { 200, 200 },
+            true);
         assertEquals("The two Configurations should be equal", config1, config2);
     }
 }

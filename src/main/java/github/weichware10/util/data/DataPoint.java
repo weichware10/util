@@ -14,8 +14,7 @@ public class DataPoint {
     public final int timeOffset;
     public final double[] coordinates; // ! double[2]
     public final double[] rasterSize; // ! double[2]
-    public final Float zoomLevel;
-    public final double[] viewport; //[4]
+    public final double[] viewport; // ! double[4]
 
     /**
      * Konstruktor für Jackson.
@@ -24,7 +23,6 @@ public class DataPoint {
      * @param timeOffset  - the time since the trial started
      * @param coordinates - the coordinates on the viewed picture
      * @param rasterSize  - width and height of the raster
-     * @param zoomLevel   - how far the user is zoomed in
      * @param viewport    - aktueller Ausschnitt beim ZoomBild
      *
      * @since v1.0
@@ -34,39 +32,33 @@ public class DataPoint {
             @JsonProperty("timeOffset") int timeOffset,
             @JsonProperty("coordinates") double[] coordinates,
             @JsonProperty("rasterSize") double[] rasterSize,
-            @JsonProperty("zoomLevel") Float zoomLevel,
             @JsonProperty("viewport") double[] viewport) {
         this.dataId = dataId;
         this.timeOffset = timeOffset;
         this.coordinates = coordinates;
         this.rasterSize = rasterSize;
-        this.zoomLevel = zoomLevel;
         this.viewport = viewport;
     }
 
     /**
-     * Stores a single DataPoint with zoomLevel.
+     * Stores a single DataPoint with viewport.
      *
      * @param dataId      - the id of the dataPoint
      * @param timeOffset  - the time since the trial started
-     * @param coordinates - the coordinates of the viewed picture
-     * @param zoomLevel   - how far the user is zoomed in
      * @param viewport    - aktueller Ausschnitt beim ZoomBild
      *
      * @since v0.2
      */
-    public DataPoint(int dataId, int timeOffset, double[] coordinates, float zoomLevel,
-                     double[] viewport) {
+    public DataPoint(int dataId, int timeOffset, double[] viewport) {
         this.dataId = dataId;
         this.timeOffset = timeOffset;
-        this.coordinates = coordinates;
+        this.coordinates = null;
         this.rasterSize = null;
-        this.zoomLevel = zoomLevel;
         this.viewport = viewport;
     }
 
     /**
-     * Stores a single DataPoint without zoomLevel and viewport.
+     * Stores a single DataPoint without viewport.
      *
      * @param dataId      - the id of the dataPoint
      * @param timeOffset  - the time since the trial started
@@ -80,7 +72,6 @@ public class DataPoint {
         this.timeOffset = timeOffset;
         this.coordinates = coordinates;
         this.rasterSize = rasterSize;
-        this.zoomLevel = null;
         this.viewport = null;
     }
 
@@ -92,14 +83,12 @@ public class DataPoint {
                     timeOffset: %d,
                     coordinates: %s,
                     rasterSize: %s,
-                    zoomLevel: %s,
                     viewport: %s
                 }""",
                 dataId,
                 timeOffset,
                 Arrays.toString(coordinates),
                 Arrays.toString(rasterSize),
-                (zoomLevel == null) ? "null" : zoomLevel.toString(),
                 Arrays.toString(viewport));
     }
 
@@ -114,20 +103,7 @@ public class DataPoint {
         DataPoint that = (DataPoint) (other);
         return dataId == that.dataId && timeOffset == that.timeOffset
                 && Arrays.equals(coordinates, that.coordinates)
-                // Überprüfen ob rasterSize nicht gleichmäßig null / nicht null ist
-                && ((rasterSize == null && that.rasterSize == null)
-                        || (rasterSize != null && that.rasterSize != null))
-                && ((rasterSize == null && that.rasterSize == null)
-                        || Arrays.equals(rasterSize, that.rasterSize))
-                // Überprüfen ob zoomLevel nicht gleichmäßig null / nicht null ist
-                && ((zoomLevel == null && that.zoomLevel == null)
-                        || (zoomLevel != null && that.zoomLevel != null))
-                && ((zoomLevel == null && that.zoomLevel == null)
-                        || viewport.equals(that.viewport))
-                // Überprüfen ob viewport nicht gleichmäßig null / nicht null ist
-                && ((viewport == null && that.viewport == null)
-                        || (zoomLevel != null && that.zoomLevel != null))
-                && ((viewport == null && that.viewport == null)
-                        || viewport.equals(that.viewport));
+                && Arrays.equals(rasterSize, that.rasterSize)
+                && Arrays.equals(viewport, that.viewport);
     }
 }

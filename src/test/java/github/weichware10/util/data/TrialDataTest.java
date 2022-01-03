@@ -115,7 +115,7 @@ public class TrialDataTest {
                     dataPoints: dataPoints[0]
                 }""", data2.startTime.toString()),
                 data2.toString());
-        data2.addDataPoint(new double[] { 1, 2 }, 42.0f, new double[] { 1, 2, 3, 4 });
+        data2.addDataPoint(new double[] { 1, 2, 3, 4 });
         assertEquals(String.format("""
                 TrialData: {
                     toolType: ZOOMMAPS
@@ -135,7 +135,7 @@ public class TrialDataTest {
     public void wrongListSizeShouldThrow() {
         TrialData data1 = new TrialData(ToolType.ZOOMMAPS, "1", "2");
         assertThrows(IllegalArgumentException.class, () -> {
-            data1.addDataPoint(new double[] { 1, 2, 3 }, 42, new double[] { 1, 2, 3, 4 });
+            data1.addDataPoint(new double[] { 1, 2, 3 }, new double[] { 1, 2, 3, 4 });
         });
 
         TrialData data2 = new TrialData(ToolType.CODECHARTS, "1", "2");
@@ -163,14 +163,14 @@ public class TrialDataTest {
 
         TrialData data2 = new TrialData(ToolType.CODECHARTS, "1", "2");
         assertThrows(IllegalArgumentException.class, () -> {
-            data2.addDataPoint(new double[] { 1, 2 }, 42, new double[] { 1, 2, 3, 4 });
+            data2.addDataPoint(new double[] { 1, 2 }, new double[] { 1, 2, 3, 4 });
         });
     }
 
     @Test
     public void shouldGetDataCorrectly() {
         TrialData data1 = new TrialData(ToolType.ZOOMMAPS, "1", "2");
-        data1.addDataPoint(new double[] { 1, 2 }, 42.0f, new double[] { 1, 2, 3, 4 });
+        data1.addDataPoint(new double[] { 1, 2, 3, 4 });
         DataPoint dataPoint1 = data1.getData().get(0);
         assertTrue(data1.getData().get(0).equals(dataPoint1));
     }
@@ -179,8 +179,8 @@ public class TrialDataTest {
     public void toJsonShouldWork() {
         TrialData data1 = new TrialData(ToolType.ZOOMMAPS, "trialId", "configId");
         data1.setAnswer("answer");
-        data1.addDataPoint(new double[] { 1, 2 }, 3.0f, new double[] { 1, 2, 3, 4 });
-        data1.addDataPoint(new double[] { 4, 5 }, 6.0f, new double[] { 1, 2, 3, 4 });
+        data1.addDataPoint(new double[] { 1, 2, 3, 4 });
+        data1.addDataPoint(new double[] { 1, 2, 3, 4 });
         assertTrue(TrialData.toJson("target/TD-ZOOMMAPS.json", data1));
 
         TrialData data2 = new TrialData(ToolType.CODECHARTS, "trialId", "configId");
@@ -221,10 +221,8 @@ public class TrialDataTest {
         assertEquals("answer", dataCc.getAnswer());
         assertEquals(2, dataCc.getData().size());
         assertEquals(0, dataCc.getData().get(0).timeOffset);
-        assertNull(dataCc.getData().get(0).zoomLevel);
         assertNull(dataCc.getData().get(0).viewport);
         assertEquals(1, dataCc.getData().get(1).dataId);
-        assertNull(dataCc.getData().get(1).zoomLevel);
         assertNull(dataCc.getData().get(1).viewport);
     }
 }

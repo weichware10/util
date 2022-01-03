@@ -54,7 +54,7 @@ public class Configurations {
             if (rs.next()) {
                 // bei jedem Typ existent
                 ToolType toolType = ToolType.valueOf(rs.getString("tooltype"));
-                String imageUrl = rs.getString("imageurls");
+                String imageUrl = rs.getString("imageurl");
                 boolean tutorial = (rs.getInt("tutorial") == 1) ? true : false;
                 String question = rs.getString("question");
 
@@ -70,20 +70,24 @@ public class Configurations {
 
                     // CodeChartsConfiguration erstellen
                     CodeChartsConfiguration codeChartsConfiguration = new CodeChartsConfiguration(
-                            strings, initialSize, timings, tutorial, imageUrl);
+                            strings, initialSize, timings, tutorial);
 
                     // komplette Konfiguration zurückgeben
-                    configuration = new Configuration(configId, question, codeChartsConfiguration);
+                    configuration = new Configuration(
+                            configId, question, imageUrl, codeChartsConfiguration);
                 } else {
                     // ZOOMMAPS spezifische Werte
-                    float speed = rs.getFloat("speed");
+                    double speed = rs.getDouble("speed");
+                    double imageViewWidth = rs.getDouble("imageview_width");
+                    double imageViewHeight = rs.getDouble("imageview_height");
 
                     // ZoomMapsConfiguration erstellen
                     ZoomMapsConfiguration zoomMapsConfiguration = new ZoomMapsConfiguration(
-                            speed, tutorial, imageUrl);
+                            speed, imageViewWidth, imageViewHeight, tutorial);
 
                     // komplette Konfiguration zurückgeben
-                    configuration = new Configuration(configId, question, zoomMapsConfiguration);
+                    configuration = new Configuration(
+                            configId, question, imageUrl, zoomMapsConfiguration);
                 }
             }
 
@@ -141,9 +145,9 @@ public class Configurations {
                         dataBaseClient.schema,
                         configId,
                         "CODECHARTS",
-                        ccConfig.getTutorial() ? 1 : 0,
+                        configuration.getTutorial() ? 1 : 0,
                         configuration.getQuestion(),
-                        ccConfig.getImageUrl(),
+                        configuration.getImageUrl(),
                         ccConfig.getStrings(),
                         ccConfig.getInitialSize()[0],
                         ccConfig.getInitialSize()[1],
@@ -155,9 +159,9 @@ public class Configurations {
                         dataBaseClient.schema,
                         configId,
                         "ZOOMMAPS",
-                        zmConfig.getTutorial() ? 1 : 0,
+                        configuration.getTutorial() ? 1 : 0,
                         configuration.getQuestion(),
-                        zmConfig.getImageUrl(),
+                        configuration.getImageUrl(),
                         String.format(Locale.US, "%f", zmConfig.getSpeed()));
             }
             try {
