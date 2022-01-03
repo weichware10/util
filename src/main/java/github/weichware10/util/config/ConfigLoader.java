@@ -60,7 +60,10 @@ public final class ConfigLoader {
         if (configId == null) {
             return null;
         }
+
         // get config from database
-        return dataBaseClient.configurations.get(configId);
+        Configuration configuration = dataBaseClient.configurations.get(configId);
+        configuration.trialId = trialId;
+        return configuration;
     }
 }
