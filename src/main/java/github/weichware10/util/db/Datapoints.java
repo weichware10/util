@@ -8,7 +8,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Die Datapoints-Tabelle beinhaltet die gespeicherten Datapoints.
@@ -55,10 +57,11 @@ class Datapoints {
                 rasterSize = rs.wasNull() ? null : rasterSize;
 
                 // bei zoommaps versuchen
-                double[] viewport = new double[] { rs.getDouble("viewportmin_x"),
-                        rs.getDouble("viewportmin_y"),
-                        rs.getDouble("viewport_width"),
-                        rs.getDouble("viewport_height")};
+                Map<String, Double> viewport = new HashMap<>();
+                viewport.put("minX", rs.getDouble("viewportmin_x"));
+                viewport.put("minY", rs.getDouble("viewportmin_y"));
+                viewport.put("width", rs.getDouble("viewport_width"));
+                viewport.put("height", rs.getDouble("viewport_height"));
                 viewport = rs.wasNull() ? null : viewport;
 
                 // neuen Punkt zur Liste hinzufügen
@@ -133,10 +136,10 @@ class Datapoints {
                             trialId,
                             dp.dataId,
                             dp.timeOffset,
-                            dp.viewport[0],
-                            dp.viewport[1],
-                            dp.viewport[2],
-                            dp.viewport[3]));
+                            dp.viewport.getMinX(),
+                            dp.viewport.getMinY(),
+                            dp.viewport.getWidth(),
+                            dp.viewport.getHeight()));
                 }
             }
         } catch (Exception e) {

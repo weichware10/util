@@ -15,6 +15,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import javafx.geometry.Rectangle2D;
 import org.joda.time.DateTime;
 
 /**
@@ -142,14 +143,10 @@ public class TrialData {
      *
      * @since v1.2
      */
-    public void addDataPoint(double[] viewport) {
+    public void addDataPoint(Rectangle2D viewport) {
 
         if (toolType != ToolType.ZOOMMAPS) {
             throw new IllegalArgumentException("Can only add ZOOMMAPS DataPoints.");
-        }
-
-        if (viewport.length != 4) {
-            throw new IllegalArgumentException("viewport[] needs to have a length of 4");
         }
 
         // kann "ohne" Bedenken gecastet werden,
@@ -174,11 +171,11 @@ public class TrialData {
             // read from file
             trialData = mapper.readValue(new File(location), TrialData.class);
         } catch (StreamReadException e) {
-            Logger.info("An error occured while loading a trial", e);
+            Logger.info("An error occured while loading a trial", e, true);
         } catch (DatabindException e) {
-            Logger.info("An error occured while loading a trial", e);
+            Logger.info("An error occured while loading a trial", e, true);
         } catch (IOException e) {
-            Logger.info("An error occured while loading a trial", e);
+            Logger.info("An error occured while loading a trial", e, true);
         }
         return trialData;
     }

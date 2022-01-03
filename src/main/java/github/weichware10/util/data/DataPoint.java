@@ -3,6 +3,8 @@ package github.weichware10.util.data;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.Arrays;
+import java.util.Map;
+import javafx.geometry.Rectangle2D;
 
 /**
  * Stores a single DataPoint.
@@ -14,7 +16,7 @@ public class DataPoint {
     public final int timeOffset;
     public final double[] coordinates; // ! double[2]
     public final double[] rasterSize; // ! double[2]
-    public final double[] viewport; // ! double[4]
+    public final Rectangle2D viewport; // ! double[4]
 
     /**
      * Konstruktor für Jackson.
@@ -32,12 +34,17 @@ public class DataPoint {
             @JsonProperty("timeOffset") int timeOffset,
             @JsonProperty("coordinates") double[] coordinates,
             @JsonProperty("rasterSize") double[] rasterSize,
-            @JsonProperty("viewport") double[] viewport) {
+            @JsonProperty("viewport") Map<String, Double> viewport) {
         this.dataId = dataId;
         this.timeOffset = timeOffset;
         this.coordinates = coordinates;
         this.rasterSize = rasterSize;
-        this.viewport = viewport;
+        this.viewport = (viewport != null) ? new Rectangle2D(
+                viewport.get("minX"),
+                viewport.get("minY"),
+                viewport.get("width"),
+                viewport.get("height"))
+                : null;
     }
 
     /**
@@ -49,7 +56,7 @@ public class DataPoint {
      *
      * @since v0.2
      */
-    public DataPoint(int dataId, int timeOffset, double[] viewport) {
+    public DataPoint(int dataId, int timeOffset, Rectangle2D viewport) {
         this.dataId = dataId;
         this.timeOffset = timeOffset;
         this.coordinates = null;
@@ -77,6 +84,14 @@ public class DataPoint {
 
     @Override
     public String toString() {
+        String viewportStr = "null";
+        if (viewport != null) {
+            viewportStr = "[minX=";
+            viewportStr += viewport.getMinX() + ", minY=";
+            viewportStr += viewport.getMinY() + ", width=";
+            viewportStr += viewport.getWidth() + ", height=";
+            viewportStr += viewport.getHeight() + "]";
+        }
         return String.format("""
                 DataPoint: {
                     dataId: %d,
@@ -89,7 +104,7 @@ public class DataPoint {
                 timeOffset,
                 Arrays.toString(coordinates),
                 Arrays.toString(rasterSize),
-                Arrays.toString(viewport));
+                viewportStr);
     }
 
     @Override
@@ -104,6 +119,11 @@ public class DataPoint {
         return dataId == that.dataId && timeOffset == that.timeOffset
                 && Arrays.equals(coordinates, that.coordinates)
                 && Arrays.equals(rasterSize, that.rasterSize)
-                && Arrays.equals(viewport, that.viewport);
+                && viewport == that.viewport || (
+                    viewport.getMinX() == that.viewport.getMinX()
+                    && viewport.getMinY() == that.viewport.getMinY()
+                    && viewport.getWidth() == that.viewport.getWidth()
+                    && viewport.getHeight() == that.viewport.getHeight()
+                    );
     }
 }

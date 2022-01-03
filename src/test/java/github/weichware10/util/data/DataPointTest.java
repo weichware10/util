@@ -3,6 +3,7 @@ package github.weichware10.util.data;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
+import javafx.geometry.Rectangle2D;
 import org.junit.Test;
 
 /**
@@ -82,11 +83,12 @@ public class DataPointTest {
      */
     @Test
     public void viewportShouldBeSetCorrectly() {
-        double[] viewport = new double[] { 1, 2, 3, 4 };
+        Rectangle2D viewport = new Rectangle2D(1, 2, 3, 4);
         DataPoint dataPoint1 = new DataPoint(0, 0, viewport);
-        assertTrue("dataPoint1.viewport sollten {" + viewport[0]
-            + ", " + viewport[1] + ", " + viewport[2] + ", " + viewport[3] + "} sein",
-            dataPoint1.viewport.equals(viewport));
+        assertTrue("dataPoint1.viewport sollten {" + viewport.getMinX()
+                + ", " + viewport.getMinY() + ", " + viewport.getWidth()
+                + ", " + viewport.getHeight() + "} sein",
+                dataPoint1.viewport.equals(viewport));
     }
 
     /**
@@ -94,14 +96,14 @@ public class DataPointTest {
      */
     @Test
     public void toStringShouldStringGood() {
-        DataPoint dataPoint1 = new DataPoint(1, 2, new double[] { 1, 2, 3, 4 });
+        DataPoint dataPoint1 = new DataPoint(1, 2, new Rectangle2D(1, 2, 3, 4));
         assertEquals("""
                 DataPoint: {
                     dataId: 1,
                     timeOffset: 2,
                     coordinates: null,
                     rasterSize: null,
-                    viewport: [1.0, 2.0, 3.0, 4.0]
+                    viewport: [minX=1.0, minY=2.0, width=3.0, height=4.0]
                 }""", dataPoint1.toString());
 
         DataPoint dataPoint2 = new DataPoint(5, 6, new double[] { 7, 8 }, new double[] { 9, 10 });

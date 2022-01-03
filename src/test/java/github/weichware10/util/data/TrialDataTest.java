@@ -7,6 +7,7 @@ import static org.junit.Assert.assertThrows;
 import static org.junit.Assert.assertTrue;
 
 import github.weichware10.util.ToolType;
+import javafx.geometry.Rectangle2D;
 import org.junit.Test;
 
 /**
@@ -115,7 +116,7 @@ public class TrialDataTest {
                     dataPoints: dataPoints[0]
                 }""", data2.startTime.toString()),
                 data2.toString());
-        data2.addDataPoint(new double[] { 1, 2, 3, 4 });
+        data2.addDataPoint(new Rectangle2D(1, 2, 3, 4));
         assertEquals(String.format("""
                 TrialData: {
                     toolType: ZOOMMAPS
@@ -170,7 +171,7 @@ public class TrialDataTest {
     @Test
     public void shouldGetDataCorrectly() {
         TrialData data1 = new TrialData(ToolType.ZOOMMAPS, "1", "2");
-        data1.addDataPoint(new double[] { 1, 2, 3, 4 });
+        data1.addDataPoint(new Rectangle2D(1, 2, 3, 4));
         DataPoint dataPoint1 = data1.getData().get(0);
         assertTrue(data1.getData().get(0).equals(dataPoint1));
     }
@@ -179,8 +180,8 @@ public class TrialDataTest {
     public void toJsonShouldWork() {
         TrialData data1 = new TrialData(ToolType.ZOOMMAPS, "trialId", "configId");
         data1.setAnswer("answer");
-        data1.addDataPoint(new double[] { 1, 2, 3, 4 });
-        data1.addDataPoint(new double[] { 1, 2, 3, 4 });
+        data1.addDataPoint(new Rectangle2D(1, 2, 3, 4));
+        data1.addDataPoint(new Rectangle2D(1, 2, 3, 4));
         assertTrue(TrialData.toJson("target/TD-ZOOMMAPS.json", data1));
 
         TrialData data2 = new TrialData(ToolType.CODECHARTS, "trialId", "configId");
@@ -208,10 +209,10 @@ public class TrialDataTest {
         assertEquals("answer", dataZm.getAnswer());
         assertEquals(2, dataZm.getData().size());
         assertEquals(40, dataZm.getData().get(0).timeOffset);
-        assertEquals(4.0f, dataZm.getData().get(0).viewport[1], 0.0001f);
+        assertEquals(4.0f, dataZm.getData().get(0).viewport.getMinY(), 0.0001f);
         assertNull(dataZm.getData().get(0).rasterSize);
         assertEquals(1, dataZm.getData().get(1).dataId);
-        assertEquals(8.0f, dataZm.getData().get(1).viewport[2], 0.0001f);
+        assertEquals(8.0f, dataZm.getData().get(1).viewport.getWidth(), 0.0001f);
 
         TrialData dataCc = TrialData.fromJson("src/test/resources/testtrial-CODECHARTS.json");
 
