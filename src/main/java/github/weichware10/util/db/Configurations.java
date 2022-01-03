@@ -112,18 +112,22 @@ public class Configurations {
         final String ccQueryFormat = """
                 INSERT INTO %s.configurations
                 (configid, tooltype, tutorial, question, imageurl,
-                strings, initialsize_x, initialsize_y, timings_0, timings_1, speed)
+                strings, initialsize_x, initialsize_y, timings_0, timings_1,
+                imageview_width, imageview_height, speed)
                 VALUES
                 ('%s', '%s', %d, '%s', '%s',
-                '%s', %d, %d, %d, %d, null);""";
+                '%s', %d, %d, %d, %d,
+                null, null, null);""";
 
         final String zmQueryFormat = """
                 INSERT INTO %s.configurations
                 (configid, tooltype, tutorial, question, imageurl,
-                strings, initialsize_x, initialsize_y, timings_0, timings_1, speed)
+                strings, initialsize_x, initialsize_y, timings_0, timings_1,
+                imageview_width, imageview_height, speed)
                 VALUES
                 ('%s', '%s', %d, '%s', '%s',
-                null, null, null, null, null, %s);""";
+                null, null, null, null, null,
+                %f, %f, %s);""";
 
         final String uniqueException =
                 "ERROR: duplicate key value violates unique constraint \"configurations_pkey\"";
@@ -162,7 +166,9 @@ public class Configurations {
                         configuration.getTutorial() ? 1 : 0,
                         configuration.getQuestion(),
                         configuration.getImageUrl(),
-                        String.format(Locale.US, "%f", zmConfig.getSpeed()));
+                        String.format(Locale.US, "%f", zmConfig.getSpeed()),
+                        zmConfig.getImageViewWidth(),
+                        zmConfig.getImageViewHeight());
             }
             try {
                 conn = DriverManager.getConnection(dataBaseClient.url, dataBaseClient.props);
