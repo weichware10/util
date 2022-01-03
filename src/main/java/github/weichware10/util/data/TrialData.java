@@ -6,6 +6,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.exc.StreamReadException;
 import com.fasterxml.jackson.databind.DatabindException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.ObjectWriter;
 import com.fasterxml.jackson.datatype.joda.JodaModule;
 import github.weichware10.util.Logger;
 import github.weichware10.util.ToolType;
@@ -197,9 +198,9 @@ public class TrialData {
         try {
             // umwandeln von TrialData zu JSON String
             // ObjectWriter ow = new ObjectMapper().writer().withDefaultPrettyPrinter();
-            ObjectMapper ow = new ObjectMapper();
-            ow.registerModule(new JodaModule());
-            ow.writer().withDefaultPrettyPrinter();
+            ObjectMapper om = new ObjectMapper();
+            om.registerModule(new JodaModule());
+            ObjectWriter ow = om.writer().withDefaultPrettyPrinter();
             String json = ow.writeValueAsString(trialData);
 
             // Öffnen der Datei
