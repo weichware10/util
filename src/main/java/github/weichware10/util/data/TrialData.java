@@ -197,9 +197,7 @@ public class TrialData {
         }
         try {
             // umwandeln von TrialData zu JSON String
-            // ObjectWriter ow = new ObjectMapper().writer().withDefaultPrettyPrinter();
-            ObjectMapper om = new ObjectMapper();
-            om.registerModule(new JodaModule());
+            ObjectMapper om = new ObjectMapper().registerModule(new JodaModule());
             ObjectWriter ow = om.writer().withDefaultPrettyPrinter();
             String json = ow.writeValueAsString(trialData);
 
