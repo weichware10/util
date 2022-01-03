@@ -166,9 +166,9 @@ public class Configurations {
                         configuration.getTutorial() ? 1 : 0,
                         configuration.getQuestion(),
                         configuration.getImageUrl(),
-                        String.format(Locale.US, "%f", zmConfig.getSpeed()),
                         zmConfig.getImageViewWidth(),
-                        zmConfig.getImageViewHeight());
+                        zmConfig.getImageViewHeight(),
+                        String.format(Locale.US, "%f", zmConfig.getSpeed()));
             }
             try {
                 conn = DriverManager.getConnection(dataBaseClient.url, dataBaseClient.props);
