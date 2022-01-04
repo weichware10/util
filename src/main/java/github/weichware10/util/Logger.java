@@ -6,26 +6,20 @@ import java.io.OutputStream;
 import java.io.PrintStream;
 import java.io.PrintWriter;
 import java.io.StringWriter;
-
 import javafx.scene.control.TextArea;
 
 /**
  * Klasse, um Inhalte schön zu loggen. Hat verschiedene Log-Stufen:
  *
- * <p>
- * - INFO
+ * <p>- INFO
  *
- * <p>
- * - WARN
+ * <p>- WARN
  *
- * <p>
- * - ERROR
+ * <p>- ERROR
  *
- * <p>
- * - DEBUG
+ * <p>- DEBUG
  *
- * <p>
- * Jede Funktion hat 3 verschiedene Versionen,
+ * <p>Jede Funktion hat 3 verschiedene Versionen,
  * ohne Kontext, mit Kontext, und mit Kontext und Stack Trace.
  *
  * @since v0.2
@@ -276,7 +270,7 @@ public class Logger {
             if (logArea != null | logfile != null) {
                 StringWriter sw = new StringWriter();
                 PrintWriter pw = new PrintWriter(sw);
-
+                ctx.printStackTrace(pw);
                 stackTraceString = sw.toString();
             }
             if (logArea != null) {
