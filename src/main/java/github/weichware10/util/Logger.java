@@ -4,20 +4,28 @@ import java.io.File;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintStream;
+import java.io.PrintWriter;
+import java.io.StringWriter;
+
 import javafx.scene.control.TextArea;
 
 /**
  * Klasse, um Inhalte schön zu loggen. Hat verschiedene Log-Stufen:
  *
- * <p>- INFO
+ * <p>
+ * - INFO
  *
- * <p>- WARN
+ * <p>
+ * - WARN
  *
- * <p>- ERROR
+ * <p>
+ * - ERROR
  *
- * <p>- DEBUG
+ * <p>
+ * - DEBUG
  *
- * <p>Jede Funktion hat 3 verschiedene Versionen,
+ * <p>
+ * Jede Funktion hat 3 verschiedene Versionen,
  * ohne Kontext, mit Kontext, und mit Kontext und Stack Trace.
  *
  * @since v0.2
@@ -34,6 +42,7 @@ public class Logger {
 
     private static PrintStream logfile;
     private static PrintStream sysOut = System.out;
+    private static PrintStream sysErr = System.err;
     private static TextArea logArea;
     private static LogStream logStream = new LogStream();
     public static final PrintStream PRINSTREAM = new PrintStream(logStream, true);
@@ -71,6 +80,10 @@ public class Logger {
         Logger.sysOut = out;
     }
 
+    public static void setSysErr(PrintStream err) {
+        Logger.sysErr = err;
+    }
+
     // === DEBUG ===
 
     /**
@@ -88,7 +101,7 @@ public class Logger {
      * Loggt eine debug-Nachricht mit Kontext.
      *
      * @param message - Inhalt
-     * @param ctx - Kontext, d.h. eine Exception
+     * @param ctx     - Kontext, d.h. eine Exception
      * @since v0.2
      */
     public static void debug(String message, Exception ctx) {
@@ -98,8 +111,8 @@ public class Logger {
     /**
      * Loggt eine debug-Nachricht mit Kontext.
      *
-     * @param message - Inhalt
-     * @param ctx - Kontext, d.h. eine Exception
+     * @param message    - Inhalt
+     * @param ctx        - Kontext, d.h. eine Exception
      * @param stackTrace - ob ein StackTrace angezeigt werden soll
      * @since v0.2
      */
@@ -108,7 +121,7 @@ public class Logger {
                 + ctx.getMessage() + "\n");
         logStream.plainLog("[DEBUG] " + message + ": " + ctx.getMessage() + "\n");
         if (stackTrace) {
-            ctx.printStackTrace();
+            logStream.printStackTrace(ctx);
         }
     }
 
@@ -127,7 +140,7 @@ public class Logger {
      * Loggt eine error-Nachricht mit Kontext.
      *
      * @param message - Inhalt
-     * @param ctx - Kontext, d.h. eine Exception
+     * @param ctx     - Kontext, d.h. eine Exception
      * @since v0.2
      */
     public static void error(String message, Exception ctx) {
@@ -137,8 +150,8 @@ public class Logger {
     /**
      * Loggt eine error-Nachricht mit Kontext.
      *
-     * @param message - Inhalt
-     * @param ctx - Kontext, d.h. eine Exception
+     * @param message    - Inhalt
+     * @param ctx        - Kontext, d.h. eine Exception
      * @param stackTrace - ob ein StackTrace angezeigt werden soll
      * @since v0.2
      */
@@ -146,7 +159,7 @@ public class Logger {
         logStream.consoleLog(RED + "[ERROR] " + RESET + message + ": " + ctx.getMessage() + "\n");
         logStream.plainLog("[ERROR] " + message + ": " + ctx.getMessage() + "\n");
         if (stackTrace) {
-            ctx.printStackTrace();
+            logStream.printStackTrace(ctx);
         }
     }
 
@@ -165,7 +178,7 @@ public class Logger {
      * Loggt eine warn-Nachricht mit Kontext.
      *
      * @param message - Inhalt
-     * @param ctx - Kontext, d.h. eine Exception
+     * @param ctx     - Kontext, d.h. eine Exception
      * @since v0.2
      */
     public static void warn(String message, Exception ctx) {
@@ -175,8 +188,8 @@ public class Logger {
     /**
      * Loggt eine warn-Nachricht mit Kontext.
      *
-     * @param message - Inhalt
-     * @param ctx - Kontext, d.h. eine Exception
+     * @param message    - Inhalt
+     * @param ctx        - Kontext, d.h. eine Exception
      * @param stackTrace - ob ein StackTrace angezeigt werden soll
      * @since v0.2
      */
@@ -184,7 +197,7 @@ public class Logger {
         logStream.consoleLog(YELLOW + "[WARN] " + RESET + message + ": " + ctx.getMessage() + "\n");
         logStream.plainLog("[WARN] " + message + ": " + ctx.getMessage() + "\n");
         if (stackTrace) {
-            ctx.printStackTrace();
+            logStream.printStackTrace(ctx);
         }
     }
 
@@ -203,7 +216,7 @@ public class Logger {
      * Loggt eine info-Nachricht mit Kontext.
      *
      * @param message - Inhalt
-     * @param ctx - Kontext, d.h. eine Exception
+     * @param ctx     - Kontext, d.h. eine Exception
      * @since v0.2
      */
     public static void info(String message, Exception ctx) {
@@ -213,8 +226,8 @@ public class Logger {
     /**
      * Loggt eine info-Nachricht mit Kontext.
      *
-     * @param message - Inhalt
-     * @param ctx - Kontext, d.h. eine Exception
+     * @param message    - Inhalt
+     * @param ctx        - Kontext, d.h. eine Exception
      * @param stackTrace - ob ein StackTrace angezeigt werden soll
      * @since v0.2
      */
@@ -222,7 +235,7 @@ public class Logger {
         logStream.consoleLog(CYAN + "[INFO] " + RESET + message + ": " + ctx.getMessage() + "\n");
         logStream.plainLog("[INFO] " + message + ": " + ctx.getMessage() + "\n");
         if (stackTrace) {
-            ctx.printStackTrace();
+            logStream.printStackTrace(ctx);
         }
     }
 
@@ -254,6 +267,28 @@ public class Logger {
             }
             if (logfile != null) {
                 logfile.append(content);
+            }
+        }
+
+        public void printStackTrace(Exception ctx) {
+            // stacktrace als string
+            String stackTraceString = null;
+            if (logArea != null | logfile != null) {
+                StringWriter sw = new StringWriter();
+                PrintWriter pw = new PrintWriter(sw);
+
+                stackTraceString = sw.toString();
+            }
+            if (logArea != null) {
+                logArea.appendText(stackTraceString);
+            }
+            if (logfile != null) {
+                logfile.append(stackTraceString);
+            }
+            if (sysErr != null) {
+                ctx.printStackTrace(sysErr);
+            } else if (sysOut != null) {
+                ctx.printStackTrace(sysOut);
             }
         }
     }

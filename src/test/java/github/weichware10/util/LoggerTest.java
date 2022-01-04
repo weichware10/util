@@ -12,8 +12,8 @@ import java.nio.file.Files;
 import java.util.Arrays;
 import java.util.List;
 import org.joda.time.DateTime;
-import org.junit.After;
-import org.junit.Before;
+import org.junit.AfterClass;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 /**
@@ -21,27 +21,27 @@ import org.junit.Test;
  */
 public class LoggerTest {
 
-    private final ByteArrayOutputStream outContent = new ByteArrayOutputStream();
-    private final ByteArrayOutputStream errContent = new ByteArrayOutputStream();
-    private final PrintStream originalOut = Logger.PRINSTREAM;
-    private final PrintStream originalErr = Logger.PRINSTREAM;
+    private static ByteArrayOutputStream outContent = new ByteArrayOutputStream();
+    private static ByteArrayOutputStream errContent = new ByteArrayOutputStream();
+    private static PrintStream originalOut = System.out;
+    private static PrintStream originalErr = System.err;
 
     /**
      * Setzt output stream auf neuen Stream, um diesen Stream zu testen.
      * https://stackoverflow.com/questions/1119385/junit-test-for-system-out-println
      */
-    @Before
-    public void setUpStreams() {
+    @BeforeClass
+    public static void setUpStreams() {
         Logger.setSysOut(new PrintStream(outContent));
-        System.setErr(new PrintStream(errContent));
+        Logger.setSysErr(new PrintStream(errContent));
     }
 
     /**
      * Setzt Output Stream zurück.
      * https://stackoverflow.com/questions/1119385/junit-test-for-system-out-println
      */
-    @After
-    public void restoreStreams() {
+    @AfterClass
+    public static void restoreStreams() {
         System.setOut(originalOut);
         System.setErr(originalErr);
     }
