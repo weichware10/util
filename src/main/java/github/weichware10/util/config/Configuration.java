@@ -1,6 +1,5 @@
 package github.weichware10.util.config;
 
-import github.weichware10.util.Logger;
 import github.weichware10.util.ToolType;
 
 /**
@@ -119,7 +118,6 @@ public class Configuration {
             return false;
         }
         Configuration that = (Configuration) (obj);
-        Logger.debug(Boolean.toString(((tutorial == that.tutorial))));
         return trialId.equals(that.trialId)
                 && toolType == that.toolType
                 && ((codeChartsConfiguration == that.codeChartsConfiguration)

@@ -1,5 +1,11 @@
 package github.weichware10.util;
 
+import java.io.File;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.io.PrintStream;
+import javafx.scene.control.TextArea;
+
 /**
  * Klasse, um Inhalte schön zu loggen. Hat verschiedene Log-Stufen:
  *
@@ -26,11 +32,43 @@ public class Logger {
     private static final String PURPLE = "\u001B[35m";
     private static final String CYAN = "\u001B[36m";
 
+    private static PrintStream logfile;
+    private static PrintStream sysOut = System.out;
+    private static TextArea logArea;
+    private static LogStream logStream = new LogStream();
+    public static final PrintStream PRINSTREAM = new PrintStream(logStream, true);
+
     /**
      * Cannot be instantiated.
      */
     private Logger() {
         throw new IllegalStateException("Cannot be instantiated");
+    }
+
+    /**
+     * sets logfile.
+     *
+     * @param filename - the file
+     */
+    public static void setLogfile(String filename) {
+        if (filename == null) {
+            return;
+        }
+        try {
+            File file = new File(filename);
+            file.createNewFile();
+            logfile = new PrintStream(file);
+        } catch (IOException e) {
+            logfile = null;
+        }
+    }
+
+    public static void setLogArea(TextArea logArea) {
+        Logger.logArea = logArea;
+    }
+
+    public static void setSysOut(PrintStream out) {
+        Logger.sysOut = out;
     }
 
     // === DEBUG ===
@@ -42,7 +80,8 @@ public class Logger {
      * @since v0.2
      */
     public static void debug(String message) {
-        System.out.println(PURPLE + "[DEBUG] " + RESET + message);
+        logStream.consoleLog(PURPLE + "[DEBUG] " + RESET + message + "\n");
+        logStream.plainLog("[DEBUG] " + message + "\n");
     }
 
     /**
@@ -65,7 +104,9 @@ public class Logger {
      * @since v0.2
      */
     public static void debug(String message, Exception ctx, boolean stackTrace) {
-        System.out.println(PURPLE + "[DEBUG] " + RESET + message + ": " + ctx.getMessage());
+        logStream.consoleLog(PURPLE + "[DEBUG] " + RESET + message + ": "
+                + ctx.getMessage() + "\n");
+        logStream.plainLog("[DEBUG] " + message + ": " + ctx.getMessage() + "\n");
         if (stackTrace) {
             ctx.printStackTrace();
         }
@@ -78,7 +119,8 @@ public class Logger {
      * @since v0.2
      */
     public static void error(String message) {
-        System.out.println(RED + "[ERROR] " + RESET + message);
+        logStream.consoleLog(RED + "[ERROR] " + RESET + message + "\n");
+        logStream.plainLog("[ERROR] " + message + "\n");
     }
 
     /**
@@ -101,7 +143,8 @@ public class Logger {
      * @since v0.2
      */
     public static void error(String message, Exception ctx, boolean stackTrace) {
-        System.out.println(RED + "[ERROR] " + RESET + message + ": " + ctx.getMessage());
+        logStream.consoleLog(RED + "[ERROR] " + RESET + message + ": " + ctx.getMessage() + "\n");
+        logStream.plainLog("[ERROR] " + message + ": " + ctx.getMessage() + "\n");
         if (stackTrace) {
             ctx.printStackTrace();
         }
@@ -114,7 +157,8 @@ public class Logger {
      * @since v0.2
      */
     public static void warn(String message) {
-        System.out.println(YELLOW + "[WARN] " + RESET + message);
+        logStream.consoleLog(YELLOW + "[WARN] " + RESET + message + "\n");
+        logStream.plainLog("[WARN] " + message + "\n");
     }
 
     /**
@@ -137,7 +181,8 @@ public class Logger {
      * @since v0.2
      */
     public static void warn(String message, Exception ctx, boolean stackTrace) {
-        System.out.println(YELLOW + "[WARN] " + RESET + message + ": " + ctx.getMessage());
+        logStream.consoleLog(YELLOW + "[WARN] " + RESET + message + ": " + ctx.getMessage() + "\n");
+        logStream.plainLog("[WARN] " + message + ": " + ctx.getMessage() + "\n");
         if (stackTrace) {
             ctx.printStackTrace();
         }
@@ -150,7 +195,8 @@ public class Logger {
      * @since v0.2
      */
     public static void info(String message) {
-        System.out.println(CYAN + "[INFO] " + RESET + message);
+        logStream.consoleLog(CYAN + "[INFO] " + RESET + message + "\n");
+        logStream.plainLog("[INFO] " + message + "\n");
     }
 
     /**
@@ -173,9 +219,42 @@ public class Logger {
      * @since v0.2
      */
     public static void info(String message, Exception ctx, boolean stackTrace) {
-        System.out.println(CYAN + "[INFO] " + RESET + message + ": " + ctx.getMessage());
+        logStream.consoleLog(CYAN + "[INFO] " + RESET + message + ": " + ctx.getMessage() + "\n");
+        logStream.plainLog("[INFO] " + message + ": " + ctx.getMessage() + "\n");
         if (stackTrace) {
             ctx.printStackTrace();
+        }
+    }
+
+    private static class LogStream extends OutputStream {
+        @Override
+        public void write(int i) {
+            if (logArea != null) {
+                logArea.appendText(String.valueOf((char) i));
+            }
+            if (sysOut != null) {
+                sysOut.append((char) i);
+            }
+            if (logfile != null) {
+                logfile.append((char) i);
+            }
+        }
+
+        public void consoleLog(String content) {
+            if (sysOut != null) {
+                for (int i = 0; i < content.length(); i++) {
+                    sysOut.append(content.charAt(i));
+                }
+            }
+        }
+
+        public void plainLog(String content) {
+            if (logArea != null) {
+                logArea.appendText(content);
+            }
+            if (logfile != null) {
+                logfile.append(content);
+            }
         }
     }
 }
