@@ -3,6 +3,8 @@ package github.weichware10.util.data;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.Arrays;
+import java.util.Map;
+import javafx.geometry.Rectangle2D;
 
 /**
  * Stores a single DataPoint.
@@ -12,9 +14,9 @@ import java.util.Arrays;
 public class DataPoint {
     public final int dataId;
     public final int timeOffset;
-    public final int[] coordinates; // ! int[2]
-    public final int[] rasterSize; // ! int[2]
-    public final Float zoomLevel;
+    public final double[] coordinates; // ! double[2]
+    public final double[] rasterSize; // ! double[2]
+    public final Rectangle2D viewport; // ! double[4]
 
     /**
      * Konstruktor für Jackson.
@@ -23,43 +25,47 @@ public class DataPoint {
      * @param timeOffset  - the time since the trial started
      * @param coordinates - the coordinates on the viewed picture
      * @param rasterSize  - width and height of the raster
-     * @param zoomLevel   - how far the user is zoomed in
+     * @param viewport    - aktueller Ausschnitt beim ZoomBild
      *
      * @since v1.0
      */
     @JsonCreator(mode = JsonCreator.Mode.PROPERTIES)
     public DataPoint(@JsonProperty("dataId") int dataId,
             @JsonProperty("timeOffset") int timeOffset,
-            @JsonProperty("coordinates") int[] coordinates,
-            @JsonProperty("rasterSize") int[] rasterSize,
-            @JsonProperty("zoomLevel") Float zoomLevel) {
+            @JsonProperty("coordinates") double[] coordinates,
+            @JsonProperty("rasterSize") double[] rasterSize,
+            @JsonProperty("viewport") Map<String, Double> viewport) {
         this.dataId = dataId;
         this.timeOffset = timeOffset;
         this.coordinates = coordinates;
         this.rasterSize = rasterSize;
-        this.zoomLevel = zoomLevel;
+        this.viewport = (viewport != null) ? new Rectangle2D(
+                viewport.get("minX"),
+                viewport.get("minY"),
+                viewport.get("width"),
+                viewport.get("height"))
+                : null;
     }
 
     /**
-     * Stores a single DataPoint with zoomLevel.
+     * Stores a single DataPoint with viewport.
      *
      * @param dataId      - the id of the dataPoint
      * @param timeOffset  - the time since the trial started
-     * @param coordinates - the coordinates of the viewed picture
-     * @param zoomLevel   - how far the user is zoomed in
+     * @param viewport    - aktueller Ausschnitt beim ZoomBild
      *
      * @since v0.2
      */
-    public DataPoint(int dataId, int timeOffset, int[] coordinates, float zoomLevel) {
+    public DataPoint(int dataId, int timeOffset, Rectangle2D viewport) {
         this.dataId = dataId;
         this.timeOffset = timeOffset;
-        this.coordinates = coordinates;
+        this.coordinates = null;
         this.rasterSize = null;
-        this.zoomLevel = zoomLevel;
+        this.viewport = viewport;
     }
 
     /**
-     * Stores a single DataPoint without zoomLevel.
+     * Stores a single DataPoint without viewport.
      *
      * @param dataId      - the id of the dataPoint
      * @param timeOffset  - the time since the trial started
@@ -68,29 +74,37 @@ public class DataPoint {
      *
      * @since v0.3
      */
-    public DataPoint(int dataId, int timeOffset, int[] coordinates, int[] rasterSize) {
+    public DataPoint(int dataId, int timeOffset, double[] coordinates, double[] rasterSize) {
         this.dataId = dataId;
         this.timeOffset = timeOffset;
         this.coordinates = coordinates;
         this.rasterSize = rasterSize;
-        this.zoomLevel = null;
+        this.viewport = null;
     }
 
     @Override
     public String toString() {
+        String viewportStr = "null";
+        if (viewport != null) {
+            viewportStr = "[minX=";
+            viewportStr += viewport.getMinX() + ", minY=";
+            viewportStr += viewport.getMinY() + ", width=";
+            viewportStr += viewport.getWidth() + ", height=";
+            viewportStr += viewport.getHeight() + "]";
+        }
         return String.format("""
                 DataPoint: {
                     dataId: %d,
                     timeOffset: %d,
                     coordinates: %s,
                     rasterSize: %s,
-                    zoomLevel: %s
+                    viewport: %s
                 }""",
                 dataId,
                 timeOffset,
                 Arrays.toString(coordinates),
                 Arrays.toString(rasterSize),
-                (zoomLevel == null) ? "null" : zoomLevel.toString());
+                viewportStr);
     }
 
     @Override
@@ -104,15 +118,12 @@ public class DataPoint {
         DataPoint that = (DataPoint) (other);
         return dataId == that.dataId && timeOffset == that.timeOffset
                 && Arrays.equals(coordinates, that.coordinates)
-                // Überprüfen ob rasterSize nicht gleichmäßig null / nicht null ist
-                && ((rasterSize == null && that.rasterSize == null)
-                        || (rasterSize != null && that.rasterSize != null))
-                && ((rasterSize == null && that.rasterSize == null)
-                        || Arrays.equals(rasterSize, that.rasterSize))
-                // Überprüfen ob zoomLevel nicht gleichmäßig null / nicht null ist
-                && ((zoomLevel == null && that.zoomLevel == null)
-                        || (zoomLevel != null && that.zoomLevel != null))
-                && ((zoomLevel == null && that.zoomLevel == null)
-                        || zoomLevel.equals(that.zoomLevel));
+                && Arrays.equals(rasterSize, that.rasterSize)
+                && viewport == that.viewport || (
+                    viewport.getMinX() == that.viewport.getMinX()
+                    && viewport.getMinY() == that.viewport.getMinY()
+                    && viewport.getWidth() == that.viewport.getWidth()
+                    && viewport.getHeight() == that.viewport.getHeight()
+                    );
     }
 }

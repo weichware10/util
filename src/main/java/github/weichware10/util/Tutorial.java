@@ -43,14 +43,7 @@ public abstract class Tutorial {
      *     false, wenn nicht angezeigt werden soll
      */
     private boolean getConfigState() {
-        switch (toolType) {
-            case CODECHARTS:
-                return configClient.getConfig().getCodeChartsConfiguration().getTutorial();
-            // case EYETRACKING:
-            //     return configClient.getConfig().getEyeTrackingConfiguration().getTutorial();
-            default: // ZOOMMAPS
-                return configClient.getConfig().getZoomMapsConfiguration().getTutorial();
-        }
+        return configClient.getConfig().getTutorial();
     }
 
     /**

@@ -5,7 +5,7 @@ package github.weichware10.util.config;
  *
  * @deprecated Entwicklung von EyeTracking wird zunächst zurückgestellt.
  */
-public class EyeTrackingConfiguration extends ToolConfiguration {
+public class EyeTrackingConfiguration {
     protected float pollIntervall = 4.20f;
 
     // GETTER
@@ -16,9 +16,6 @@ public class EyeTrackingConfiguration extends ToolConfiguration {
 
     @Override
     public boolean equals(Object obj) {
-        if (!super.equals(obj)) {
-            return false;
-        }
         if (this == obj) {
             return true;
         }
@@ -33,8 +30,7 @@ public class EyeTrackingConfiguration extends ToolConfiguration {
     public String toString() {
         return String.format("""
                 eyeTrackingConfiguration: {
-                        %s, pollInterval: %f }""",
-                super.toString(),
+                        pollInterval: %f }""",
                 pollIntervall);
     }
 }

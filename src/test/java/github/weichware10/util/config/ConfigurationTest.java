@@ -11,9 +11,9 @@ public class ConfigurationTest {
 
     @Test
     public void toStringWorks() {
-        Configuration ccc = new Configuration("con_id", "question?",
+        Configuration ccc = new Configuration("con_id", "question?", "url", "intro", "outro",
                 new CodeChartsConfiguration());
-        Configuration zmc = new Configuration("con_id", "question?",
+        Configuration zmc = new Configuration("con_id", "question?", "url", "intro", "outro",
                 new ZoomMapsConfiguration());
 
         assertTrue("toString should match", zmc.toString().matches("Configuration: [\\s\\S]+"));

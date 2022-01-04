@@ -3,9 +3,9 @@
     "trialId" : "trialId",
     "configId" : "configId",
     "question" : "Is this a question?",
+    "imageUrl" : "www.weichware10.com/owlimage",
+    "tutorial" : true,
     "codeChartsConfiguration" : {
-      "imageUrls" : [ "www.weichware10.com/owlimage", "www.weichware10.com/running-owl" ],
-      "tutorial" : true,
       "strings" : [ "foobar", "barfoo" ],
       "initialSize" : [ 10, 20 ],
       "timings" : [ 200, 200 ]

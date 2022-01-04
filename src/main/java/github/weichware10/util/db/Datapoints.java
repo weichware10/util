@@ -8,8 +8,10 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 
 /**
  * Die Datapoints-Tabelle beinhaltet die gespeicherten Datapoints.
@@ -48,21 +50,28 @@ class Datapoints {
             rs = st.executeQuery(query);
             while (rs.next()) {
                 // bei codecharts versuchen
-                int[] rasterSize = new int[] { rs.getInt("rastersize_x"),
-                        rs.getInt("rastersize_y") };
+                double[] coordinates = new double[] { rs.getDouble("coordinates_x"),
+                        rs.getDouble("coordinates_y") };
+                coordinates = rs.wasNull() ? null : coordinates;
+                double[] rasterSize = new double[] { rs.getDouble("rastersize_x"),
+                        rs.getDouble("rastersize_y") };
                 rasterSize = rs.wasNull() ? null : rasterSize;
 
                 // bei zoommaps versuchen
-                Float zoomLevel = rs.getFloat("zoomlevel");
-                zoomLevel = rs.wasNull() ? null : zoomLevel;
+                Map<String, Double> viewport = new HashMap<>();
+                viewport.put("minX", rs.getDouble("viewportmin_x"));
+                viewport.put("minY", rs.getDouble("viewportmin_y"));
+                viewport.put("width", rs.getDouble("viewport_width"));
+                viewport.put("height", rs.getDouble("viewport_height"));
+                viewport = rs.wasNull() ? null : viewport;
 
                 // neuen Punkt zur Liste hinzufügen
                 dataPoints.add(new DataPoint(
                         rs.getInt("dataid"),
                         rs.getInt("timeoffset"),
-                        new int[] { rs.getInt("coordinates_x"), rs.getInt("coordinates_y") },
+                        coordinates,
                         rasterSize,
-                        zoomLevel));
+                        viewport));
             }
 
         } catch (SQLException e) {
@@ -87,21 +96,21 @@ class Datapoints {
                 INSERT INTO %s.datapoints
                 (trialid, dataid, timeoffset,
                 coordinates_x, coordinates_y, rastersize_x, rastersize_y,
-                zoomlevel)
+                viewportmin_x, viewportmin_y, viewport_width, viewport_height)
                 VALUES
                 ('%s', %d, %d,
-                %d, %d, %d, %d,
-                null);""";
+                %s, %s, %s, %s,
+                null, null, null, null);""";
 
         final String zmQuery = """
                 INSERT INTO %s.datapoints
                 (trialid, dataid, timeoffset,
                 coordinates_x, coordinates_y, rastersize_x, rastersize_y,
-                zoomlevel)
+                viewportmin_x, viewportmin_y, viewport_width, viewport_height)
                 VALUES
                 ('%s', %d, %d,
-                %d, %d, null, null,
-                %s);""";
+                null, null, null, null,
+                %s, %s, %s, %s);""";
 
         Connection conn = null;
         Statement st = null;
@@ -112,29 +121,30 @@ class Datapoints {
             for (int i = 0; i < dataPoints.size(); i++) {
                 DataPoint dp = dataPoints.get(i);
                 // CODECHARTS
-                if (dp.zoomLevel == null) {
+                if (dp.viewport == null) {
                     st.executeUpdate(String.format(ccQuery,
                             dataBaseClient.schema,
                             trialId,
                             dp.dataId,
                             dp.timeOffset,
-                            dp.coordinates[0],
-                            dp.coordinates[1],
-                            dp.rasterSize[0],
-                            dp.rasterSize[1]));
+                            String.format(Locale.US, "%f", dp.coordinates[0]),
+                            String.format(Locale.US, "%f", dp.coordinates[1]),
+                            String.format(Locale.US, "%f", dp.rasterSize[0]),
+                            String.format(Locale.US, "%f", dp.rasterSize[1])));
                 } else { // ZOOMMAPS
                     st.executeUpdate(String.format(zmQuery,
                             dataBaseClient.schema,
                             trialId,
                             dp.dataId,
                             dp.timeOffset,
-                            dp.coordinates[0],
-                            dp.coordinates[1],
-                            String.format(Locale.US, "%f", dp.zoomLevel)));
+                            String.format(Locale.US, "%f", dp.viewport.getMinX()),
+                            String.format(Locale.US, "%f", dp.viewport.getMinY()),
+                            String.format(Locale.US, "%f", dp.viewport.getWidth()),
+                            String.format(Locale.US, "%f", dp.viewport.getHeight())));
                 }
             }
         } catch (Exception e) {
-            Logger.error("SQLException when executing setDataPoints", e);
+            Logger.error("SQLException when executing setDataPoints", e, true);
         } finally {
             Util.closeQuietly(st);
             Util.closeQuietly(conn);

@@ -8,15 +8,29 @@
         {
             "dataId": 0,
             "timeOffset": 40,
-            "zoomLevel": 3,
             "coordinates": [ 1, 2 ],
+            "viewport": {
+                "minX": 3.0,
+                "minY": 4.0,
+                "width": 5.0,
+                "height": 6.0,
+                "maxX": 8.0,
+                "maxY": 10.0
+            },
             "rasterSize": null
         },
         {
             "dataId": 1,
             "timeOffset": 41,
-            "zoomLevel": 6,
             "coordinates": [ 4, 5 ],
+            "viewport": {
+                "minX": 6.0,
+                "minY": 7.0,
+                "width": 8.0,
+                "height": 9.0,
+                "maxX": 14.0,
+                "maxY": 16.0
+            },
             "rasterSize": null
         }
     ]

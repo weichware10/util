@@ -2,10 +2,12 @@ package github.weichware10.util.data;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertThrows;
 import static org.junit.Assert.assertTrue;
 
 import github.weichware10.util.ToolType;
+import javafx.geometry.Rectangle2D;
 import org.junit.Test;
 
 /**
@@ -91,7 +93,7 @@ public class TrialDataTest {
                     dataPoints: dataPoints[0]
                 }""", data1.startTime.toString()),
                 data1.toString());
-        data1.addDataPoint(new int[] { 1, 2 }, new int[] { 3, 4 });
+        data1.addDataPoint(new double[] { 1, 2 }, new double[] { 3, 4 });
         assertEquals(String.format("""
                 TrialData: {
                     toolType: CODECHARTS
@@ -114,7 +116,7 @@ public class TrialDataTest {
                     dataPoints: dataPoints[0]
                 }""", data2.startTime.toString()),
                 data2.toString());
-        data2.addDataPoint(new int[] { 1, 2 }, 42.0f);
+        data2.addDataPoint(new Rectangle2D(1, 2, 3, 4));
         assertEquals(String.format("""
                 TrialData: {
                     toolType: ZOOMMAPS
@@ -134,18 +136,18 @@ public class TrialDataTest {
     public void wrongListSizeShouldThrow() {
         TrialData data1 = new TrialData(ToolType.ZOOMMAPS, "1", "2");
         assertThrows(IllegalArgumentException.class, () -> {
-            data1.addDataPoint(new int[] { 1, 2, 3 }, 42);
+            data1.addDataPoint(new double[] { 1, 2, 3 }, new double[] { 1, 2, 3, 4 });
         });
 
         TrialData data2 = new TrialData(ToolType.CODECHARTS, "1", "2");
         assertThrows(IllegalArgumentException.class, () -> {
-            data2.addDataPoint(new int[] { 1, 2, 3 }, new int[] { 1, 2 });
+            data2.addDataPoint(new double[] { 1, 2, 3 }, new double[] { 1, 2 });
         });
         assertThrows(IllegalArgumentException.class, () -> {
-            data2.addDataPoint(new int[] { 1, 2 }, new int[] { 1, 2, 3 });
+            data2.addDataPoint(new double[] { 1, 2 }, new double[] { 1, 2, 3 });
         });
         assertThrows(IllegalArgumentException.class, () -> {
-            data2.addDataPoint(new int[] { 1, 2, 3 }, new int[] { 1, 2, 3 });
+            data2.addDataPoint(new double[] { 1, 2, 3 }, new double[] { 1, 2, 3 });
         });
     }
 
@@ -157,19 +159,19 @@ public class TrialDataTest {
     public void wrongToolTypeShouldThrow() {
         TrialData data1 = new TrialData(ToolType.ZOOMMAPS, "1", "2");
         assertThrows(IllegalArgumentException.class, () -> {
-            data1.addDataPoint(new int[] { 1, 2 }, new int[] { 1, 2 });
+            data1.addDataPoint(new double[] { 1, 2 }, new double[] { 1, 2 });
         });
 
         TrialData data2 = new TrialData(ToolType.CODECHARTS, "1", "2");
         assertThrows(IllegalArgumentException.class, () -> {
-            data2.addDataPoint(new int[] { 1, 2 }, 42);
+            data2.addDataPoint(new double[] { 1, 2 }, new double[] { 1, 2, 3, 4 });
         });
     }
 
     @Test
     public void shouldGetDataCorrectly() {
         TrialData data1 = new TrialData(ToolType.ZOOMMAPS, "1", "2");
-        data1.addDataPoint(new int[] { 1, 2 }, 42.0f);
+        data1.addDataPoint(new Rectangle2D(1, 2, 3, 4));
         DataPoint dataPoint1 = data1.getData().get(0);
         assertTrue(data1.getData().get(0).equals(dataPoint1));
     }
@@ -178,14 +180,14 @@ public class TrialDataTest {
     public void toJsonShouldWork() {
         TrialData data1 = new TrialData(ToolType.ZOOMMAPS, "trialId", "configId");
         data1.setAnswer("answer");
-        data1.addDataPoint(new int[] { 1, 2 }, 3.0f);
-        data1.addDataPoint(new int[] { 4, 5 }, 6.0f);
+        data1.addDataPoint(new Rectangle2D(1, 2, 3, 4));
+        data1.addDataPoint(new Rectangle2D(1, 2, 3, 4));
         assertTrue(TrialData.toJson("target/TD-ZOOMMAPS.json", data1));
 
         TrialData data2 = new TrialData(ToolType.CODECHARTS, "trialId", "configId");
         data2.setAnswer("answer");
-        data2.addDataPoint(new int[] { 1, 2 }, new int[] { 3, 4 });
-        data2.addDataPoint(new int[] { 5, 6 }, new int[] { 7, 8 });
+        data2.addDataPoint(new double[] { 1, 2 }, new double[] { 3, 4 });
+        data2.addDataPoint(new double[] { 5, 6 }, new double[] { 7, 8 });
         assertTrue(TrialData.toJson("target/TD-CODECHARTS.json", data2));
 
         assertFalse(TrialData.toJson("target/TD-ZOOMMAPS.jpg", data1));
@@ -207,7 +209,10 @@ public class TrialDataTest {
         assertEquals("answer", dataZm.getAnswer());
         assertEquals(2, dataZm.getData().size());
         assertEquals(40, dataZm.getData().get(0).timeOffset);
+        assertEquals(4.0f, dataZm.getData().get(0).viewport.getMinY(), 0.0001f);
+        assertNull(dataZm.getData().get(0).rasterSize);
         assertEquals(1, dataZm.getData().get(1).dataId);
+        assertEquals(8.0f, dataZm.getData().get(1).viewport.getWidth(), 0.0001f);
 
         TrialData dataCc = TrialData.fromJson("src/test/resources/testtrial-CODECHARTS.json");
 
@@ -217,6 +222,8 @@ public class TrialDataTest {
         assertEquals("answer", dataCc.getAnswer());
         assertEquals(2, dataCc.getData().size());
         assertEquals(0, dataCc.getData().get(0).timeOffset);
+        assertNull(dataCc.getData().get(0).viewport);
         assertEquals(1, dataCc.getData().get(1).dataId);
+        assertNull(dataCc.getData().get(1).viewport);
     }
 }

@@ -1,5 +1,6 @@
 package github.weichware10.util.config;
 
+import github.weichware10.util.Logger;
 import github.weichware10.util.ToolType;
 
 /**
@@ -10,6 +11,10 @@ public class Configuration {
     protected String trialId = "trialId";
     protected String configId = "configId";
     protected String question = "Is this a question?";
+    protected String intro = "hello there";
+    protected String outro = "bye bye general kenobi";
+    protected String imageUrl = "url";
+    protected boolean tutorial = true;
 
     protected CodeChartsConfiguration codeChartsConfiguration;
     protected ZoomMapsConfiguration zoomMapsConfiguration;
@@ -26,30 +31,38 @@ public class Configuration {
     /**
      * Konstruktor für Configuration vom Typ CodeChartsConfiguration.
      *
-     * @param configId - configId der übergebenen Konfiguration
-     * @param question - Fragestellung zum Versuch
+     * @param configId                - configId der übergebenen Konfiguration
+     * @param question                - Fragestellung zum Versuch
      * @param codeChartsConfiguration - Konfiguration von CodeCharts
      */
-    public Configuration(String configId, String question,
+    public Configuration(String configId, String question, String imageUrl,
+            String intro, String outro,
             CodeChartsConfiguration codeChartsConfiguration) {
         this.toolType = ToolType.CODECHARTS;
         this.question = question;
         this.configId = configId;
+        this.imageUrl = imageUrl;
+        this.intro = intro;
+        this.outro = outro;
         this.codeChartsConfiguration = codeChartsConfiguration;
     }
 
     /**
      * Konstruktor für Configuration vom Typ ZoomMapsConfiguration.
      *
-     * @param configId - configId der übergebenen Konfiguration
-     * @param question - Fragestellung zum Versuch
+     * @param configId              - configId der übergebenen Konfiguration
+     * @param question              - Fragestellung zum Versuch
      * @param zoomMapsConfiguration - Konfiguration von ZoomMaps
      */
-    public Configuration(String configId, String question,
+    public Configuration(String configId, String question, String imageUrl,
+            String intro, String outro,
             ZoomMapsConfiguration zoomMapsConfiguration) {
         this.toolType = ToolType.ZOOMMAPS;
         this.configId = configId;
         this.question = question;
+        this.imageUrl = imageUrl;
+        this.intro = intro;
+        this.outro = outro;
         this.zoomMapsConfiguration = zoomMapsConfiguration;
     }
 
@@ -59,12 +72,28 @@ public class Configuration {
         return toolType;
     }
 
-    public void setTrialId(String trialId) {
-        this.trialId = trialId;
+    public String getImageUrl() {
+        return imageUrl;
     }
 
     public String getQuestion() {
         return question;
+    }
+
+    public String getIntro() {
+        return intro;
+    }
+
+    public String getOutro() {
+        return outro;
+    }
+
+    public boolean getTutorial() {
+        return tutorial;
+    }
+
+    public String getConfigId() {
+        return configId;
     }
 
     public String getTrialId() {
@@ -79,10 +108,6 @@ public class Configuration {
         return zoomMapsConfiguration;
     }
 
-    public String getConfigId() {
-        return configId;
-    }
-
     // --- OVERRIDES ---
 
     @Override
@@ -94,14 +119,22 @@ public class Configuration {
             return false;
         }
         Configuration that = (Configuration) (obj);
+        Logger.debug(Boolean.toString(((tutorial == that.tutorial))));
         return trialId.equals(that.trialId)
                 && toolType == that.toolType
-                && ((codeChartsConfiguration == null && that.codeChartsConfiguration == null)
+                && ((codeChartsConfiguration == that.codeChartsConfiguration)
                         || codeChartsConfiguration.equals(that.codeChartsConfiguration))
-                // && ((eyeTrackingConfiguration == null && that.eyeTrackingConfiguration == null)
-                //         || eyeTrackingConfiguration.equals(that.eyeTrackingConfiguration))
-                && ((zoomMapsConfiguration == null && that.zoomMapsConfiguration == null)
-                        || zoomMapsConfiguration.equals(that.zoomMapsConfiguration));
+                && ((zoomMapsConfiguration == that.zoomMapsConfiguration)
+                        || zoomMapsConfiguration.equals(that.zoomMapsConfiguration))
+                && ((imageUrl == that.imageUrl)
+                        || imageUrl.equals(that.imageUrl))
+                && ((question == that.question)
+                        || question.equals(that.question))
+                && ((intro == that.intro)
+                        || intro.equals(that.intro))
+                && ((outro == that.outro)
+                        || outro.equals(that.outro))
+                && tutorial == that.tutorial;
     }
 
     @Override
@@ -113,6 +146,10 @@ public class Configuration {
                             configId: %s
                             trialId: %s
                             question: %s
+                            intro: %s
+                            outro: %s
+                            imageUrl: %s
+                            tutorial: %b
                             %s
                             %s
                         }
@@ -121,8 +158,11 @@ public class Configuration {
                 configId,
                 trialId,
                 question,
+                intro,
+                outro,
+                imageUrl,
+                tutorial,
                 codeChartsConfiguration,
-                // eyeTrackingConfiguration,
                 zoomMapsConfiguration);
     }
 }

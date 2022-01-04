@@ -35,26 +35,29 @@ public class ConfigurationsTest {
                 Arrays.asList("test1", "test2"),
                 new int[] { 20, 40 },
                 new long[] { 200, 400 },
-                true,
-                Arrays.asList("url1", "url2"));
+                true);
 
-        ccConfig = new Configuration("dunno yet", "Test Question?", codeChartsConfiguration);
+        ccConfig = new Configuration("dunno yet", "Question?", "url", "intro", "outro",
+                codeChartsConfiguration);
         String ccConfigId = dbClient.configurations.set(ccConfig);
-        ccConfig = new Configuration(ccConfigId, "Test Question?", codeChartsConfiguration);
+        ccConfig = new Configuration(ccConfigId, "Question?", "url", "intro", "outro",
+                codeChartsConfiguration);
 
-        ZoomMapsConfiguration zoomMapsConfiguration1 = new ZoomMapsConfiguration(4.2f, true,
-                Arrays.asList("url1", "url2", "url3"));
+        ZoomMapsConfiguration zoomMapsConfiguration1 = new ZoomMapsConfiguration(4, 30, 30, true);
 
-        zmConfig = new Configuration("dunno yet", "Test Question?", zoomMapsConfiguration1);
+        zmConfig = new Configuration("dunno yet", "Question?", "url", "intro", "outro",
+                zoomMapsConfiguration1);
         String zmConfigId = dbClient.configurations.set(zmConfig);
-        zmConfig = new Configuration(zmConfigId, "Test Question?", zoomMapsConfiguration1);
+        zmConfig = new Configuration(zmConfigId, "Question?", "url", "intro", "outro",
+                zoomMapsConfiguration1);
 
-        ZoomMapsConfiguration zoomMapsConfiguratiom2 = new ZoomMapsConfiguration(4.2f, false,
-                Arrays.asList("url1", "url2", "url3"));
+        ZoomMapsConfiguration zoomMapsConfiguration2 = new ZoomMapsConfiguration(4, 40, 40, false);
 
-        zmConfigWoTu = new Configuration("dunno yet", "Test Question?", zoomMapsConfiguratiom2);
+        zmConfigWoTu = new Configuration("dunno yet", "Question?", "url", "intro", "outro",
+                zoomMapsConfiguration2);
         String zmConfigWoTuId = dbClient.configurations.set(zmConfigWoTu);
-        zmConfigWoTu = new Configuration(zmConfigWoTuId, "Test Question?", zoomMapsConfiguratiom2);
+        zmConfigWoTu = new Configuration(zmConfigWoTuId, "Question?", "url", "intro", "outro",
+                zoomMapsConfiguration2);
     }
 
     @Test
@@ -63,19 +66,19 @@ public class ConfigurationsTest {
                 Arrays.asList("test1", "test2"),
                 new int[] { 20, 40 },
                 new long[] { 200, 400 },
-                true,
-                Arrays.asList("url1", "url2"));
+                true);
 
         Configuration config;
         String configId;
 
-        config = new Configuration("", "Test Question?", codeChartsConfiguration);
+        config = new Configuration("", "Question?", "url", "intro", "outro",
+                codeChartsConfiguration);
         configId = dbClient.configurations.set(config);
         assertTrue("configId sollte mit con_ anfangen.", configId.startsWith("con_"));
 
-        ZoomMapsConfiguration zoomMapsConfiguration = new ZoomMapsConfiguration(4.2f, true,
-                Arrays.asList("url1", "url2", "url3"));
-        config = new Configuration("", "Test Question?", zoomMapsConfiguration);
+        ZoomMapsConfiguration zoomMapsConfiguration = new ZoomMapsConfiguration(4, 20, 20, true);
+        config = new Configuration("", "Question?", "url", "intro", "outro",
+                zoomMapsConfiguration);
         configId = dbClient.configurations.set(config);
         assertTrue("configId sollte mit con_ anfangen.", configId.startsWith("con_"));
     }

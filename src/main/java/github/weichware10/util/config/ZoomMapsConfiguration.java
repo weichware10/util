@@ -1,12 +1,12 @@
 package github.weichware10.util.config;
 
-import java.util.List;
-
 /**
  * Beinhaltet Konfiguration für ZoomMaps-Versuche.
  */
-public class ZoomMapsConfiguration extends ToolConfiguration {
-    protected float speed = 3f;
+public class ZoomMapsConfiguration {
+    protected double speed = 3;
+    protected double imageViewWidth = 400;
+    protected double imageViewHeight = 400;
 
     /**
      * leerer Konstruktor. Wird für Jackson gebraucht (json writer)
@@ -20,28 +20,34 @@ public class ZoomMapsConfiguration extends ToolConfiguration {
      * Konstruktor für die CodeCharts Konfiguration.
      *
      * @param speed - Zoomgeschwindigkeit
-     * @param tutorial - Anzeige des Tutorials
-     * @param imageUrls - Adressen der Bilder
+     * @param imageViewWidth - Anzeige des Tutorials
+     * @param imageViewHeight - Adressen des Bildes
      */
-    public ZoomMapsConfiguration(float speed, boolean tutorial, List<String> imageUrls) {
+    public ZoomMapsConfiguration(double speed, double imageViewWidth, double imageViewHeight,
+            boolean tutorial) {
         this.speed = speed;
-        this.tutorial = tutorial;
-        this.imageUrls = imageUrls;
+        this.imageViewWidth = imageViewWidth;
+        this.imageViewHeight = imageViewHeight;
     }
 
     // --- GETTER ---
 
-    public float getSpeed() {
+    public double getSpeed() {
         return speed;
+    }
+
+    public double getImageViewWidth() {
+        return imageViewWidth;
+    }
+
+    public double getImageViewHeight() {
+        return imageViewHeight;
     }
 
     // --- OVERRIDES ---
 
     @Override
     public boolean equals(Object obj) {
-        if (!super.equals(obj)) {
-            return false;
-        }
         if (this == obj) {
             return true;
         }
@@ -56,8 +62,7 @@ public class ZoomMapsConfiguration extends ToolConfiguration {
     public String toString() {
         return String.format("""
                 zoomMapsConfiguration: {
-                        %s, speed: %f }""",
-                super.toString(),
-                speed);
+                        speed: %f, imageViewWidth: %f, imageViewHeight: %f }""",
+                speed, imageViewWidth, imageViewHeight);
     }
 }

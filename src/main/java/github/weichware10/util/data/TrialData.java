@@ -6,6 +6,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.exc.StreamReadException;
 import com.fasterxml.jackson.databind.DatabindException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.ObjectWriter;
 import com.fasterxml.jackson.datatype.joda.JodaModule;
 import github.weichware10.util.Logger;
 import github.weichware10.util.ToolType;
@@ -15,6 +16,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import javafx.geometry.Rectangle2D;
 import org.joda.time.DateTime;
 
 /**
@@ -115,7 +117,7 @@ public class TrialData {
      *
      * @since v0.2
      */
-    public void addDataPoint(int[] coordinates, int[] rasterSize) {
+    public void addDataPoint(double[] coordinates, double[] rasterSize) {
 
         if (toolType != ToolType.CODECHARTS) {
             throw new IllegalArgumentException("Can only add CODECHARTS DataPoints.");
@@ -138,26 +140,21 @@ public class TrialData {
     /**
      * Add a DataPoint for ZoomMaps.
      *
-     * @param coordinates - the coordinates on the viewed picture
-     * @param zoomLevel   - how far the user is zoomed in
+     * @param viewport    - aktueller Ausschnitt beim ZoomBild
      *
-     * @since v0.2
+     * @since v1.2
      */
-    public void addDataPoint(int[] coordinates, float zoomLevel) {
+    public void addDataPoint(Rectangle2D viewport) {
 
         if (toolType != ToolType.ZOOMMAPS) {
             throw new IllegalArgumentException("Can only add ZOOMMAPS DataPoints.");
-        }
-
-        if (coordinates.length != 2) {
-            throw new IllegalArgumentException("coordinates[] needs to have a length of 2");
         }
 
         // kann "ohne" Bedenken gecastet werden,
         // damit Overflow auftritt, müsste zwischen Anfang und jetzt ca 25 Tage liegen.
         int timeOffset = (int) (DateTime.now().getMillis() - startTime.getMillis());
 
-        dataPoints.add(new DataPoint(dataPoints.size(), timeOffset, coordinates, zoomLevel));
+        dataPoints.add(new DataPoint(dataPoints.size(), timeOffset, viewport));
     }
 
     /**
@@ -175,11 +172,11 @@ public class TrialData {
             // read from file
             trialData = mapper.readValue(new File(location), TrialData.class);
         } catch (StreamReadException e) {
-            Logger.info("An error occured while loading a trial", e);
+            Logger.info("An error occured while loading a trial", e, true);
         } catch (DatabindException e) {
-            Logger.info("An error occured while loading a trial", e);
+            Logger.info("An error occured while loading a trial", e, true);
         } catch (IOException e) {
-            Logger.info("An error occured while loading a trial", e);
+            Logger.info("An error occured while loading a trial", e, true);
         }
         return trialData;
     }
@@ -200,10 +197,8 @@ public class TrialData {
         }
         try {
             // umwandeln von TrialData zu JSON String
-            // ObjectWriter ow = new ObjectMapper().writer().withDefaultPrettyPrinter();
-            ObjectMapper ow = new ObjectMapper();
-            ow.registerModule(new JodaModule());
-            ow.writer().withDefaultPrettyPrinter();
+            ObjectMapper om = new ObjectMapper().registerModule(new JodaModule());
+            ObjectWriter ow = om.writer().withDefaultPrettyPrinter();
             String json = ow.writeValueAsString(trialData);
 
             // Öffnen der Datei

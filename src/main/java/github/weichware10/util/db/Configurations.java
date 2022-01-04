@@ -54,9 +54,11 @@ public class Configurations {
             if (rs.next()) {
                 // bei jedem Typ existent
                 ToolType toolType = ToolType.valueOf(rs.getString("tooltype"));
-                List<String> imageUrls = Util.stringsToList(rs.getString("imageurls"));
+                String imageUrl = rs.getString("imageurl");
                 boolean tutorial = (rs.getInt("tutorial") == 1) ? true : false;
                 String question = rs.getString("question");
+                String intro = rs.getString("intro");
+                String outro = rs.getString("outro");
 
                 if (toolType == ToolType.CODECHARTS) {
                     // CODECHARTS spezifische Werte
@@ -70,20 +72,24 @@ public class Configurations {
 
                     // CodeChartsConfiguration erstellen
                     CodeChartsConfiguration codeChartsConfiguration = new CodeChartsConfiguration(
-                            strings, initialSize, timings, tutorial, imageUrls);
+                            strings, initialSize, timings, tutorial);
 
                     // komplette Konfiguration zurückgeben
-                    configuration = new Configuration(configId, question, codeChartsConfiguration);
+                    configuration = new Configuration(
+                            configId, question, imageUrl, intro, outro, codeChartsConfiguration);
                 } else {
                     // ZOOMMAPS spezifische Werte
-                    float speed = rs.getFloat("speed");
+                    double speed = rs.getDouble("speed");
+                    double imageViewWidth = rs.getDouble("imageview_width");
+                    double imageViewHeight = rs.getDouble("imageview_height");
 
                     // ZoomMapsConfiguration erstellen
                     ZoomMapsConfiguration zoomMapsConfiguration = new ZoomMapsConfiguration(
-                            speed, tutorial, imageUrls);
+                            speed, imageViewWidth, imageViewHeight, tutorial);
 
                     // komplette Konfiguration zurückgeben
-                    configuration = new Configuration(configId, question, zoomMapsConfiguration);
+                    configuration = new Configuration(
+                            configId, question, imageUrl, intro, outro, zoomMapsConfiguration);
                 }
             }
 
@@ -107,19 +113,27 @@ public class Configurations {
     public String set(Configuration configuration) {
         final String ccQueryFormat = """
                 INSERT INTO %s.configurations
-                (configid, tooltype, tutorial, question, imageurls,
-                strings, initialsize_x, initialsize_y, timings_0, timings_1, speed)
+                (configid, tooltype, tutorial, question, imageurl,
+                intro, outro,
+                strings, initialsize_x, initialsize_y, timings_0, timings_1,
+                imageview_width, imageview_height, speed)
                 VALUES
                 ('%s', '%s', %d, '%s', '%s',
-                '%s', %d, %d, %d, %d, null);""";
+                '%s', '%s',
+                '%s', %d, %d, %d, %d,
+                null, null, null);""";
 
         final String zmQueryFormat = """
                 INSERT INTO %s.configurations
-                (configid, tooltype, tutorial, question, imageurls,
-                strings, initialsize_x, initialsize_y, timings_0, timings_1, speed)
+                (configid, tooltype, tutorial, question, imageurl,
+                intro, outro,
+                strings, initialsize_x, initialsize_y, timings_0, timings_1,
+                imageview_width, imageview_height, speed)
                 VALUES
                 ('%s', '%s', %d, '%s', '%s',
-                null, null, null, null, null, %s);""";
+                '%s', '%s',
+                null, null, null, null, null,
+                %s, %s, %s);""";
 
         final String uniqueException =
                 "ERROR: duplicate key value violates unique constraint \"configurations_pkey\"";
@@ -141,9 +155,11 @@ public class Configurations {
                         dataBaseClient.schema,
                         configId,
                         "CODECHARTS",
-                        ccConfig.getTutorial() ? 1 : 0,
+                        configuration.getTutorial() ? 1 : 0,
                         configuration.getQuestion(),
-                        ccConfig.getImageUrls(),
+                        configuration.getImageUrl(),
+                        configuration.getIntro(),
+                        configuration.getOutro(),
                         ccConfig.getStrings(),
                         ccConfig.getInitialSize()[0],
                         ccConfig.getInitialSize()[1],
@@ -155,9 +171,13 @@ public class Configurations {
                         dataBaseClient.schema,
                         configId,
                         "ZOOMMAPS",
-                        zmConfig.getTutorial() ? 1 : 0,
+                        configuration.getTutorial() ? 1 : 0,
                         configuration.getQuestion(),
-                        zmConfig.getImageUrls(),
+                        configuration.getImageUrl(),
+                        configuration.getIntro(),
+                        configuration.getOutro(),
+                        String.format(Locale.US, "%f", zmConfig.getImageViewWidth()),
+                        String.format(Locale.US, "%f", zmConfig.getImageViewHeight()),
                         String.format(Locale.US, "%f", zmConfig.getSpeed()));
             }
             try {
