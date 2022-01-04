@@ -62,6 +62,13 @@
       <version>17</version>
     </dependency>
 
+    <!-- GUI -->
+    <dependency>
+      <groupId>org.openjfx</groupId>
+      <artifactId>javafx-controls</artifactId>
+      <version>17</version>
+    </dependency>
+
   </dependencies>
 
   <build>

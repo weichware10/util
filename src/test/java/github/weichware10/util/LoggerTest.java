@@ -1,11 +1,17 @@
 package github.weichware10.util;
 
+import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.IOException;
 import java.io.PrintStream;
+import java.nio.file.Files;
+import java.util.Arrays;
+import java.util.List;
+import org.joda.time.DateTime;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -17,8 +23,8 @@ public class LoggerTest {
 
     private final ByteArrayOutputStream outContent = new ByteArrayOutputStream();
     private final ByteArrayOutputStream errContent = new ByteArrayOutputStream();
-    private final PrintStream originalOut = System.out;
-    private final PrintStream originalErr = System.err;
+    private final PrintStream originalOut = Logger.PRINSTREAM;
+    private final PrintStream originalErr = Logger.PRINSTREAM;
 
     /**
      * Setzt output stream auf neuen Stream, um diesen Stream zu testen.
@@ -26,7 +32,7 @@ public class LoggerTest {
      */
     @Before
     public void setUpStreams() {
-        System.setOut(new PrintStream(outContent));
+        Logger.setSysOut(new PrintStream(outContent));
         System.setErr(new PrintStream(errContent));
     }
 
@@ -114,5 +120,23 @@ public class LoggerTest {
         Logger.error("errormessage");
         assertTrue("errContent should be empty", errContent.toString().isEmpty());
         outContent.flush();
+    }
+
+    @Test
+    public void shouldLogToFile() throws IOException {
+        String filename = String.format("target/%s.log", DateTime.now().toString("yMMdd-HHmmss"));
+        Logger.setLogfile(filename);
+        Logger.debug("testdebug");
+        Logger.info("testinfo");
+        Logger.warn("testinfo");
+        Logger.error("testerror");
+        File debugFile = new File(filename);
+        List<String> expectedContent = Arrays.asList(
+            "[DEBUG] testdebug",
+            "[INFO] testinfo",
+            "[WARN] testinfo",
+            "[ERROR] testerror");
+        List<String> actualContent = Files.readAllLines(debugFile.toPath());
+        assertArrayEquals(expectedContent.toArray(), actualContent.toArray());
     }
 }
