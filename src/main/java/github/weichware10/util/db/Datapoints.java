@@ -4,13 +4,13 @@ import github.weichware10.util.Logger;
 import github.weichware10.util.data.DataPoint;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
 
 /**
@@ -89,64 +89,82 @@ class Datapoints {
      * Speichert DataPoints für das Trial mit trialId.
      *
      * @param dataPoints - die zu speichernden DataPoints
-     * @param trialId - trialId des Versuchs
+     * @param trialId    - trialId des Versuchs
      */
     public void set(List<DataPoint> dataPoints, String trialId) {
-        final String ccQuery = """
-                INSERT INTO %s.datapoints
-                (trialid, dataid, timeoffset,
-                coordinates_x, coordinates_y, rastersize_x, rastersize_y,
-                viewportmin_x, viewportmin_y, viewport_width, viewport_height)
-                VALUES
-                ('%s', %d, %d,
-                %s, %s, %s, %s,
-                null, null, null, null);""";
+        // final String ccQuery = """
+        //         INSERT INTO %s.datapoints
+        //         (trialid, dataid, timeoffset,
+        //         coordinates_x, coordinates_y, rastersize_x, rastersize_y,
+        //         viewportmin_x, viewportmin_y, viewport_width, viewport_height)
+        //         VALUES
+        //         ('%s', %d, %d,
+        //         %s, %s, %s, %s,
+        //         null, null, null, null);""";
 
-        final String zmQuery = """
+        // final String zmQuery = """
+        //         INSERT INTO %s.datapoints
+        //         (trialid, dataid, timeoffset,
+        //         coordinates_x, coordinates_y, rastersize_x, rastersize_y,
+        //         viewportmin_x, viewportmin_y, viewport_width, viewport_height)
+        //         VALUES
+        //         ('%s', %d, %d,
+        //         null, null, null, null,
+        //         %s, %s, %s, %s);""";
+
+        final String queryF = String.format("""
                 INSERT INTO %s.datapoints
                 (trialid, dataid, timeoffset,
                 coordinates_x, coordinates_y, rastersize_x, rastersize_y,
                 viewportmin_x, viewportmin_y, viewport_width, viewport_height)
                 VALUES
-                ('%s', %d, %d,
-                null, null, null, null,
-                %s, %s, %s, %s);""";
+                (?, ?, ?,
+                ?, ?, ?, ?,
+                ?, ?, ?, ?);""", dataBaseClient.schema);
 
         Connection conn = null;
-        Statement st = null;
+        PreparedStatement pst = null;
 
         try {
             conn = DriverManager.getConnection(dataBaseClient.url, dataBaseClient.props);
-            st = conn.createStatement();
+            pst = conn.prepareStatement(queryF);
             for (int i = 0; i < dataPoints.size(); i++) {
                 DataPoint dp = dataPoints.get(i);
+                // Felder für CodeCharts und ZoomMaps
+                pst.setString(1, trialId);
+                pst.setInt(2, dp.dataId);
+                pst.setInt(3, dp.timeOffset);
+
                 // CODECHARTS
                 if (dp.viewport == null) {
-                    st.executeUpdate(String.format(ccQuery,
-                            dataBaseClient.schema,
-                            trialId,
-                            dp.dataId,
-                            dp.timeOffset,
-                            String.format(Locale.US, "%f", dp.coordinates[0]),
-                            String.format(Locale.US, "%f", dp.coordinates[1]),
-                            String.format(Locale.US, "%f", dp.rasterSize[0]),
-                            String.format(Locale.US, "%f", dp.rasterSize[1])));
+                    // Felder für CodeCharts
+                    pst.setDouble(4, dp.coordinates[0]);
+                    pst.setDouble(5, dp.coordinates[1]);
+                    pst.setDouble(6, dp.rasterSize[0]);
+                    pst.setDouble(7, dp.rasterSize[1]);
+                    // Felder für ZoomMaps
+                    pst.setNull(8, java.sql.Types.DOUBLE);
+                    pst.setNull(9, java.sql.Types.DOUBLE);
+                    pst.setNull(10, java.sql.Types.DOUBLE);
+                    pst.setNull(11, java.sql.Types.DOUBLE);
                 } else { // ZOOMMAPS
-                    st.executeUpdate(String.format(zmQuery,
-                            dataBaseClient.schema,
-                            trialId,
-                            dp.dataId,
-                            dp.timeOffset,
-                            String.format(Locale.US, "%f", dp.viewport.getMinX()),
-                            String.format(Locale.US, "%f", dp.viewport.getMinY()),
-                            String.format(Locale.US, "%f", dp.viewport.getWidth()),
-                            String.format(Locale.US, "%f", dp.viewport.getHeight())));
+                    // Felder für CodeCharts
+                    pst.setNull(4, java.sql.Types.DOUBLE);
+                    pst.setNull(5, java.sql.Types.DOUBLE);
+                    pst.setNull(6, java.sql.Types.DOUBLE);
+                    pst.setNull(7, java.sql.Types.DOUBLE);
+                    // Felder für ZoomMaps
+                    pst.setDouble(8, dp.viewport.getMinX());
+                    pst.setDouble(9, dp.viewport.getMinY());
+                    pst.setDouble(10, dp.viewport.getWidth());
+                    pst.setDouble(11, dp.viewport.getHeight());
                 }
+                pst.executeUpdate();
             }
         } catch (Exception e) {
             Logger.error("SQLException when executing setDataPoints", e, true);
         } finally {
-            Util.closeQuietly(st);
+            Util.closeQuietly(pst);
             Util.closeQuietly(conn);
         }
     }

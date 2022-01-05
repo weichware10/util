@@ -7,11 +7,11 @@ import github.weichware10.util.config.Configuration;
 import github.weichware10.util.config.ZoomMapsConfiguration;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.List;
-import java.util.Locale;
 
 /**
  * Die Configurations-Tabelle beinhaltet die gespeicherten Konfigurationen.
@@ -55,7 +55,7 @@ public class Configurations {
                 // bei jedem Typ existent
                 ToolType toolType = ToolType.valueOf(rs.getString("tooltype"));
                 String imageUrl = rs.getString("imageurl");
-                boolean tutorial = (rs.getInt("tutorial") == 1) ? true : false;
+                boolean tutorial = rs.getBoolean("tutorial");
                 String question = rs.getString("question");
                 String intro = rs.getString("intro");
                 String outro = rs.getString("outro");
@@ -111,79 +111,68 @@ public class Configurations {
      * @return Erstellte ID der hinzugefügten Konfiguration
      */
     public String set(Configuration configuration) {
-        final String ccQueryFormat = """
+        final String queryF = String.format("""
                 INSERT INTO %s.configurations
                 (configid, tooltype, tutorial, question, imageurl,
                 intro, outro,
                 strings, initialsize_x, initialsize_y, timings_0, timings_1,
                 imageview_width, imageview_height, speed)
                 VALUES
-                ('%s', '%s', %d, '%s', '%s',
-                '%s', '%s',
-                '%s', %d, %d, %d, %d,
-                null, null, null);""";
+                (?, ?, ?, ?, ?,
+                ?, ?,
+                ?, ?, ?, ?, ?,
+                ?, ?, ?);""", dataBaseClient.schema);
 
-        final String zmQueryFormat = """
-                INSERT INTO %s.configurations
-                (configid, tooltype, tutorial, question, imageurl,
-                intro, outro,
-                strings, initialsize_x, initialsize_y, timings_0, timings_1,
-                imageview_width, imageview_height, speed)
-                VALUES
-                ('%s', '%s', %d, '%s', '%s',
-                '%s', '%s',
-                null, null, null, null, null,
-                %s, %s, %s);""";
-
-        final String uniqueException =
-                "ERROR: duplicate key value violates unique constraint \"configurations_pkey\"";
-
-        String query = null;
+        final String uniqueException = "ERROR: duplicate key value violates unique constraint \"configurations_pkey\"";
 
         boolean idUnique = false;
         String configId = null;
 
         Connection conn = null;
-        Statement st = null;
+        PreparedStatement pst = null;
 
         while (!idUnique) {
             idUnique = true;
             configId = Util.generateId("con_", 7);
-            if (configuration.getToolType() == ToolType.CODECHARTS) {
-                CodeChartsConfiguration ccConfig = configuration.getCodeChartsConfiguration();
-                query = String.format(ccQueryFormat,
-                        dataBaseClient.schema,
-                        configId,
-                        "CODECHARTS",
-                        configuration.getTutorial() ? 1 : 0,
-                        configuration.getQuestion(),
-                        configuration.getImageUrl(),
-                        configuration.getIntro(),
-                        configuration.getOutro(),
-                        ccConfig.getStrings(),
-                        ccConfig.getInitialSize()[0],
-                        ccConfig.getInitialSize()[1],
-                        ccConfig.getTimings()[0],
-                        ccConfig.getTimings()[1]);
-            } else {
-                ZoomMapsConfiguration zmConfig = configuration.getZoomMapsConfiguration();
-                query = String.format(zmQueryFormat,
-                        dataBaseClient.schema,
-                        configId,
-                        "ZOOMMAPS",
-                        configuration.getTutorial() ? 1 : 0,
-                        configuration.getQuestion(),
-                        configuration.getImageUrl(),
-                        configuration.getIntro(),
-                        configuration.getOutro(),
-                        String.format(Locale.US, "%f", zmConfig.getImageViewWidth()),
-                        String.format(Locale.US, "%f", zmConfig.getImageViewHeight()),
-                        String.format(Locale.US, "%f", zmConfig.getSpeed()));
-            }
             try {
                 conn = DriverManager.getConnection(dataBaseClient.url, dataBaseClient.props);
-                st = conn.createStatement();
-                st.executeUpdate(query);
+                pst = conn.prepareStatement(queryF);
+                pst.setString(1, configId);
+                // TODO: zu setBoolean ändern
+                pst.setBoolean(3, configuration.getTutorial());
+                pst.setString(4, configuration.getQuestion());
+                pst.setString(5, configuration.getImageUrl());
+                pst.setString(6, configuration.getIntro());
+                pst.setString(7, configuration.getOutro());
+
+                if (configuration.getToolType() == ToolType.CODECHARTS) {
+                    CodeChartsConfiguration ccConfig = configuration.getCodeChartsConfiguration();
+                    pst.setString(2, "CODECHARTS");
+                    // Felder für CodeCharts
+                    pst.setString(8, ccConfig.getStrings().toString());
+                    pst.setInt(9, ccConfig.getInitialSize()[0]);
+                    pst.setInt(10, ccConfig.getInitialSize()[1]);
+                    pst.setLong(11, ccConfig.getTimings()[0]);
+                    pst.setLong(12, ccConfig.getTimings()[1]);
+                    // Felder für ZoomMaps
+                    pst.setNull(13, java.sql.Types.DOUBLE);
+                    pst.setNull(14, java.sql.Types.DOUBLE);
+                    pst.setNull(15, java.sql.Types.DOUBLE);
+                } else {
+                    ZoomMapsConfiguration zmConfig = configuration.getZoomMapsConfiguration();
+                    pst.setString(2, "ZOOMMAPS");
+                    // Felder für CodeCharts
+                    pst.setNull(8, java.sql.Types.LONGVARCHAR);
+                    pst.setNull(9, java.sql.Types.INTEGER);
+                    pst.setNull(10, java.sql.Types.INTEGER);
+                    pst.setNull(11, java.sql.Types.BIGINT);
+                    pst.setNull(12, java.sql.Types.BIGINT);
+                    // Felder für ZoomMaps
+                    pst.setDouble(13, zmConfig.getImageViewWidth());
+                    pst.setDouble(14, zmConfig.getImageViewHeight());
+                    pst.setDouble(15, zmConfig.getSpeed());
+                }
+                pst.executeUpdate();
             } catch (SQLException e) {
                 if (e.toString().contentEquals(uniqueException)) {
                     idUnique = false;
@@ -192,7 +181,7 @@ public class Configurations {
                     Logger.error("SQLException when executing setConfiguration", e);
                 }
             } finally {
-                Util.closeQuietly(st);
+                Util.closeQuietly(pst);
                 Util.closeQuietly(conn);
             }
         }
