@@ -123,7 +123,8 @@ public class Configurations {
                 ?, ?, ?, ?, ?,
                 ?, ?, ?);""", dataBaseClient.schema);
 
-        final String uniqueException = "ERROR: duplicate key value violates unique constraint \"configurations_pkey\"";
+        final String uniqueException =
+                "ERROR: duplicate key value violates unique constraint \"configurations_pkey\"";
 
         boolean idUnique = false;
         String configId = null;
