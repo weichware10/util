@@ -139,7 +139,6 @@ public class Configurations {
                 conn = DriverManager.getConnection(dataBaseClient.url, dataBaseClient.props);
                 pst = conn.prepareStatement(queryF);
                 pst.setString(1, configId);
-                // TODO: zu setBoolean ändern
                 pst.setBoolean(3, configuration.getTutorial());
                 pst.setString(4, configuration.getQuestion());
                 pst.setString(5, configuration.getImageUrl());
