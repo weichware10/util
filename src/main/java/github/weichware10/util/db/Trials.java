@@ -6,6 +6,7 @@ import github.weichware10.util.config.Configuration;
 import github.weichware10.util.data.TrialData;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -127,35 +128,32 @@ public class Trials {
             return false;
         }
 
-        final String queryF = """
+        final String queryF = String.format("""
                 UPDATE %s.trials
                 SET
-                starttime = '%s',
-                answer = '%s'
-                WHERE trialid LIKE '%s';""";
-
-        final String query = String.format(queryF,
-                dataBaseClient.schema,
-                new Timestamp(trialData.startTime.getMillis()),
-                trialData.getAnswer(),
-                trialData.trialId);
+                starttime = ?,
+                answer = ?
+                WHERE trialid LIKE ?;""", dataBaseClient.schema);
 
         boolean success = false;
 
         Connection conn = null;
-        Statement st = null;
+        PreparedStatement pst = null;
 
         try {
             conn = DriverManager.getConnection(dataBaseClient.url, dataBaseClient.props);
-            st = conn.createStatement();
-            st.executeUpdate(query);
+            pst = conn.prepareStatement(queryF);
+            pst.setTimestamp(1, new Timestamp(trialData.startTime.getMillis()));
+            pst.setString(2, trialData.getAnswer());
+            pst.setString(3, trialData.trialId);
+            pst.executeUpdate();
             // DATAPOINTS setzen
             dataBaseClient.datapoints.set(trialData.getData(), trialData.trialId);
             success = true;
         } catch (SQLException e) {
-            Logger.error("SQLException when executing setTrial", e);
+            Logger.error("SQLException when executing setTrial", e, true);
         } finally {
-            Util.closeQuietly(st);
+            Util.closeQuietly(pst);
             Util.closeQuietly(conn);
         }
         return success;
@@ -215,11 +213,11 @@ public class Trials {
         if (amount <= 0 || !dataBaseClient.configurations.getAvailability(configId)) {
             return null;
         }
-        final String queryF = """
+        final String queryF = String.format("""
                 INSERT INTO %s.trials
                 (trialid, configid)
                 VALUES
-                ('%s', '%s')""";
+                (?, ?)""", dataBaseClient.schema);
 
         final String uniqueException =
                 "ERROR: duplicate key value violates unique constraint \"trials_pkey\"";
@@ -227,12 +225,12 @@ public class Trials {
         List<String> trialIds = new ArrayList<String>();
 
         Connection conn = null;
-        Statement st = null;
+        PreparedStatement pst = null;
 
         // Verbindungs try
         try {
             conn = DriverManager.getConnection(dataBaseClient.url, dataBaseClient.props);
-            st = conn.createStatement();
+            pst = conn.prepareStatement(queryF);
             for (int i = 0; i < amount; i++) {
 
                 boolean idUnique = false;
@@ -248,10 +246,9 @@ public class Trials {
 
                     // INSERT try
                     try {
-                        st.executeUpdate(String.format(queryF,
-                                dataBaseClient.schema,
-                                trialId,
-                                configId));
+                        pst.setString(1, trialId);
+                        pst.setString(2, configId);
+                        pst.executeUpdate();
                         trialIds.add(trialId);
                     } catch (SQLException e) {
                         if (e.toString().contentEquals(uniqueException)) {
@@ -266,7 +263,7 @@ public class Trials {
         } catch (SQLException e) {
             Logger.error("SQLException when connecting to DB", e);
         } finally {
-            Util.closeQuietly(st);
+            Util.closeQuietly(pst);
             Util.closeQuietly(conn);
         }
 

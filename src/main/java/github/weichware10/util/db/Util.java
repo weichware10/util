@@ -1,6 +1,7 @@
 package github.weichware10.util.db;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.Arrays;
@@ -50,6 +51,19 @@ class Util {
     protected static void closeQuietly(Statement st) {
         try {
             st.close();
+        } catch (Exception e) {
+            /* Ignored */
+        }
+    }
+
+    /**
+     * Schließt eine PreparedStatement, ohne Fehler zu werfen.
+     *
+     * @param pst - die zu schließende PreparedStatement
+     */
+    protected static void closeQuietly(PreparedStatement pst) {
+        try {
+            pst.close();
         } catch (Exception e) {
             /* Ignored */
         }
