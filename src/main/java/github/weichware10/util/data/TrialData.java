@@ -250,7 +250,7 @@ public class TrialData {
                 toolType.toString(),
                 trialId,
                 configId,
-                startTime.toString(),
+                startTime != null ? startTime.toString() : "null",
                 answer,
                 dataPoints.size());
     }
