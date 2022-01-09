@@ -27,6 +27,7 @@ import org.joda.time.DateTime;
  * @since v0.2
  */
 public class TrialData {
+
     public final ToolType toolType;
     public final String trialId;
     public final String configId;
@@ -107,6 +108,22 @@ public class TrialData {
      */
     public void setAnswer(String answer) {
         this.answer = answer;
+    }
+
+    public ToolType getToolType() {
+        return toolType;
+    }
+
+    public String getTrialId() {
+        return trialId;
+    }
+
+    public String getConfigId() {
+        return configId;
+    }
+
+    public DateTime getStartTime() {
+        return startTime;
     }
 
     /**
