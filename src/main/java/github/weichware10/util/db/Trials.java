@@ -332,11 +332,12 @@ public class Trials {
             st = conn.createStatement();
             rs = st.executeQuery(query);
             while (rs.next()) {
+                Timestamp ts = rs.getTimestamp("starttime");
                 TrialData td = new TrialData(
                         ToolType.valueOf(rs.getString("tooltype")),
                         rs.getString("trialid"),
                         rs.getString("configid"),
-                        new DateTime(rs.getTimestamp("starttime")),
+                        ts != null ? new DateTime(ts) : null,
                         rs.getString("answer"),
                         Arrays.asList()); // leere Liste
 
