@@ -163,7 +163,7 @@ public class CodeChartsConfiguration {
 
     @Override
     public String toString() {
-        // CHECKSTYLE:OOF
+        // CHECKSTYLE:OFF
         return String.format("""
                 codeChartsConfiguration: {
                         stringId: %s, initialSize: %s, timings: %s, showGrid: %b, relativeSize: %b, randomized: %b, iterations %d, maxDepth: %s, defaultHorizontal: %s, defaultVertical: %s }""",
