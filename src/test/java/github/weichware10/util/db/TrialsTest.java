@@ -87,8 +87,8 @@ public class TrialsTest {
 
         TrialData trialData4 = new TrialData(ToolType.CODECHARTS, trialsCc.get(1), configIdCc);
         trialData4.setAnswer("Ja!");
-        trialData4.addDataPoint();
-        trialData4.addDataPoint();
+        trialData4.addDataPoint(new Rectangle2D(12, 14, 16, 18), 3);
+        trialData4.addDataPoint(new Rectangle2D(12, 14, 16, 18), 3);
         assertTrue(dbClient.trials.set(trialData4));
 
         // Trials auf bereits gesetzten Trial-Eintrag setzten
@@ -168,9 +168,9 @@ public class TrialsTest {
 
         TrialData trialData2 = new TrialData(ToolType.CODECHARTS, trialsCc.get(0), configIdCc);
         trialData2.setAnswer("Ja");
-        trialData2.addDataPoint();
-        trialData2.addDataPoint();
-        trialData2.addDataPoint();
+        trialData2.addDataPoint(new Rectangle2D(12, 14, 16, 18), 3);
+        trialData2.addDataPoint(new Rectangle2D(12, 14, 16, 18), 3);
+        trialData2.addDataPoint(new Rectangle2D(12, 14, 16, 18), 3);
         dbClient.trials.set(trialData2);
         TrialData trialData22 = dbClient.trials.getTrial(trialsCc.get(0));
         assertTrue(trialData22.equals(trialData2));
@@ -235,17 +235,17 @@ public class TrialsTest {
         List<String> trialsCc = dbClient.trials.add(configIdCc, 3);
         TrialData trialData4 = new TrialData(ToolType.CODECHARTS, trialsCc.get(0), configIdCc,
                 DateTime.now().minusHours(1), "Ja", new ArrayList<DataPoint>());
-        trialData4.addDataPoint();
+        trialData4.addDataPoint(new Rectangle2D(12, 14, 16, 18), 3);
         dbClient.trials.set(trialData4);
 
         TrialData trialData5 = new TrialData(ToolType.CODECHARTS, trialsCc.get(1), configIdCc,
                 DateTime.now().minusHours(2), "Ja", new ArrayList<DataPoint>());
-        trialData5.addDataPoint();
+        trialData5.addDataPoint(new Rectangle2D(12, 14, 16, 18), 3);
         dbClient.trials.set(trialData5);
 
         TrialData trialData6 = new TrialData(ToolType.CODECHARTS, trialsCc.get(2), configIdCc,
                 DateTime.now().minusHours(3), "Ja", new ArrayList<DataPoint>());
-        trialData6.addDataPoint();
+        trialData6.addDataPoint(new Rectangle2D(12, 14, 16, 18), 3);
         dbClient.trials.set(trialData6);
 
         String configIdCc2 = dbClient.configurations.set(codeConfig);
@@ -253,7 +253,7 @@ public class TrialsTest {
 
         TrialData trialData8 = new TrialData(ToolType.CODECHARTS, trialsCc2.get(0), configIdCc2,
                 DateTime.now().minusHours(4), "Ja", new ArrayList<DataPoint>());
-        trialData8.addDataPoint();
+        trialData8.addDataPoint(new Rectangle2D(12, 14, 16, 18), 3);
         dbClient.trials.set(trialData8);
 
         assertTrue(dbClient.trials.getList(null, ToolType.CODECHARTS,
