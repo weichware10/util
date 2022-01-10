@@ -4,15 +4,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
-import java.util.Arrays;
-import java.util.List;
 
 class Util {
-
-    // wandelt eine als String gespeicherte Liste um
-    protected static List<String> stringsToList(String strings) {
-        return Arrays.asList(strings.substring(1, strings.length() - 1).split(", "));
-    }
 
     /**
      * Generiert eine ID. Muss nicht eindeutig sein!

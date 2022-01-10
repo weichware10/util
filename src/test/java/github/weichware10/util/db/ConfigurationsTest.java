@@ -7,7 +7,6 @@ import github.weichware10.util.config.CodeChartsConfiguration;
 import github.weichware10.util.config.Configuration;
 import github.weichware10.util.config.ZoomMapsConfiguration;
 import io.github.cdimascio.dotenv.Dotenv;
-import java.util.Arrays;
 import org.junit.Test;
 
 /**
@@ -32,7 +31,7 @@ public class ConfigurationsTest {
                 dotenv.get("DB_SCHEMA"));
 
         CodeChartsConfiguration codeChartsConfiguration = new CodeChartsConfiguration(
-                Arrays.asList("test1", "test2"),
+                "OBST",
                 new int[] { 20, 40 },
                 new long[] { 200, 400 },
                 true);
@@ -63,7 +62,7 @@ public class ConfigurationsTest {
     @Test
     public void setConfigurationsShouldWork() {
         CodeChartsConfiguration codeChartsConfiguration = new CodeChartsConfiguration(
-                Arrays.asList("test1", "test2"),
+                "OBST",
                 new int[] { 20, 40 },
                 new long[] { 200, 400 },
                 true);
