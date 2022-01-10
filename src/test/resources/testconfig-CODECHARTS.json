@@ -6,7 +6,7 @@
     "imageUrl" : "www.weichware10.com/owlimage",
     "tutorial" : true,
     "codeChartsConfiguration" : {
-      "strings" : [ "foobar", "barfoo" ],
+      "stringId" : "OBST",
       "initialSize" : [ 10, 20 ],
       "timings" : [ 200, 200 ]
     },

@@ -1,13 +1,12 @@
 package github.weichware10.util.config;
 
 import java.util.Arrays;
-import java.util.List;
 
 /**
  * Beinhaltet Konfiguration für CodeCharts-Versuche.
  */
 public class CodeChartsConfiguration {
-    protected List<String> strings = Arrays.asList("foo", "bar");
+    protected String stringId = "OBST";
     protected int[] initialSize = { 10, 20 };
     protected long[] timings = { 200, 200 };
 
@@ -22,23 +21,23 @@ public class CodeChartsConfiguration {
     /**
      * Konstruktor für die CodeCharts Konfiguration.
      *
-     * @param strings - Strings für die CodeCharts Konfiguration
+     * @param stringid - String-ID für die CodeCharts Konfiguration
      * @param initialSize - Rastergröße der CodeCharts Konfiguration
      * @param timings - Zeit zum Wechsel von Bild zu Raster & Raster zu Eingabefeld
      *                  der CodeCharts Konfiguration
      * @param tutorial - Anzeige des Tutorials
      */
-    public CodeChartsConfiguration(List<String> strings, int[] initialSize, long[] timings,
+    public CodeChartsConfiguration(String stringid, int[] initialSize, long[] timings,
             boolean tutorial) {
-        this.strings = strings;
+        this.stringId = stringid;
         this.initialSize = initialSize;
         this.timings = timings;
     }
 
     // --- GETTERS ---
 
-    public List<String> getStrings() {
-        return strings;
+    public String getStringId() {
+        return stringId;
     }
 
     public int[] getInitialSize() {
@@ -60,7 +59,7 @@ public class CodeChartsConfiguration {
             return false;
         }
         CodeChartsConfiguration that = (CodeChartsConfiguration) (obj);
-        return strings.equals(that.strings)
+        return stringId.equals(that.stringId)
                 && Arrays.equals(initialSize, that.initialSize)
                 && Arrays.equals(timings, that.timings);
     }
@@ -69,8 +68,8 @@ public class CodeChartsConfiguration {
     public String toString() {
         return String.format("""
                 codeChartsConfiguration: {
-                        strings: %s, initialSize: %s, timings: %s }""",
-                strings.toString(),
+                        stringId: %s, initialSize: %s, timings: %s }""",
+                stringId,
                 Arrays.toString(initialSize),
                 Arrays.toString(timings));
     }

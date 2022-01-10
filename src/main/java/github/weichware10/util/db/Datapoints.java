@@ -49,14 +49,6 @@ class Datapoints {
             st = conn.createStatement();
             rs = st.executeQuery(query);
             while (rs.next()) {
-                // bei codecharts versuchen
-                double[] coordinates = new double[] { rs.getDouble("coordinates_x"),
-                        rs.getDouble("coordinates_y") };
-                coordinates = rs.wasNull() ? null : coordinates;
-                double[] rasterSize = new double[] { rs.getDouble("rastersize_x"),
-                        rs.getDouble("rastersize_y") };
-                rasterSize = rs.wasNull() ? null : rasterSize;
-
                 // bei zoommaps versuchen
                 Map<String, Double> viewport = new HashMap<>();
                 viewport.put("minX", rs.getDouble("viewportmin_x"));
@@ -69,8 +61,6 @@ class Datapoints {
                 dataPoints.add(new DataPoint(
                         rs.getInt("dataid"),
                         rs.getInt("timeoffset"),
-                        coordinates,
-                        rasterSize,
                         viewport));
             }
 
@@ -92,34 +82,13 @@ class Datapoints {
      * @param trialId    - trialId des Versuchs
      */
     public void set(List<DataPoint> dataPoints, String trialId) {
-        // final String ccQuery = """
-        //         INSERT INTO %s.datapoints
-        //         (trialid, dataid, timeoffset,
-        //         coordinates_x, coordinates_y, rastersize_x, rastersize_y,
-        //         viewportmin_x, viewportmin_y, viewport_width, viewport_height)
-        //         VALUES
-        //         ('%s', %d, %d,
-        //         %s, %s, %s, %s,
-        //         null, null, null, null);""";
-
-        // final String zmQuery = """
-        //         INSERT INTO %s.datapoints
-        //         (trialid, dataid, timeoffset,
-        //         coordinates_x, coordinates_y, rastersize_x, rastersize_y,
-        //         viewportmin_x, viewportmin_y, viewport_width, viewport_height)
-        //         VALUES
-        //         ('%s', %d, %d,
-        //         null, null, null, null,
-        //         %s, %s, %s, %s);""";
 
         final String queryF = String.format("""
                 INSERT INTO %s.datapoints
                 (trialid, dataid, timeoffset,
-                coordinates_x, coordinates_y, rastersize_x, rastersize_y,
                 viewportmin_x, viewportmin_y, viewport_width, viewport_height)
                 VALUES
                 (?, ?, ?,
-                ?, ?, ?, ?,
                 ?, ?, ?, ?);""", dataBaseClient.schema);
 
         Connection conn = null;
@@ -137,27 +106,17 @@ class Datapoints {
 
                 // CODECHARTS
                 if (dp.viewport == null) {
-                    // Felder für CodeCharts
-                    pst.setDouble(4, dp.coordinates[0]);
-                    pst.setDouble(5, dp.coordinates[1]);
-                    pst.setDouble(6, dp.rasterSize[0]);
-                    pst.setDouble(7, dp.rasterSize[1]);
                     // Felder für ZoomMaps
-                    pst.setNull(8, java.sql.Types.DOUBLE);
-                    pst.setNull(9, java.sql.Types.DOUBLE);
-                    pst.setNull(10, java.sql.Types.DOUBLE);
-                    pst.setNull(11, java.sql.Types.DOUBLE);
-                } else { // ZOOMMAPS
-                    // Felder für CodeCharts
                     pst.setNull(4, java.sql.Types.DOUBLE);
                     pst.setNull(5, java.sql.Types.DOUBLE);
                     pst.setNull(6, java.sql.Types.DOUBLE);
                     pst.setNull(7, java.sql.Types.DOUBLE);
+                } else { // ZOOMMAPS
                     // Felder für ZoomMaps
-                    pst.setDouble(8, dp.viewport.getMinX());
-                    pst.setDouble(9, dp.viewport.getMinY());
-                    pst.setDouble(10, dp.viewport.getWidth());
-                    pst.setDouble(11, dp.viewport.getHeight());
+                    pst.setDouble(4, dp.viewport.getMinX());
+                    pst.setDouble(5, dp.viewport.getMinY());
+                    pst.setDouble(6, dp.viewport.getWidth());
+                    pst.setDouble(7, dp.viewport.getHeight());
                 }
                 pst.executeUpdate();
             }

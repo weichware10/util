@@ -93,7 +93,7 @@ public class TrialDataTest {
                     dataPoints: dataPoints[0]
                 }""", data1.startTime.toString()),
                 data1.toString());
-        data1.addDataPoint(new double[] { 1, 2 }, new double[] { 3, 4 });
+        data1.addDataPoint();
         assertEquals(String.format("""
                 TrialData: {
                     toolType: CODECHARTS
@@ -130,28 +130,6 @@ public class TrialDataTest {
     }
 
     /**
-     * Testet, ob Länge der übegebenen Arrays ungleich 2 ist.
-     */
-    @Test
-    public void wrongListSizeShouldThrow() {
-        TrialData data1 = new TrialData(ToolType.ZOOMMAPS, "1", "2");
-        assertThrows(IllegalArgumentException.class, () -> {
-            data1.addDataPoint(new double[] { 1, 2, 3 }, new double[] { 1, 2, 3, 4 });
-        });
-
-        TrialData data2 = new TrialData(ToolType.CODECHARTS, "1", "2");
-        assertThrows(IllegalArgumentException.class, () -> {
-            data2.addDataPoint(new double[] { 1, 2, 3 }, new double[] { 1, 2 });
-        });
-        assertThrows(IllegalArgumentException.class, () -> {
-            data2.addDataPoint(new double[] { 1, 2 }, new double[] { 1, 2, 3 });
-        });
-        assertThrows(IllegalArgumentException.class, () -> {
-            data2.addDataPoint(new double[] { 1, 2, 3 }, new double[] { 1, 2, 3 });
-        });
-    }
-
-    /**
      * Testet, ob bei dem Versuch die Daten für den falschen ToolType
      * hinzuzufügen ein Error geworfen wird.
      */
@@ -159,12 +137,12 @@ public class TrialDataTest {
     public void wrongToolTypeShouldThrow() {
         TrialData data1 = new TrialData(ToolType.ZOOMMAPS, "1", "2");
         assertThrows(IllegalArgumentException.class, () -> {
-            data1.addDataPoint(new double[] { 1, 2 }, new double[] { 1, 2 });
+            data1.addDataPoint();
         });
 
         TrialData data2 = new TrialData(ToolType.CODECHARTS, "1", "2");
         assertThrows(IllegalArgumentException.class, () -> {
-            data2.addDataPoint(new double[] { 1, 2 }, new double[] { 1, 2, 3, 4 });
+            data2.addDataPoint(new Rectangle2D(1, 2, 3, 4));
         });
     }
 
@@ -186,8 +164,8 @@ public class TrialDataTest {
 
         TrialData data2 = new TrialData(ToolType.CODECHARTS, "trialId", "configId");
         data2.setAnswer("answer");
-        data2.addDataPoint(new double[] { 1, 2 }, new double[] { 3, 4 });
-        data2.addDataPoint(new double[] { 5, 6 }, new double[] { 7, 8 });
+        data2.addDataPoint();
+        data2.addDataPoint();
         assertTrue(TrialData.toJson("target/TD-CODECHARTS.json", data2));
 
         assertFalse(TrialData.toJson("target/TD-ZOOMMAPS.jpg", data1));
@@ -210,7 +188,6 @@ public class TrialDataTest {
         assertEquals(2, dataZm.getData().size());
         assertEquals(40, dataZm.getData().get(0).timeOffset);
         assertEquals(4.0f, dataZm.getData().get(0).viewport.getMinY(), 0.0001f);
-        assertNull(dataZm.getData().get(0).rasterSize);
         assertEquals(1, dataZm.getData().get(1).dataId);
         assertEquals(8.0f, dataZm.getData().get(1).viewport.getWidth(), 0.0001f);
 
