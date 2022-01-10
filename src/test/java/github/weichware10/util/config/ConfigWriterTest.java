@@ -24,7 +24,7 @@ public class ConfigWriterTest {
                 dotenv.get("DB_SCHEMA"));
 
         String configId = ConfigWriter.toDataBase(new Configuration("null", "question?", "url",
-                        "intro", "outro",
+                        "intro", "outro", true,
                         new CodeChartsConfiguration()), dbClient);
         assertTrue("ConfigWriter should write to valid database", configId != null);
     }

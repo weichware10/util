@@ -40,17 +40,16 @@ public class TrialsTest {
                 dotenv.get("DB_SCHEMA"));
 
         CodeChartsConfiguration ccConf = new CodeChartsConfiguration(
-                "OBST",
-                new int[] { 1, 1 },
-                new long[] { 2, 2 },
-                true);
+                "OBST", new int[]{ 3, 5 }, new long[]{ 300, 500 },
+                false, true, true, 5,
+                15, -1, -1);
         codeConfig = new Configuration("temp", "Warum ist die Banane krumm?", "url",
-                        "intro", "outro", ccConf);
+                        "intro", "outro", true, ccConf);
         configIdCc = dbClient.configurations.set(codeConfig);
 
-        ZoomMapsConfiguration zmConf = new ZoomMapsConfiguration(4.3, 300, 300, true);
+        ZoomMapsConfiguration zmConf = new ZoomMapsConfiguration(4.3, 300, 300);
         zoomConfig = new Configuration("temp", "Warum ist die Banane krumm?", "url",
-                        "intro", "outro", zmConf);
+                        "intro", "outro", true, zmConf);
         configIdZm = dbClient.configurations.set(zoomConfig);
     }
 

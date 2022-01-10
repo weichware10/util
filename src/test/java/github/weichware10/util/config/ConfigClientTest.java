@@ -56,6 +56,7 @@ public class ConfigClientTest {
                 "url",
                 "intro",
                 "outro",
+                true,
                 new CodeChartsConfiguration()));
         final List<String> trialIds = dbClient.trials.add(configId, 5);
         if (trialIds.size() < 5) {
