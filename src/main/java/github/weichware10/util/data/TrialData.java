@@ -129,35 +129,26 @@ public class TrialData {
     /**
      * Add a DataPoint for CodeCharts.
      *
-     * @param coordinates - the coordinates on the viewed picture
-     * @param rasterSize  - width and height of the raster
      *
      * @since v0.2
      */
-    public void addDataPoint(double[] coordinates, double[] rasterSize) {
+    public void addDataPoint() {
 
         if (toolType != ToolType.CODECHARTS) {
             throw new IllegalArgumentException("Can only add CODECHARTS DataPoints.");
-        }
-
-        if (coordinates.length != 2) {
-            throw new IllegalArgumentException("coordinates[] needs to have a length of 2");
-        }
-        if (rasterSize.length != 2) {
-            throw new IllegalArgumentException("rasterSize[] needs to have a length of 2");
         }
 
         // kann "ohne" Bedenken gecastet werden,
         // damit Overflow auftritt, müsste zwischen Anfang und jetzt ca 25 Tage liegen.
         int timeOffset = (int) (DateTime.now().getMillis() - startTime.getMillis());
 
-        dataPoints.add(new DataPoint(dataPoints.size(), timeOffset, coordinates, rasterSize));
+        dataPoints.add(new DataPoint(dataPoints.size(), timeOffset));
     }
 
     /**
      * Add a DataPoint for ZoomMaps.
      *
-     * @param viewport    - aktueller Ausschnitt beim ZoomBild
+     * @param viewport - aktueller Ausschnitt beim ZoomBild
      *
      * @since v1.2
      */

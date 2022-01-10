@@ -11,7 +11,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.List;
 
 /**
  * Die Configurations-Tabelle beinhaltet die gespeicherten Konfigurationen.
@@ -62,7 +61,7 @@ public class Configurations {
 
                 if (toolType == ToolType.CODECHARTS) {
                     // CODECHARTS spezifische Werte
-                    List<String> strings = Util.stringsToList(rs.getString("strings"));
+                    String stringId = rs.getString("stringid");
                     int[] initialSize = new int[] {
                             rs.getInt("initialsize_x"),
                             rs.getInt("initialsize_y") };
@@ -72,7 +71,7 @@ public class Configurations {
 
                     // CodeChartsConfiguration erstellen
                     CodeChartsConfiguration codeChartsConfiguration = new CodeChartsConfiguration(
-                            strings, initialSize, timings, tutorial);
+                            stringId, initialSize, timings, tutorial);
 
                     // komplette Konfiguration zurückgeben
                     configuration = new Configuration(
@@ -115,7 +114,7 @@ public class Configurations {
                 INSERT INTO %s.configurations
                 (configid, tooltype, tutorial, question, imageurl,
                 intro, outro,
-                strings, initialsize_x, initialsize_y, timings_0, timings_1,
+                stringid, initialsize_x, initialsize_y, timings_0, timings_1,
                 imageview_width, imageview_height, speed)
                 VALUES
                 (?, ?, ?, ?, ?,
@@ -149,7 +148,7 @@ public class Configurations {
                     CodeChartsConfiguration ccConfig = configuration.getCodeChartsConfiguration();
                     pst.setString(2, "CODECHARTS");
                     // Felder für CodeCharts
-                    pst.setString(8, ccConfig.getStrings().toString());
+                    pst.setString(8, ccConfig.getStringId());
                     pst.setInt(9, ccConfig.getInitialSize()[0]);
                     pst.setInt(10, ccConfig.getInitialSize()[1]);
                     pst.setLong(11, ccConfig.getTimings()[0]);

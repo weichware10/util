@@ -13,7 +13,6 @@ import github.weichware10.util.data.DataPoint;
 import github.weichware10.util.data.TrialData;
 import io.github.cdimascio.dotenv.Dotenv;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import javafx.geometry.Rectangle2D;
 import org.joda.time.DateTime;
@@ -41,7 +40,7 @@ public class TrialsTest {
                 dotenv.get("DB_SCHEMA"));
 
         CodeChartsConfiguration ccConf = new CodeChartsConfiguration(
-                Arrays.asList("string1", "string2", "string3"),
+                "OBST",
                 new int[] { 1, 1 },
                 new long[] { 2, 2 },
                 true);
@@ -89,8 +88,8 @@ public class TrialsTest {
 
         TrialData trialData4 = new TrialData(ToolType.CODECHARTS, trialsCc.get(1), configIdCc);
         trialData4.setAnswer("Ja!");
-        trialData4.addDataPoint(new double[] { 1, 1 }, new double[] { 1, 1 });
-        trialData4.addDataPoint(new double[] { 2, 2 }, new double[] { 2, 2 });
+        trialData4.addDataPoint();
+        trialData4.addDataPoint();
         assertTrue(dbClient.trials.set(trialData4));
 
         // Trials auf bereits gesetzten Trial-Eintrag setzten
@@ -170,9 +169,9 @@ public class TrialsTest {
 
         TrialData trialData2 = new TrialData(ToolType.CODECHARTS, trialsCc.get(0), configIdCc);
         trialData2.setAnswer("Ja");
-        trialData2.addDataPoint(new double[] { 1, 1 }, new double[] { 2, 2 });
-        trialData2.addDataPoint(new double[] { 2, 2 }, new double[] { 3, 3 });
-        trialData2.addDataPoint(new double[] { 3, 3 }, new double[] { 4, 4 });
+        trialData2.addDataPoint();
+        trialData2.addDataPoint();
+        trialData2.addDataPoint();
         dbClient.trials.set(trialData2);
         TrialData trialData22 = dbClient.trials.getTrial(trialsCc.get(0));
         assertTrue(trialData22.equals(trialData2));
@@ -237,17 +236,17 @@ public class TrialsTest {
         List<String> trialsCc = dbClient.trials.add(configIdCc, 3);
         TrialData trialData4 = new TrialData(ToolType.CODECHARTS, trialsCc.get(0), configIdCc,
                 DateTime.now().minusHours(1), "Ja", new ArrayList<DataPoint>());
-        trialData4.addDataPoint(new double[] { 1, 1 }, (new double[] { 1, 1 }));
+        trialData4.addDataPoint();
         dbClient.trials.set(trialData4);
 
         TrialData trialData5 = new TrialData(ToolType.CODECHARTS, trialsCc.get(1), configIdCc,
                 DateTime.now().minusHours(2), "Ja", new ArrayList<DataPoint>());
-        trialData5.addDataPoint(new double[] { 2, 2 }, (new double[] { 2, 2 }));
+        trialData5.addDataPoint();
         dbClient.trials.set(trialData5);
 
         TrialData trialData6 = new TrialData(ToolType.CODECHARTS, trialsCc.get(2), configIdCc,
                 DateTime.now().minusHours(3), "Ja", new ArrayList<DataPoint>());
-        trialData6.addDataPoint(new double[] { 2, 2 }, (new double[] { 2, 2 }));
+        trialData6.addDataPoint();
         dbClient.trials.set(trialData6);
 
         String configIdCc2 = dbClient.configurations.set(codeConfig);
@@ -255,7 +254,7 @@ public class TrialsTest {
 
         TrialData trialData8 = new TrialData(ToolType.CODECHARTS, trialsCc2.get(0), configIdCc2,
                 DateTime.now().minusHours(4), "Ja", new ArrayList<DataPoint>());
-        trialData8.addDataPoint(new double[] { 4, 4 }, new double[] { 4, 4 });
+        trialData8.addDataPoint();
         dbClient.trials.set(trialData8);
 
         assertTrue(dbClient.trials.getList(null, ToolType.CODECHARTS,

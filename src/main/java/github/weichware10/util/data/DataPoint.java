@@ -2,7 +2,6 @@ package github.weichware10.util.data;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import java.util.Arrays;
 import java.util.Map;
 import javafx.geometry.Rectangle2D;
 
@@ -14,8 +13,6 @@ import javafx.geometry.Rectangle2D;
 public class DataPoint {
     public final int dataId;
     public final int timeOffset;
-    public final double[] coordinates; // ! double[2]
-    public final double[] rasterSize; // ! double[2]
     public final Rectangle2D viewport; // ! double[4]
 
     /**
@@ -23,8 +20,6 @@ public class DataPoint {
      *
      * @param dataId      - the id of the dataPoint
      * @param timeOffset  - the time since the trial started
-     * @param coordinates - the coordinates on the viewed picture
-     * @param rasterSize  - width and height of the raster
      * @param viewport    - aktueller Ausschnitt beim ZoomBild
      *
      * @since v1.0
@@ -32,13 +27,9 @@ public class DataPoint {
     @JsonCreator(mode = JsonCreator.Mode.PROPERTIES)
     public DataPoint(@JsonProperty("dataId") int dataId,
             @JsonProperty("timeOffset") int timeOffset,
-            @JsonProperty("coordinates") double[] coordinates,
-            @JsonProperty("rasterSize") double[] rasterSize,
             @JsonProperty("viewport") Map<String, Double> viewport) {
         this.dataId = dataId;
         this.timeOffset = timeOffset;
-        this.coordinates = coordinates;
-        this.rasterSize = rasterSize;
         this.viewport = (viewport != null) ? new Rectangle2D(
                 viewport.get("minX"),
                 viewport.get("minY"),
@@ -59,8 +50,6 @@ public class DataPoint {
     public DataPoint(int dataId, int timeOffset, Rectangle2D viewport) {
         this.dataId = dataId;
         this.timeOffset = timeOffset;
-        this.coordinates = null;
-        this.rasterSize = null;
         this.viewport = viewport;
     }
 
@@ -69,16 +58,12 @@ public class DataPoint {
      *
      * @param dataId      - the id of the dataPoint
      * @param timeOffset  - the time since the trial started
-     * @param coordinates - the coordinates on the viewed picture
-     * @param rasterSize  - width and height of the raster
      *
      * @since v0.3
      */
-    public DataPoint(int dataId, int timeOffset, double[] coordinates, double[] rasterSize) {
+    public DataPoint(int dataId, int timeOffset) {
         this.dataId = dataId;
         this.timeOffset = timeOffset;
-        this.coordinates = coordinates;
-        this.rasterSize = rasterSize;
         this.viewport = null;
     }
 
@@ -96,14 +81,10 @@ public class DataPoint {
                 DataPoint: {
                     dataId: %d,
                     timeOffset: %d,
-                    coordinates: %s,
-                    rasterSize: %s,
                     viewport: %s
                 }""",
                 dataId,
                 timeOffset,
-                Arrays.toString(coordinates),
-                Arrays.toString(rasterSize),
                 viewportStr);
     }
 
@@ -117,8 +98,6 @@ public class DataPoint {
         }
         DataPoint that = (DataPoint) (other);
         return dataId == that.dataId && timeOffset == that.timeOffset
-                && Arrays.equals(coordinates, that.coordinates)
-                && Arrays.equals(rasterSize, that.rasterSize)
                 && viewport == that.viewport || (
                     viewport.getMinX() == that.viewport.getMinX()
                     && viewport.getMinY() == that.viewport.getMinY()
