@@ -2,9 +2,6 @@ package github.weichware10.util.data;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
-
-import github.weichware10.util.Logger;
-
 import java.util.Map;
 import javafx.geometry.Rectangle2D;
 

@@ -163,11 +163,20 @@ public class CodeChartsConfiguration {
 
     @Override
     public String toString() {
+        // CHECKSTYLE:OOF
         return String.format("""
                 codeChartsConfiguration: {
-                        stringId: %s, initialSize: %s, timings: %s }""",
+                        stringId: %s, initialSize: %s, timings: %s, showGrid: %b, relativeSize: %b, randomized: %b, iterations %d, maxDepth: %s, defaultHorizontal: %s, defaultVertical: %s }""",
                 stringId,
                 Arrays.toString(initialSize),
-                Arrays.toString(timings));
+                Arrays.toString(timings),
+                showGrid,
+                relativeSize,
+                randomized,
+                interations,
+                (maxDepth != null) ? Integer.toString(maxDepth) : "null",
+                (defaultHorizontal != null) ? Integer.toString(defaultHorizontal) : "null",
+                (defaultVertical != null) ? Integer.toString(defaultVertical) : "null");
+        // CHECKSTYLE:ON
     }
 }
