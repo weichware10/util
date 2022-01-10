@@ -34,7 +34,7 @@ public class CodeChartsConfiguration {
     /**
      * wie viele Durchläufe der Versuch haben soll.
      */
-    protected Integer interations = 15;
+    protected Integer iterations = 15;
     /**
      * wie oft sich ein Feld maximal teilen soll.
      * (nur bei {@code relativeSize = true})
@@ -91,7 +91,7 @@ public class CodeChartsConfiguration {
         this.relativeSize = relativeSize;
         this.randomized = randomized;
         this.maxDepth = maxDepth;
-        this.interations = iterations;
+        this.iterations = iterations;
         this.defaultHorizontal = defaultHorizontal;
         this.defaultVertical = defaultVertical;
     }
@@ -123,7 +123,7 @@ public class CodeChartsConfiguration {
     }
 
     public int getInterations() {
-        return interations;
+        return iterations;
     }
 
     public int getMaxDepth() {
@@ -155,7 +155,7 @@ public class CodeChartsConfiguration {
                 && (showGrid == that.showGrid)
                 && (relativeSize == that.relativeSize)
                 && (randomized == that.randomized)
-                && (interations == that.interations)
+                && (iterations == that.iterations)
                 && (maxDepth == that.maxDepth)
                 && (defaultHorizontal == that.defaultHorizontal)
                 && (defaultVertical == that.defaultVertical);
@@ -173,7 +173,7 @@ public class CodeChartsConfiguration {
                 showGrid,
                 relativeSize,
                 randomized,
-                interations,
+                iterations,
                 (maxDepth != null) ? Integer.toString(maxDepth) : "null",
                 (defaultHorizontal != null) ? Integer.toString(defaultHorizontal) : "null",
                 (defaultVertical != null) ? Integer.toString(defaultVertical) : "null");
