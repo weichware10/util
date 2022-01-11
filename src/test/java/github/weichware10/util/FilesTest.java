@@ -50,6 +50,6 @@ public class FilesTest {
 
         assertTrue(Files.tmpdir.contains("weichware"));
 
-        Runtime.getRuntime().addShutdownHook(Files.deleteTempDir());
+        Files.deleteTempDir().start();
     }
 }
