@@ -27,6 +27,7 @@ public class Permissions {
     public final Set<Permission> configurations;
     public final Set<Permission> trials;
     public final Set<Permission> datapoints;
+    public final Set<Permission> strings;
 
     // vorgefertigte Abfragen
     public final boolean isSubject;
@@ -47,6 +48,7 @@ public class Permissions {
         configurations = Collections.unmodifiableSet(getPermissions("configurations"));
         trials = Collections.unmodifiableSet(getPermissions("trials"));
         datapoints = Collections.unmodifiableSet(getPermissions("datapoints"));
+        strings = Collections.unmodifiableSet(getPermissions("strings"));
 
         isSubject = satisfiesSubject();
         isSpectator = satisfiesSpectator();
@@ -114,10 +116,12 @@ public class Permissions {
      */
     public boolean satisfies(Collection<Permission> configurationsPermissions,
             Collection<Permission> trialsPermissions,
-            Collection<Permission> datapointsPermissions) {
+            Collection<Permission> datapointsPermissions,
+            Collection<Permission> stringsPermissions) {
         return permissionsSatisfies(configurationsPermissions, configurations)
                 && permissionsSatisfies(trialsPermissions, trials)
-                && permissionsSatisfies(datapointsPermissions, datapoints);
+                && permissionsSatisfies(datapointsPermissions, datapoints)
+                && permissionsSatisfies(stringsPermissions, strings);
     }
 
     private boolean permissionsSatisfies(Collection<Permission> desired,
@@ -130,6 +134,7 @@ public class Permissions {
         return satisfies(
                 Arrays.asList(Permission.values()),
                 Arrays.asList(Permission.values()),
+                Arrays.asList(Permission.values()),
                 Arrays.asList(Permission.values()));
     }
 
@@ -137,11 +142,13 @@ public class Permissions {
         return satisfies(
                 Set.of(SELECT, INSERT),
                 Set.of(SELECT, UPDATE, INSERT),
+                Set.of(SELECT, INSERT),
                 Set.of(SELECT, INSERT));
     }
 
     private boolean satisfiesSpectator() {
         return satisfies(
+                Set.of(SELECT),
                 Set.of(SELECT),
                 Set.of(SELECT),
                 Set.of(SELECT));
@@ -151,6 +158,7 @@ public class Permissions {
         return satisfies(
                 Set.of(SELECT),
                 Set.of(SELECT, UPDATE),
-                Set.of(INSERT));
+                Set.of(INSERT),
+                Set.of(SELECT));
     }
 }
