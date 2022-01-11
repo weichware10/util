@@ -41,11 +41,11 @@ public class Strings {
             pst = conn.prepareStatement(queryF);
             pst.setString(1, stringId);
             rs = pst.executeQuery();
-            if (!rs.next()) {
-                strings = null;
-            }
             while (rs.next()) {
                 strings.add(rs.getString("string"));
+            }
+            if (strings.size() == 0) {
+                strings = null;
             }
         } catch (Exception e) {
             Logger.error("SQLException when executing getStrings", e, true);
