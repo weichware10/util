@@ -115,7 +115,7 @@ public class TrialData {
      *
      * @since v0.2
      */
-    public void addDataPoint() {
+    public void addDataPoint(Rectangle2D viewport, int depth) {
 
         if (toolType != ToolType.CODECHARTS) {
             throw new IllegalArgumentException("Can only add CODECHARTS DataPoints.");
@@ -125,7 +125,7 @@ public class TrialData {
         // damit Overflow auftritt, müsste zwischen Anfang und jetzt ca 25 Tage liegen.
         int timeOffset = (int) (DateTime.now().getMillis() - startTime.getMillis());
 
-        dataPoints.add(new DataPoint(dataPoints.size(), timeOffset));
+        dataPoints.add(new DataPoint(dataPoints.size(), timeOffset, viewport, depth));
     }
 
     /**

@@ -93,7 +93,7 @@ public class TrialDataTest {
                     dataPoints: dataPoints[0]
                 }""", data1.startTime.toString()),
                 data1.toString());
-        data1.addDataPoint();
+        data1.addDataPoint(new Rectangle2D(1, 2, 3, 4), 12);
         assertEquals(String.format("""
                 TrialData: {
                     toolType: CODECHARTS
@@ -137,7 +137,7 @@ public class TrialDataTest {
     public void wrongToolTypeShouldThrow() {
         TrialData data1 = new TrialData(ToolType.ZOOMMAPS, "1", "2");
         assertThrows(IllegalArgumentException.class, () -> {
-            data1.addDataPoint();
+            data1.addDataPoint(new Rectangle2D(1, 2, 3, 4), 12);
         });
 
         TrialData data2 = new TrialData(ToolType.CODECHARTS, "1", "2");
@@ -164,8 +164,8 @@ public class TrialDataTest {
 
         TrialData data2 = new TrialData(ToolType.CODECHARTS, "trialId", "configId");
         data2.setAnswer("answer");
-        data2.addDataPoint();
-        data2.addDataPoint();
+        data2.addDataPoint(new Rectangle2D(1, 2, 3, 4), 12);
+        data2.addDataPoint(new Rectangle2D(1, 2, 3, 4), 12);
         assertTrue(TrialData.toJson("target/TD-CODECHARTS.json", data2));
 
         assertFalse(TrialData.toJson("target/TD-ZOOMMAPS.jpg", data1));

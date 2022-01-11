@@ -35,7 +35,7 @@ public class Configuration {
      * @param codeChartsConfiguration - Konfiguration von CodeCharts
      */
     public Configuration(String configId, String question, String imageUrl,
-            String intro, String outro,
+            String intro, String outro, boolean tutorial,
             CodeChartsConfiguration codeChartsConfiguration) {
         this.toolType = ToolType.CODECHARTS;
         this.question = question;
@@ -43,6 +43,7 @@ public class Configuration {
         this.imageUrl = imageUrl;
         this.intro = intro;
         this.outro = outro;
+        this.tutorial = tutorial;
         this.codeChartsConfiguration = codeChartsConfiguration;
     }
 
@@ -54,7 +55,7 @@ public class Configuration {
      * @param zoomMapsConfiguration - Konfiguration von ZoomMaps
      */
     public Configuration(String configId, String question, String imageUrl,
-            String intro, String outro,
+            String intro, String outro, boolean tutorial,
             ZoomMapsConfiguration zoomMapsConfiguration) {
         this.toolType = ToolType.ZOOMMAPS;
         this.configId = configId;
@@ -62,6 +63,7 @@ public class Configuration {
         this.imageUrl = imageUrl;
         this.intro = intro;
         this.outro = outro;
+        this.tutorial = tutorial;
         this.zoomMapsConfiguration = zoomMapsConfiguration;
     }
 

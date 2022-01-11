@@ -14,7 +14,7 @@ public class ZoomMapsConfigurationTest {
      */
     @Test
     public void toStringShouldWork() {
-        ZoomMapsConfiguration config = new ZoomMapsConfiguration(0, 400, 400, false);
+        ZoomMapsConfiguration config = new ZoomMapsConfiguration(0, 400, 400);
         config.toString();
     }
 
@@ -23,8 +23,8 @@ public class ZoomMapsConfigurationTest {
      */
     @Test
     public void newlyCreatedConfigsShouldBeEqual() {
-        ZoomMapsConfiguration config1 = new ZoomMapsConfiguration(0, 400, 400, false);
-        ZoomMapsConfiguration config2 = new ZoomMapsConfiguration(0, 400, 400, false);
+        ZoomMapsConfiguration config1 = new ZoomMapsConfiguration(0, 400, 400);
+        ZoomMapsConfiguration config2 = new ZoomMapsConfiguration(0, 400, 400);
         assertEquals("The two Configurations should be equal", config1, config2);
     }
 }
