@@ -137,12 +137,27 @@
             </execution>
             <execution>
               <id>report</id>
-              <phase>prepare-package</phase>
+              <phase>test</phase>
               <goals>
                 <goal>report</goal>
               </goals>
             </execution>
           </executions>
+        </plugin>
+        <plugin>
+          <groupId>org.eluder.coveralls</groupId>
+          <artifactId>coveralls-maven-plugin</artifactId>
+          <version>4.3.0</version>
+          <configuration>
+              <!-- <repoToken></repoToken> -->
+          </configuration>
+          <dependencies>
+            <dependency>
+               <groupId>javax.xml.bind</groupId>
+               <artifactId>jaxb-api</artifactId>
+               <version>2.2.3</version>
+            </dependency>
+         </dependencies>
         </plugin>
         <!-- UPDATE VERSION-->
         <plugin>
