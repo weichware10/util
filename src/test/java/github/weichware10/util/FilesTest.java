@@ -1,7 +1,10 @@
 package github.weichware10.util;
 
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import org.junit.Test;
 
 /**
@@ -50,6 +53,26 @@ public class FilesTest {
 
         assertTrue(Files.tmpdir.contains("weichware"));
 
-        Files.deleteTempDir().start();
+        Path tmpdir = Paths.get(Files.tmpdir);
+        assertTrue(java.nio.file.Files.exists(tmpdir));
+
+        Thread deleteThread1 = Files.deleteTempDir();
+        deleteThread1.start();
+        try {
+            deleteThread1.join();
+        } catch (InterruptedException e) {
+            Logger.error("InterruptedException while deleting tempDir", e, true);
+        }
+        assertFalse(java.nio.file.Files.exists(tmpdir));
+
+        // nochmal löschen, sollte keine Fehler throwen
+        Thread deleteThread2 = Files.deleteTempDir();
+        deleteThread2.start();
+        try {
+            deleteThread2.join();
+        } catch (InterruptedException e) {
+            Logger.error("InterruptedException while deleting tempDir", e, true);
+        }
+        assertFalse(java.nio.file.Files.exists(tmpdir));
     }
 }

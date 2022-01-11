@@ -89,6 +89,7 @@ public class Files {
             try {
                 Logger.info("deleting tmp folder...");
                 FileUtils.deleteDirectory(new File(tmpdir));
+                tmpdir = null;
             } catch (IOException e) {
                 Logger.error("IOException while deleting tmpdir", e, true);
             } catch (IllegalArgumentException e) {
