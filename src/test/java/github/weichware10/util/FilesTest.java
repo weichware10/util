@@ -32,9 +32,10 @@ public class FilesTest {
 
         boolean thrown1 = false;
         try {
-            Files.saveImage("https://www.google.de/");
+            Files.saveImage("weirdlocation");
         } catch (Exception e) {
             thrown1 = true;
+            Logger.info(e.toString());
         }
         assertTrue(thrown1);
 
@@ -43,6 +44,7 @@ public class FilesTest {
             Files.saveImage("https://upload.wikimedia.org/wikipedia/commons/2/2c/Rotating_earth_%28large%29.gif");
         } catch (Exception e) {
             thrown2 = true;
+            Logger.info(e.toString());
         }
         assertTrue(thrown2);
 
