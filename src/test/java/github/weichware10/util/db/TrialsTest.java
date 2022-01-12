@@ -17,22 +17,24 @@ import java.util.Arrays;
 import java.util.List;
 import javafx.geometry.Rectangle2D;
 import org.joda.time.DateTime;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 /**
  * Testet {@link Trials}.
  */
 public class TrialsTest {
-    DataBaseClient dbClient;
-    Configuration codeConfig;
-    Configuration zoomConfig;
-    String configIdCc;
-    String configIdZm;
+    static DataBaseClient dbClient;
+    static Configuration codeConfig;
+    static Configuration zoomConfig;
+    static String configIdCc;
+    static String configIdZm;
 
     /**
      * Konstruktor.
      */
-    public TrialsTest() {
+    @BeforeClass
+    public static void trialsTestSetup() {
         Dotenv dotenv = Dotenv.load();
         dbClient = new DataBaseClient(
                 dotenv.get("DB_URL"),
