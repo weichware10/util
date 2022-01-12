@@ -1,5 +1,6 @@
 package github.weichware10.util.config;
 
+import github.weichware10.util.Logger;
 import github.weichware10.util.db.DataBaseClient;
 
 /**
@@ -39,6 +40,7 @@ public class ConfigClient {
     public boolean writeToJson(String location) {
         // Kann nicht gespeichert werden, wenn nicht geladen
         if (this.configuration == null) {
+            Logger.debug("config null");
             return false;
         }
         // gibt Erfolgsboolean von ConfigWriter weiter

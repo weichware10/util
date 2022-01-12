@@ -177,7 +177,7 @@ public class Configurations {
                     pst.setBoolean(13, ccConfig.getShowGrid());
                     pst.setBoolean(14, ccConfig.getRelativeSize());
                     pst.setBoolean(15, ccConfig.getRandomized());
-                    pst.setInt(16, ccConfig.getInterations());
+                    pst.setInt(16, ccConfig.getIterations());
                     pst.setInt(17, ccConfig.getMaxDepth());
                     pst.setInt(18, ccConfig.getDefaultHorizontal());
                     pst.setInt(19, ccConfig.getDefaultVertical());

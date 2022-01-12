@@ -132,7 +132,7 @@ public class CodeChartsConfiguration {
         return randomized;
     }
 
-    public int getInterations() {
+    public int getIterations() {
         return iterations;
     }
 
