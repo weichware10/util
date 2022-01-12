@@ -2,22 +2,25 @@ package github.weichware10.util.db;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 
 import io.github.cdimascio.dotenv.Dotenv;
 import java.util.ArrayList;
 import java.util.List;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 /**
  * Testet {@link Strings}.
  */
 public class StringsTest {
-    DataBaseClient dbClient;
+    static DataBaseClient dbClient;
 
     /**
      * Konstruktor.
      */
-    public StringsTest() {
+    @BeforeClass
+    public static void setUpDataBaseClient() {
         Dotenv dotenv = Dotenv.load();
         dbClient = new DataBaseClient(
                 dotenv.get("DB_URL"),
@@ -28,7 +31,7 @@ public class StringsTest {
 
     @Test
     public void setAndGetStringShouldWork() {
-        String stringId = Util.generateId("TEST_", 3);
+        String stringId = Util.generateId("TEST_", 10);
         List<String> strings = new ArrayList<String>();
         for (int i = 0; i < 4; i++) {
             strings.add(Util.generateId("STRING_", 3));
@@ -44,6 +47,22 @@ public class StringsTest {
 
         List<String> dbStrings2 = dbClient.strings.get("unknownId");
         assertNull("List should be null", dbStrings2);
+    }
+
+    @Test
+    public void sizeShouldBeCorrect() {
+        String stringId = Util.generateId("TEST_", 10);
+        List<String> strings = new ArrayList<String>();
+        for (int i = 0; i < 4; i++) {
+            strings.add(Util.generateId("STRING_", 3));
+        }
+
+        assertTrue("Strings should not yet be in the database",
+                dbClient.strings.sizeOf(stringId) == 0);
+
+        dbClient.strings.set(stringId, strings);
+        assertTrue("Strings should have same size as local list",
+                dbClient.strings.sizeOf(stringId) == strings.size());
     }
 
 }

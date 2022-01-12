@@ -1,6 +1,7 @@
 package github.weichware10.util.config;
 
 import java.util.Arrays;
+import java.util.List;
 
 /**
  * Beinhaltet Konfiguration für CodeCharts-Versuche.
@@ -10,6 +11,10 @@ public class CodeChartsConfiguration {
      * String-ID für die CodeCharts Konfiguration.
      */
     protected String stringId = "OBST";
+    /**
+     * Strings für die CodeCharts Versuche.
+     */
+    protected List<String> strings = Arrays.asList("Guave", "Chuchumber", "Fig");
     /**
      * Rastergröße der CodeCharts Konfiguration.
      */
@@ -81,10 +86,11 @@ public class CodeChartsConfiguration {
      *                  Einstellen eines negativen Wertes, um dynamisch längere Seite zu halbieren
      *                  (nur bei {@code relativeSize = true})
      */
-    public CodeChartsConfiguration(String stringId, int[] initialSize, long[] timings,
-            boolean showGrid, boolean relativeSize, boolean randomized, int maxDepth,
-            int iterations, int defaultHorizontal, int defaultVertical) {
+    public CodeChartsConfiguration(String stringId, List<String> strings, int[] initialSize,
+            long[] timings, boolean showGrid, boolean relativeSize, boolean randomized,
+            int maxDepth, int iterations, int defaultHorizontal, int defaultVertical) {
         this.stringId = stringId;
+        this.strings = strings;
         this.initialSize = initialSize;
         this.timings = timings;
         this.showGrid = showGrid;
@@ -100,6 +106,10 @@ public class CodeChartsConfiguration {
 
     public String getStringId() {
         return stringId;
+    }
+
+    public List<String> getStrings() {
+        return strings;
     }
 
     public long[] getTimings() {
@@ -166,8 +176,9 @@ public class CodeChartsConfiguration {
         // CHECKSTYLE:OFF
         return String.format("""
                 codeChartsConfiguration: {
-                        stringId: %s, initialSize: %s, timings: %s, showGrid: %b, relativeSize: %b, randomized: %b, iterations %d, maxDepth: %s, defaultHorizontal: %s, defaultVertical: %s }""",
+                        stringId: %s, strings: %s, initialSize: %s, timings: %s, showGrid: %b, relativeSize: %b, randomized: %b, iterations %d, maxDepth: %s, defaultHorizontal: %s, defaultVertical: %s }""",
                 stringId,
+                strings.toString(),
                 Arrays.toString(initialSize),
                 Arrays.toString(timings),
                 showGrid,

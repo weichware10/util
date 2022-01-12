@@ -11,6 +11,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.List;
 
 /**
  * Die Configurations-Tabelle beinhaltet die gespeicherten Konfigurationen.
@@ -76,10 +77,12 @@ public class Configurations {
                     int defaultHorizontal = rs.getInt("default_horizontal");
                     int defaultVertical = rs.getInt("default_vertical");
 
+                    List<String> strings = dataBaseClient.strings.get(stringId);
+
                     // CodeChartsConfiguration erstellen
                     CodeChartsConfiguration codeChartsConfiguration = new CodeChartsConfiguration(
-                            stringId, initialSize, timings, showGrid, relativeSize, randomized,
-                            maxDepth, iterations, defaultHorizontal, defaultVertical);
+                            stringId, strings, initialSize, timings, showGrid, relativeSize,
+                            randomized, maxDepth, iterations, defaultHorizontal, defaultVertical);
 
                     // komplette Konfiguration zurückgeben
                     configuration = new Configuration(configId, question, imageUrl, intro, outro,
@@ -158,6 +161,12 @@ public class Configurations {
 
                 if (configuration.getToolType() == ToolType.CODECHARTS) {
                     CodeChartsConfiguration ccConfig = configuration.getCodeChartsConfiguration();
+
+                    // strings setzen
+                    if (dataBaseClient.strings.sizeOf(ccConfig.getStringId()) == 0) {
+                        dataBaseClient.strings.set(ccConfig.getStringId(), ccConfig.getStrings());
+                    }
+
                     pst.setString(2, "CODECHARTS");
                     // Felder für CodeCharts
                     pst.setString(8, ccConfig.getStringId());

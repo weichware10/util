@@ -13,6 +13,7 @@ import github.weichware10.util.data.DataPoint;
 import github.weichware10.util.data.TrialData;
 import io.github.cdimascio.dotenv.Dotenv;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import javafx.geometry.Rectangle2D;
 import org.joda.time.DateTime;
@@ -40,9 +41,9 @@ public class TrialsTest {
                 dotenv.get("DB_SCHEMA"));
 
         CodeChartsConfiguration ccConf = new CodeChartsConfiguration(
-                "OBST", new int[]{ 3, 5 }, new long[]{ 300, 500 },
-                false, true, true, 5,
-                15, -1, -1);
+                "OBST", Arrays.asList("banane", "orange"),
+                new int[] { 3, 5 }, new long[] { 300, 500 },
+                false, true, true, 5, 15, -1, -1);
         codeConfig = new Configuration("temp", "Warum ist die Banane krumm?", "url",
                         "intro", "outro", true, ccConf);
         configIdCc = dbClient.configurations.set(codeConfig);

@@ -7,6 +7,7 @@ import github.weichware10.util.config.CodeChartsConfiguration;
 import github.weichware10.util.config.Configuration;
 import github.weichware10.util.config.ZoomMapsConfiguration;
 import io.github.cdimascio.dotenv.Dotenv;
+import java.util.Arrays;
 import org.junit.Test;
 
 /**
@@ -31,9 +32,9 @@ public class ConfigurationsTest {
                 dotenv.get("DB_SCHEMA"));
 
         CodeChartsConfiguration codeChartsConfiguration = new CodeChartsConfiguration(
-                "OBST", new int[]{ 3, 5 }, new long[]{ 300, 500 },
-                false, true, true, 5,
-                15, -1, -1);
+                Util.generateId("TEST", 10), Arrays.asList("banane", "orange"),
+                new int[]{ 3, 5 }, new long[]{ 300, 500 },
+                false, true, true, 5, 15, -1, -1);
 
         ccConfig = new Configuration("dunno yet", "Question?", "url", "intro", "outro", true,
                 codeChartsConfiguration);
@@ -61,9 +62,9 @@ public class ConfigurationsTest {
     @Test
     public void setConfigurationsShouldWork() {
         CodeChartsConfiguration codeChartsConfiguration = new CodeChartsConfiguration(
-                "OBST", new int[]{ 3, 5 }, new long[]{ 300, 500 },
-                false, true, true, 5,
-                15, -1, -1);
+                "OBST", Arrays.asList("banane", "orange"),
+                new int[]{ 3, 5 }, new long[]{ 300, 500 },
+                false, true, true, 5, 15, -1, -1);
 
         Configuration config;
         String configId;
