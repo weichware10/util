@@ -154,7 +154,6 @@ public class Configurations {
                 pst = conn.prepareStatement(queryF);
                 pst.setString(1, configId);
                 pst.setBoolean(3, configuration.getTutorial());
-                pst.setString(4, configuration.getQuestion());
                 pst.setString(5, configuration.getImageUrl());
                 pst.setString(6, configuration.getIntro());
                 pst.setString(7, configuration.getOutro());
@@ -168,6 +167,7 @@ public class Configurations {
                     }
 
                     pst.setString(2, "CODECHARTS");
+                    pst.setNull(4, java.sql.Types.VARCHAR);
                     // Felder für CodeCharts
                     pst.setString(8, ccConfig.getStringId());
                     pst.setInt(9, ccConfig.getInitialSize()[0]);
@@ -188,6 +188,7 @@ public class Configurations {
                 } else {
                     ZoomMapsConfiguration zmConfig = configuration.getZoomMapsConfiguration();
                     pst.setString(2, "ZOOMMAPS");
+                    pst.setString(4, configuration.getQuestion());
                     // Felder für CodeCharts
                     pst.setNull(8, java.sql.Types.VARCHAR);
                     pst.setNull(9, java.sql.Types.INTEGER);
