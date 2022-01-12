@@ -17,7 +17,7 @@ public class ZoomMapsConfiguration {
     }
 
     /**
-     * Konstruktor für die CodeCharts Konfiguration.
+     * Konstruktor für die ZoomMaps Konfiguration.
      *
      * @param speed - Zoomgeschwindigkeit
      * @param imageViewWidth - Anzeige des Tutorials
