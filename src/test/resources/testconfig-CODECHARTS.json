@@ -1,14 +1,24 @@
 {
-    "toolType" : "CODECHARTS",
-    "trialId" : "trialId",
-    "configId" : "configId",
-    "question" : "Is this a question?",
-    "imageUrl" : "www.weichware10.com/owlimage",
-    "tutorial" : true,
-    "codeChartsConfiguration" : {
-      "stringId" : "OBST",
-      "initialSize" : [ 10, 20 ],
-      "timings" : [ 200, 200 ]
-    },
-    "zoomMapsConfiguration" : null
-  }
+  "toolType" : "CODECHARTS",
+  "trialId" : "trialId",
+  "configId" : "configId",
+  "question" : "Is this a question?",
+  "intro" : "hello there",
+  "outro" : "bye bye general kenobi",
+  "imageUrl" : "www.weichware10.com/owlimage",
+  "tutorial" : true,
+  "codeChartsConfiguration" : {
+    "stringId" : "OBST",
+    "strings" : [ "Guave", "Chuchumber", "Fig" ],
+    "initialSize" : [ 10, 20 ],
+    "timings" : [ 200, 200 ],
+    "showGrid" : false,
+    "relativeSize" : true,
+    "randomized" : true,
+    "maxDepth" : 5,
+    "defaultHorizontal" : 2,
+    "defaultVertical" : 2,
+    "iterations" : 15
+  },
+  "zoomMapsConfiguration" : null
+}

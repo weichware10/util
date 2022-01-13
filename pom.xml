@@ -5,7 +5,7 @@
 
   <groupId>github.weichware10</groupId>
   <artifactId>util</artifactId>
-  <version>v2.2-SNAPSHOT</version>
+  <version>v3.1-SNAPSHOT</version>
 
   <name>util</name>
   <!-- FIXME change it to the project's website -->
@@ -18,6 +18,11 @@
 
   <dependencies>
 
+    <dependency>
+      <groupId>commons-io</groupId>
+      <artifactId>commons-io</artifactId>
+      <version>2.11.0</version>
+    </dependency>
     <dependency>
       <groupId>com.fasterxml.jackson.core</groupId>
       <artifactId>jackson-databind</artifactId>

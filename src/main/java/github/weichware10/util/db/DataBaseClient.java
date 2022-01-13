@@ -23,6 +23,7 @@ public class DataBaseClient {
     public final Configurations configurations;
     public final Trials trials;
     public final Datapoints datapoints;
+    public final Strings strings;
     public final Permissions permissions;
 
     /**
@@ -65,6 +66,7 @@ public class DataBaseClient {
         this.trials = new Trials(this);
         this.datapoints = new Datapoints(this);
         this.permissions = new Permissions(this);
+        this.strings = new Strings(this);
     }
 
     /**

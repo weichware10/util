@@ -68,6 +68,6 @@ public class PermissionsTest {
                 dotenv.get("DB_SCHEMA"));
 
         assertTrue("satisfies() should not care about null values",
-                spectatorClient.permissions.satisfies(null, null, null));
+                spectatorClient.permissions.satisfies(null, null, null, null));
     }
 }

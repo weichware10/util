@@ -13,25 +13,28 @@ import github.weichware10.util.data.DataPoint;
 import github.weichware10.util.data.TrialData;
 import io.github.cdimascio.dotenv.Dotenv;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import javafx.geometry.Rectangle2D;
 import org.joda.time.DateTime;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 /**
  * Testet {@link Trials}.
  */
 public class TrialsTest {
-    DataBaseClient dbClient;
-    Configuration codeConfig;
-    Configuration zoomConfig;
-    String configIdCc;
-    String configIdZm;
+    static DataBaseClient dbClient;
+    static Configuration codeConfig;
+    static Configuration zoomConfig;
+    static String configIdCc;
+    static String configIdZm;
 
     /**
      * Konstruktor.
      */
-    public TrialsTest() {
+    @BeforeClass
+    public static void trialsTestSetup() {
         Dotenv dotenv = Dotenv.load();
         dbClient = new DataBaseClient(
                 dotenv.get("DB_URL"),
@@ -40,17 +43,16 @@ public class TrialsTest {
                 dotenv.get("DB_SCHEMA"));
 
         CodeChartsConfiguration ccConf = new CodeChartsConfiguration(
-                "OBST",
-                new int[] { 1, 1 },
-                new long[] { 2, 2 },
-                true);
+                "OBST", Arrays.asList("banane", "orange"),
+                new int[] { 3, 5 }, new long[] { 300, 500 },
+                false, true, true, 5, 15, -1, -1);
         codeConfig = new Configuration("temp", "Warum ist die Banane krumm?", "url",
-                        "intro", "outro", ccConf);
+                        "intro", "outro", true, ccConf);
         configIdCc = dbClient.configurations.set(codeConfig);
 
-        ZoomMapsConfiguration zmConf = new ZoomMapsConfiguration(4.3, 300, 300, true);
+        ZoomMapsConfiguration zmConf = new ZoomMapsConfiguration(4.3, 300, 300);
         zoomConfig = new Configuration("temp", "Warum ist die Banane krumm?", "url",
-                        "intro", "outro", zmConf);
+                        "intro", "outro", true, zmConf);
         configIdZm = dbClient.configurations.set(zoomConfig);
     }
 
@@ -88,8 +90,8 @@ public class TrialsTest {
 
         TrialData trialData4 = new TrialData(ToolType.CODECHARTS, trialsCc.get(1), configIdCc);
         trialData4.setAnswer("Ja!");
-        trialData4.addDataPoint();
-        trialData4.addDataPoint();
+        trialData4.addDataPoint(new Rectangle2D(12, 14, 16, 18), 3);
+        trialData4.addDataPoint(new Rectangle2D(12, 14, 16, 18), 3);
         assertTrue(dbClient.trials.set(trialData4));
 
         // Trials auf bereits gesetzten Trial-Eintrag setzten
@@ -169,9 +171,9 @@ public class TrialsTest {
 
         TrialData trialData2 = new TrialData(ToolType.CODECHARTS, trialsCc.get(0), configIdCc);
         trialData2.setAnswer("Ja");
-        trialData2.addDataPoint();
-        trialData2.addDataPoint();
-        trialData2.addDataPoint();
+        trialData2.addDataPoint(new Rectangle2D(12, 14, 16, 18), 3);
+        trialData2.addDataPoint(new Rectangle2D(12, 14, 16, 18), 3);
+        trialData2.addDataPoint(new Rectangle2D(12, 14, 16, 18), 3);
         dbClient.trials.set(trialData2);
         TrialData trialData22 = dbClient.trials.getTrial(trialsCc.get(0));
         assertTrue(trialData22.equals(trialData2));
@@ -236,17 +238,17 @@ public class TrialsTest {
         List<String> trialsCc = dbClient.trials.add(configIdCc, 3);
         TrialData trialData4 = new TrialData(ToolType.CODECHARTS, trialsCc.get(0), configIdCc,
                 DateTime.now().minusHours(1), "Ja", new ArrayList<DataPoint>());
-        trialData4.addDataPoint();
+        trialData4.addDataPoint(new Rectangle2D(12, 14, 16, 18), 3);
         dbClient.trials.set(trialData4);
 
         TrialData trialData5 = new TrialData(ToolType.CODECHARTS, trialsCc.get(1), configIdCc,
                 DateTime.now().minusHours(2), "Ja", new ArrayList<DataPoint>());
-        trialData5.addDataPoint();
+        trialData5.addDataPoint(new Rectangle2D(12, 14, 16, 18), 3);
         dbClient.trials.set(trialData5);
 
         TrialData trialData6 = new TrialData(ToolType.CODECHARTS, trialsCc.get(2), configIdCc,
                 DateTime.now().minusHours(3), "Ja", new ArrayList<DataPoint>());
-        trialData6.addDataPoint();
+        trialData6.addDataPoint(new Rectangle2D(12, 14, 16, 18), 3);
         dbClient.trials.set(trialData6);
 
         String configIdCc2 = dbClient.configurations.set(codeConfig);
@@ -254,7 +256,7 @@ public class TrialsTest {
 
         TrialData trialData8 = new TrialData(ToolType.CODECHARTS, trialsCc2.get(0), configIdCc2,
                 DateTime.now().minusHours(4), "Ja", new ArrayList<DataPoint>());
-        trialData8.addDataPoint();
+        trialData8.addDataPoint(new Rectangle2D(12, 14, 16, 18), 3);
         dbClient.trials.set(trialData8);
 
         assertTrue(dbClient.trials.getList(null, ToolType.CODECHARTS,

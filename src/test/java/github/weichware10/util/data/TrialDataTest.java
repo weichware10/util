@@ -93,7 +93,7 @@ public class TrialDataTest {
                     dataPoints: dataPoints[0]
                 }""", data1.startTime.toString()),
                 data1.toString());
-        data1.addDataPoint();
+        data1.addDataPoint(new Rectangle2D(1, 2, 3, 4), 12);
         assertEquals(String.format("""
                 TrialData: {
                     toolType: CODECHARTS
@@ -137,7 +137,7 @@ public class TrialDataTest {
     public void wrongToolTypeShouldThrow() {
         TrialData data1 = new TrialData(ToolType.ZOOMMAPS, "1", "2");
         assertThrows(IllegalArgumentException.class, () -> {
-            data1.addDataPoint();
+            data1.addDataPoint(new Rectangle2D(1, 2, 3, 4), 12);
         });
 
         TrialData data2 = new TrialData(ToolType.CODECHARTS, "1", "2");
@@ -164,8 +164,8 @@ public class TrialDataTest {
 
         TrialData data2 = new TrialData(ToolType.CODECHARTS, "trialId", "configId");
         data2.setAnswer("answer");
-        data2.addDataPoint();
-        data2.addDataPoint();
+        data2.addDataPoint(new Rectangle2D(1, 2, 3, 4), 12);
+        data2.addDataPoint(new Rectangle2D(1, 2, 3, 4), 12);
         assertTrue(TrialData.toJson("target/TD-CODECHARTS.json", data2));
 
         assertFalse(TrialData.toJson("target/TD-ZOOMMAPS.jpg", data1));
@@ -182,25 +182,28 @@ public class TrialDataTest {
         TrialData dataZm = TrialData.fromJson("src/test/resources/testtrial-ZOOMMAPS.json");
 
         assertEquals(ToolType.ZOOMMAPS, dataZm.toolType);
-        assertEquals("trialId", dataZm.trialId);
-        assertEquals("configId", dataZm.configId);
-        assertEquals("answer", dataZm.getAnswer());
-        assertEquals(2, dataZm.getData().size());
-        assertEquals(40, dataZm.getData().get(0).timeOffset);
-        assertEquals(4.0f, dataZm.getData().get(0).viewport.getMinY(), 0.0001f);
+        assertEquals("TRI_ID", dataZm.trialId);
+        assertEquals("CON_ID", dataZm.configId);
+        assertEquals("Wrigley, denke ich", dataZm.getAnswer());
+        assertEquals(161, dataZm.getData().size());
+        assertEquals(5148, dataZm.getData().get(0).timeOffset);
+        assertEquals(41.42133035743848, dataZm.getData().get(0).viewport.getMinY(), 0.0001f);
         assertEquals(1, dataZm.getData().get(1).dataId);
-        assertEquals(8.0f, dataZm.getData().get(1).viewport.getWidth(), 0.0001f);
+        assertEquals(2207.555860812834, dataZm.getData().get(1).viewport.getWidth(), 0.0001f);
+        assertNull(dataZm.getData().get(0).depth);
 
         TrialData dataCc = TrialData.fromJson("src/test/resources/testtrial-CODECHARTS.json");
 
         assertEquals(ToolType.CODECHARTS, dataCc.toolType);
-        assertEquals("trialId", dataCc.trialId);
-        assertEquals("configId", dataCc.configId);
-        assertEquals("answer", dataCc.getAnswer());
-        assertEquals(2, dataCc.getData().size());
-        assertEquals(0, dataCc.getData().get(0).timeOffset);
-        assertNull(dataCc.getData().get(0).viewport);
+        assertEquals("TRI_ID", dataCc.trialId);
+        assertEquals("CON_ID", dataCc.configId);
+        assertNull(dataCc.getAnswer());
+        assertEquals(10, dataCc.getData().size());
+        assertEquals(9886, dataCc.getData().get(0).timeOffset);
+        assertEquals(new Rectangle2D(1280.0000000000002, 216.0, 640.0000000000001, 216.0),
+                dataCc.getData().get(0).viewport);
         assertEquals(1, dataCc.getData().get(1).dataId);
-        assertNull(dataCc.getData().get(1).viewport);
+        assertEquals(new Rectangle2D(640.0000000000001, 648.0, 640.0000000000001, 216.0),
+                dataCc.getData().get(1).viewport);
     }
 }

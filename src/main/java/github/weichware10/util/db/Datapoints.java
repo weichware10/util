@@ -56,12 +56,15 @@ class Datapoints {
                 viewport.put("width", rs.getDouble("viewport_width"));
                 viewport.put("height", rs.getDouble("viewport_height"));
                 viewport = rs.wasNull() ? null : viewport;
+                Integer depth = rs.getInt("depth");
+                depth = rs.wasNull() ? null : depth;
 
                 // neuen Punkt zur Liste hinzufügen
                 dataPoints.add(new DataPoint(
                         rs.getInt("dataid"),
                         rs.getInt("timeoffset"),
-                        viewport));
+                        viewport,
+                        depth));
             }
 
         } catch (SQLException e) {
@@ -86,10 +89,12 @@ class Datapoints {
         final String queryF = String.format("""
                 INSERT INTO %s.datapoints
                 (trialid, dataid, timeoffset,
-                viewportmin_x, viewportmin_y, viewport_width, viewport_height)
+                viewportmin_x, viewportmin_y, viewport_width, viewport_height,
+                depth)
                 VALUES
                 (?, ?, ?,
-                ?, ?, ?, ?);""", dataBaseClient.schema);
+                ?, ?, ?, ?,
+                ?);""", dataBaseClient.schema);
 
         Connection conn = null;
         PreparedStatement pst = null;
@@ -104,20 +109,17 @@ class Datapoints {
                 pst.setInt(2, dp.dataId);
                 pst.setInt(3, dp.timeOffset);
 
-                // CODECHARTS
-                if (dp.viewport == null) {
-                    // Felder für ZoomMaps
-                    pst.setNull(4, java.sql.Types.DOUBLE);
-                    pst.setNull(5, java.sql.Types.DOUBLE);
-                    pst.setNull(6, java.sql.Types.DOUBLE);
-                    pst.setNull(7, java.sql.Types.DOUBLE);
-                } else { // ZOOMMAPS
-                    // Felder für ZoomMaps
-                    pst.setDouble(4, dp.viewport.getMinX());
-                    pst.setDouble(5, dp.viewport.getMinY());
-                    pst.setDouble(6, dp.viewport.getWidth());
-                    pst.setDouble(7, dp.viewport.getHeight());
+                // nur codecharts hat depth
+                if (dp.depth == null) {
+                    pst.setNull(8, java.sql.Types.INTEGER);
+                } else {
+                    pst.setInt(8, dp.depth);
                 }
+                // Felder für ZoomMaps & CodeCharts
+                pst.setDouble(4, dp.viewport.getMinX());
+                pst.setDouble(5, dp.viewport.getMinY());
+                pst.setDouble(6, dp.viewport.getWidth());
+                pst.setDouble(7, dp.viewport.getHeight());
                 pst.executeUpdate();
             }
         } catch (Exception e) {

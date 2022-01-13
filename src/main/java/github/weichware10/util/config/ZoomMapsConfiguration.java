@@ -17,14 +17,13 @@ public class ZoomMapsConfiguration {
     }
 
     /**
-     * Konstruktor für die CodeCharts Konfiguration.
+     * Konstruktor für die ZoomMaps Konfiguration.
      *
      * @param speed - Zoomgeschwindigkeit
      * @param imageViewWidth - Anzeige des Tutorials
      * @param imageViewHeight - Adressen des Bildes
      */
-    public ZoomMapsConfiguration(double speed, double imageViewWidth, double imageViewHeight,
-            boolean tutorial) {
+    public ZoomMapsConfiguration(double speed, double imageViewWidth, double imageViewHeight) {
         this.speed = speed;
         this.imageViewWidth = imageViewWidth;
         this.imageViewHeight = imageViewHeight;
