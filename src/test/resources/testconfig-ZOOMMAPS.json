@@ -3,12 +3,14 @@
   "trialId" : "trialId",
   "configId" : "configId",
   "question" : "Is this a question?",
-  "codeChartsConfiguration" : null,
+  "intro" : "hello there",
+  "outro" : "bye bye general kenobi",
   "imageUrl" : "www.weichware10.com/owlimage",
   "tutorial" : true,
+  "codeChartsConfiguration" : null,
   "zoomMapsConfiguration" : {
     "speed" : 3.0,
-    "imageViewWidth": 300,
-    "imageViewHeight": 300
+    "imageViewWidth" : 300.0,
+    "imageViewHeight" : 300.0
   }
 }

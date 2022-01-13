@@ -11,6 +11,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.List;
 
 /**
  * Die Configurations-Tabelle beinhaltet die gespeicherten Konfigurationen.
@@ -76,10 +77,12 @@ public class Configurations {
                     int defaultHorizontal = rs.getInt("default_horizontal");
                     int defaultVertical = rs.getInt("default_vertical");
 
+                    List<String> strings = dataBaseClient.strings.get(stringId);
+
                     // CodeChartsConfiguration erstellen
                     CodeChartsConfiguration codeChartsConfiguration = new CodeChartsConfiguration(
-                            stringId, initialSize, timings, showGrid, relativeSize, randomized,
-                            maxDepth, iterations, defaultHorizontal, defaultVertical);
+                            stringId, strings, initialSize, timings, showGrid, relativeSize,
+                            randomized, maxDepth, iterations, defaultHorizontal, defaultVertical);
 
                     // komplette Konfiguration zurückgeben
                     configuration = new Configuration(configId, question, imageUrl, intro, outro,
@@ -151,14 +154,20 @@ public class Configurations {
                 pst = conn.prepareStatement(queryF);
                 pst.setString(1, configId);
                 pst.setBoolean(3, configuration.getTutorial());
-                pst.setString(4, configuration.getQuestion());
                 pst.setString(5, configuration.getImageUrl());
                 pst.setString(6, configuration.getIntro());
                 pst.setString(7, configuration.getOutro());
 
                 if (configuration.getToolType() == ToolType.CODECHARTS) {
                     CodeChartsConfiguration ccConfig = configuration.getCodeChartsConfiguration();
+
+                    // strings setzen
+                    if (dataBaseClient.strings.sizeOf(ccConfig.getStringId()) == 0) {
+                        dataBaseClient.strings.set(ccConfig.getStringId(), ccConfig.getStrings());
+                    }
+
                     pst.setString(2, "CODECHARTS");
+                    pst.setNull(4, java.sql.Types.VARCHAR);
                     // Felder für CodeCharts
                     pst.setString(8, ccConfig.getStringId());
                     pst.setInt(9, ccConfig.getInitialSize()[0]);
@@ -168,7 +177,7 @@ public class Configurations {
                     pst.setBoolean(13, ccConfig.getShowGrid());
                     pst.setBoolean(14, ccConfig.getRelativeSize());
                     pst.setBoolean(15, ccConfig.getRandomized());
-                    pst.setInt(16, ccConfig.getInterations());
+                    pst.setInt(16, ccConfig.getIterations());
                     pst.setInt(17, ccConfig.getMaxDepth());
                     pst.setInt(18, ccConfig.getDefaultHorizontal());
                     pst.setInt(19, ccConfig.getDefaultVertical());
@@ -179,6 +188,7 @@ public class Configurations {
                 } else {
                     ZoomMapsConfiguration zmConfig = configuration.getZoomMapsConfiguration();
                     pst.setString(2, "ZOOMMAPS");
+                    pst.setString(4, configuration.getQuestion());
                     // Felder für CodeCharts
                     pst.setNull(8, java.sql.Types.VARCHAR);
                     pst.setNull(9, java.sql.Types.INTEGER);

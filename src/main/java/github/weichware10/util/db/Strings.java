@@ -19,6 +19,42 @@ public class Strings {
     }
 
     /**
+     * Gibt die Größe einer in der Datenbank gespeicherten Liste zurück.
+     *
+     * @param stringId - die zu überprüfende stringId
+     * @return die Größe der Liste, 0 wenn nicht vorhanden, {@code null bei Fehler}
+     */
+    public Integer sizeOf(String stringId) {
+        final String queryF = String.format("""
+                SELECT COUNT(*) AS size
+                FROM %s.strings
+                WHERE stringid LIKE ?""", dataBaseClient.schema);
+
+        Connection conn = null;
+        PreparedStatement pst = null;
+        ResultSet rs = null;
+        Integer size = null;
+
+        try {
+            conn = DriverManager.getConnection(dataBaseClient.url, dataBaseClient.props);
+            pst = conn.prepareStatement(queryF);
+            pst.setString(1, stringId);
+            rs = pst.executeQuery();
+            if (rs.next()) {
+                size = rs.getInt("size");
+            }
+        } catch (Exception e) {
+            Logger.error("SQLException when executing sizeOfStrings", e, true);
+        } finally {
+            Util.closeQuietly(rs);
+            Util.closeQuietly(pst);
+            Util.closeQuietly(conn);
+        }
+
+        return size;
+    }
+
+    /**
      * Holt eine Liste von Strings aus der Datenbank ab.
      *
      * @param stringId - ID der String-Liste

@@ -7,6 +7,8 @@ import github.weichware10.util.config.CodeChartsConfiguration;
 import github.weichware10.util.config.Configuration;
 import github.weichware10.util.config.ZoomMapsConfiguration;
 import io.github.cdimascio.dotenv.Dotenv;
+import java.util.Arrays;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 /**
@@ -14,15 +16,16 @@ import org.junit.Test;
  */
 public class ConfigurationsTest {
 
-    final DataBaseClient dbClient;
-    Configuration ccConfig;
-    Configuration zmConfig;
-    Configuration zmConfigWoTu;
+    static DataBaseClient dbClient;
+    static Configuration ccConfig;
+    static Configuration zmConfig;
+    static Configuration zmConfigWoTu;
 
     /**
      * Erstellen des DataBaseClients.
      */
-    public ConfigurationsTest() {
+    @BeforeClass
+    public static void configurationsTestSetup() {
         Dotenv dotenv = Dotenv.load();
         dbClient = new DataBaseClient(
                 dotenv.get("DB_URL"),
@@ -31,14 +34,14 @@ public class ConfigurationsTest {
                 dotenv.get("DB_SCHEMA"));
 
         CodeChartsConfiguration codeChartsConfiguration = new CodeChartsConfiguration(
-                "OBST", new int[]{ 3, 5 }, new long[]{ 300, 500 },
-                false, true, true, 5,
-                15, -1, -1);
+                Util.generateId("TEST", 10), Arrays.asList("banane", "orange"),
+                new int[]{ 3, 5 }, new long[]{ 300, 500 },
+                false, true, true, 5, 15, -1, -1);
 
-        ccConfig = new Configuration("dunno yet", "Question?", "url", "intro", "outro", true,
+        ccConfig = new Configuration("dunno yet", null, "url", "intro", "outro", true,
                 codeChartsConfiguration);
         String ccConfigId = dbClient.configurations.set(ccConfig);
-        ccConfig = new Configuration(ccConfigId, "Question?", "url", "intro", "outro", true,
+        ccConfig = new Configuration(ccConfigId, null, "url", "intro", "outro", true,
                 codeChartsConfiguration);
 
         ZoomMapsConfiguration zoomMapsConfiguration1 = new ZoomMapsConfiguration(4, 30, 30);
@@ -61,9 +64,9 @@ public class ConfigurationsTest {
     @Test
     public void setConfigurationsShouldWork() {
         CodeChartsConfiguration codeChartsConfiguration = new CodeChartsConfiguration(
-                "OBST", new int[]{ 3, 5 }, new long[]{ 300, 500 },
-                false, true, true, 5,
-                15, -1, -1);
+                "OBST", Arrays.asList("banane", "orange"),
+                new int[]{ 3, 5 }, new long[]{ 300, 500 },
+                false, true, true, 5, 15, -1, -1);
 
         Configuration config;
         String configId;
