@@ -238,8 +238,11 @@ public class TrialData {
             return false;
         }
         TrialData that = (TrialData) (other);
-        return toolType.equals(that.toolType) && trialId.equals(that.trialId)
-                && configId.equals(that.configId) && startTime.equals(that.startTime)
-                && answer.equals(that.answer) && dataPoints.equals(that.dataPoints);
+        return toolType.equals(that.toolType)
+                && (trialId == that.trialId || trialId.equals(that.trialId))
+                && (configId == that.configId || configId.equals(that.configId))
+                && startTime.equals(that.startTime)
+                && (answer == that.answer || answer.equals(that.answer))
+                && dataPoints.equals(that.dataPoints);
     }
 }
