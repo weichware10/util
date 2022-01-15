@@ -21,14 +21,21 @@ public class Log extends AbsScene {
      * Startet das Log.
      */
     public static void start(String icon) {
+        Integer width = null;
+        Integer height = null;
+        if (logStage == null) {
+            logStage = new Stage();
+            width = 500;
+            height = 500;
+        }
         root = start(logStage,
                 Log.class.getResource("Log.fxml"),
                 root,
                 null,
                 "Toolbox - Log",
                 null,
-                500,
-                500,
+                width,
+                height,
                 icon).root;
     }
 
