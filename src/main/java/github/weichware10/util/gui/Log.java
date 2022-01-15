@@ -25,7 +25,7 @@ public class Log extends AbsScene {
         Integer height = null;
         if (logStage == null) {
             logStage = new Stage();
-            width = 500;
+            width = 750;
             height = 500;
         }
         root = start(logStage,
