@@ -12,9 +12,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Arrays;
 import java.util.List;
-
 import javax.imageio.ImageIO;
-
 import org.apache.commons.io.FileUtils;
 
 /**
@@ -83,6 +81,15 @@ public class Files {
         return destName;
     }
 
+    /**
+     * Speichert genertiertes Bild im temp Ordner.
+     *
+     * @param buffImage - Generiertes Bild
+     * @param fileName - Dateiname
+     * @return Speicheradresse
+     * @throws IOException
+     * @throws IllegalArgumentException
+     */
     public static String saveGeneratedImage(BufferedImage buffImage, String fileName)
             throws IOException, IllegalArgumentException {
         if (tmpdir == null) {
@@ -93,7 +100,7 @@ public class Files {
         String destName = tmpdir + "/" + fileName;
         File file = new File(destName);
         ImageIO.write(rendImage, "png", file);
-        
+
         return destName;
     }
 
