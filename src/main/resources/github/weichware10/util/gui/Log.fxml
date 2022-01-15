@@ -12,7 +12,7 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane fx:id="borderPane" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="github.weichware10.analyse.gui.util.LogController">
+<BorderPane fx:id="borderPane" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="github.weichware10.util.gui.LogController">
    <center>
       <Pane fx:id="logPane">
          <children>
