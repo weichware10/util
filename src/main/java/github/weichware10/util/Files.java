@@ -1,5 +1,7 @@
 package github.weichware10.util;
 
+import java.awt.image.BufferedImage;
+import java.awt.image.RenderedImage;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -10,6 +12,9 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Arrays;
 import java.util.List;
+
+import javax.imageio.ImageIO;
+
 import org.apache.commons.io.FileUtils;
 
 /**
@@ -75,6 +80,20 @@ public class Files {
         is.close();
         os.close();
 
+        return destName;
+    }
+
+    public static String saveGeneratedImage(BufferedImage buffImage, String fileName)
+            throws IOException, IllegalArgumentException {
+        if (tmpdir == null) {
+            tmpdir = createTempDir();
+        }
+        RenderedImage rendImage = buffImage;
+
+        String destName = tmpdir + "/" + fileName;
+        File file = new File(destName);
+        ImageIO.write(rendImage, "png", file);
+        
         return destName;
     }
 
