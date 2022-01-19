@@ -31,20 +31,23 @@ public class Configuration {
      * Konstruktor für Configuration vom Typ CodeChartsConfiguration.
      *
      * @param configId                - configId der übergebenen Konfiguration
-     * @param question                - Fragestellung zum Versuch
+     * @param imageUrl                - die URL des Bildes
+     * @param intro                   - das Intro
+     * @param outro                   - das Outro
+     * @param tutorial                - ob das Tutorial angezeigt werden soll
      * @param codeChartsConfiguration - Konfiguration von CodeCharts
      */
-    public Configuration(String configId, String question, String imageUrl,
+    public Configuration(String configId, String imageUrl,
             String intro, String outro, boolean tutorial,
             CodeChartsConfiguration codeChartsConfiguration) {
         this.toolType = ToolType.CODECHARTS;
-        this.question = question;
         this.configId = configId;
         this.imageUrl = imageUrl;
         this.intro = intro;
         this.outro = outro;
         this.tutorial = tutorial;
         this.codeChartsConfiguration = codeChartsConfiguration;
+        this.question = null;
     }
 
     /**
