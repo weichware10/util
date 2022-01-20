@@ -21,7 +21,7 @@ public abstract class AbsScene {
      * @param fxml - URL der FXML-Datei
      * @return das geladene Parent Objekt und die Controller-Instanz.
      */
-    protected static InitResult initialize(URL fxml) {
+    public static InitResult initialize(URL fxml) {
 
         FXMLLoader loader = new FXMLLoader(fxml);
 
