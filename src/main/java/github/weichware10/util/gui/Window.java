@@ -9,10 +9,10 @@ import javafx.stage.Stage;
 public class Window {
 
     /**
-     * Lösung für die Scaling Probleme.
+     * Erfrischt das Fenster.
      * Verändert Breite um +1 und dann um -1, was zu einem Refresh führt.
      *
-     * @param primaryStage - Stage who gets refreshed.
+     * @param primaryStage - Stage die erfrischt werden soll.
      */
     public static void refresh(Stage primaryStage) {
 
