@@ -16,16 +16,34 @@ public class Window {
      */
     public static void refresh(Stage primaryStage) {
 
-        primaryStage.setWidth(primaryStage.getWidth() - 1);
+        if (primaryStage.isMaximized()) {
 
-        new Thread(new Runnable() {
+            primaryStage.setWidth(primaryStage.getWidth() - 16);
 
-            @Override
-            public void run() {
-                Platform.runLater(() -> primaryStage.setWidth(primaryStage.getWidth() + 1));
-            }
+            new Thread(new Runnable() {
 
-        }).start();
+                @Override
+                public void run() {
+                    Platform.runLater(() -> primaryStage.setWidth(primaryStage.getWidth() + 16));
+                }
+
+            }).start();
+
+        } else {
+
+            primaryStage.setWidth(primaryStage.getWidth() - 1);
+
+            new Thread(new Runnable() {
+
+                @Override
+                public void run() {
+                    Platform.runLater(() -> primaryStage.setWidth(primaryStage.getWidth() + 1));
+                }
+
+            }).start();
+
+        }
+
     }
 
 }
