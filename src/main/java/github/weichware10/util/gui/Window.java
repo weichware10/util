@@ -16,6 +16,10 @@ public class Window {
      */
     public static void refresh(Stage primaryStage) {
 
+        if (java.awt.Toolkit.getDefaultToolkit().getScreenResolution() == 96) {
+            return;
+        }
+
         if (primaryStage.isMaximized()) {
 
             primaryStage.setWidth(primaryStage.getWidth() - 16);
