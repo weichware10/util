@@ -93,7 +93,6 @@ public abstract class AbsScene {
             primaryStage.getIcons().add(new Image(icon));
         }
         primaryStage.setTitle(title);
-        Window.refresh(primaryStage);
         return new InitResult(root, controller);
     }
 
