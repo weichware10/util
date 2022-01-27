@@ -6,8 +6,11 @@ import com.fasterxml.jackson.databind.ObjectWriter;
 import github.weichware10.util.Logger;
 import github.weichware10.util.db.DataBaseClient;
 import java.io.BufferedWriter;
-import java.io.FileWriter;
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStreamWriter;
+import java.nio.charset.StandardCharsets;
 
 
 /**
@@ -41,7 +44,10 @@ public final class ConfigWriter {
             String json = ow.writeValueAsString(configuration);
 
             // Öffnen der Datei
-            BufferedWriter writer = new BufferedWriter(new FileWriter(location, false));
+            File file = new File(location);
+            FileOutputStream fos = new FileOutputStream(file);
+            OutputStreamWriter osw = new OutputStreamWriter(fos, StandardCharsets.UTF_16);
+            BufferedWriter writer = new BufferedWriter(osw);
 
             // Schreiben des JSON
             writer.append(json);
