@@ -1,6 +1,5 @@
 package github.weichware10.util.gui;
 
-import github.weichware10.util.Logger;
 import javafx.application.Platform;
 import javafx.stage.Stage;
 
@@ -16,11 +15,6 @@ public class Window {
      * @param primaryStage - Stage die erfrischt werden soll.
      */
     public static void refresh(Stage primaryStage) {
-
-        if (java.awt.Toolkit.getDefaultToolkit().getScreenResolution() == 96) {
-            Logger.debug("skipping refresh");
-            return;
-        }
 
         if (primaryStage.isMaximized()) {
 
