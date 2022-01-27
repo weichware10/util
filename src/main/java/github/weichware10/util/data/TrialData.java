@@ -12,8 +12,10 @@ import github.weichware10.util.Logger;
 import github.weichware10.util.ToolType;
 import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileWriter;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStreamWriter;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 import javafx.geometry.Rectangle2D;
@@ -210,7 +212,10 @@ public class TrialData {
             String json = ow.writeValueAsString(trialData);
 
             // Öffnen der Datei
-            BufferedWriter writer = new BufferedWriter(new FileWriter(location, false));
+            File file = new File(location);
+            FileOutputStream fos = new FileOutputStream(file);
+            OutputStreamWriter osw = new OutputStreamWriter(fos, StandardCharsets.UTF_8);
+            BufferedWriter writer = new BufferedWriter(osw);
 
             // Schreiben des JSON
             writer.append(json);
