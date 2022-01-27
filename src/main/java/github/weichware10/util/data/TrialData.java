@@ -214,7 +214,7 @@ public class TrialData {
             // Öffnen der Datei
             File file = new File(location);
             FileOutputStream fos = new FileOutputStream(file);
-            OutputStreamWriter osw = new OutputStreamWriter(fos, StandardCharsets.UTF_8);
+            OutputStreamWriter osw = new OutputStreamWriter(fos, StandardCharsets.UTF_16);
             BufferedWriter writer = new BufferedWriter(osw);
 
             // Schreiben des JSON
