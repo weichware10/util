@@ -42,7 +42,7 @@ public class DataPoint {
     }
 
     /**
-     * Speichert eines einzelnen Datenpunkt ohne Tiefe (ZOOMMAPS).
+     * Speichert einen einzelnen Datenpunkt ohne Tiefe (ZOOMMAPS).
      *
      * @param dataId     - die ID des dataPoints
      * @param timeOffset - die Zeit seit Versuchstart
