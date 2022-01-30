@@ -6,7 +6,7 @@ import java.util.Map;
 import javafx.geometry.Rectangle2D;
 
 /**
- * Speichert eines einzelnen Datenpunkt.
+ * Speichert ein einzelnen Datenpunkt.
  *
  * @since v0.2
  */
