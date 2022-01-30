@@ -58,7 +58,7 @@ public class DataPoint {
     }
 
     /**
-     * Speichert eines einzelnen Datenpunkt mit Tiefe (CODECHARTS).
+     * Speichert einen einzelnen Datenpunkt mit Tiefe (CODECHARTS).
      *
      * @param dataId     - die ID des dataPoints
      * @param timeOffset - die Zeit seit Versuchstart
