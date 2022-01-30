@@ -15,7 +15,7 @@ import java.io.IOException;
 public final class ConfigLoader {
 
     /**
-     * Cannot be instantiated.
+     * Kann nicht instanziiert werden.
      */
     private ConfigLoader() {
         throw new IllegalStateException("Cannot be instantiated");
@@ -31,7 +31,7 @@ public final class ConfigLoader {
         try {
             ObjectMapper mapper = new ObjectMapper();
             Configuration configuration;
-            // read from file
+            // aus Datei lesen
             configuration = mapper.readValue(new File(location), Configuration.class);
             return configuration;
         } catch (StreamReadException e) {
@@ -54,14 +54,14 @@ public final class ConfigLoader {
      * @since v1.0
      */
     public static Configuration fromDataBase(String trialId, DataBaseClient dataBaseClient) {
-        // get configId from database
+        // configId von Datenbank abrufen
         final String configId = dataBaseClient.trials.getConfigId(trialId);
-        // trial not found or error
+        // trial nicht gefunden oder Fehler
         if (configId == null) {
             return null;
         }
 
-        // get config from database
+        // Konfiguration von Datenbank abrufen
         Configuration configuration = dataBaseClient.configurations.get(configId);
         configuration.trialId = trialId;
         return configuration;

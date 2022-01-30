@@ -6,7 +6,7 @@ import java.util.Map;
 import javafx.geometry.Rectangle2D;
 
 /**
- * Stores a single DataPoint.
+ * Speichert eines einzelnen Datenpunkt.
  *
  * @since v0.2
  */
@@ -19,8 +19,8 @@ public class DataPoint {
     /**
      * Konstruktor für Jackson.
      *
-     * @param dataId     - the id of the dataPoint
-     * @param timeOffset - the time since the trial started
+     * @param dataId     - die ID des dataPoints
+     * @param timeOffset - die Zeit seit Versuchstart
      * @param viewport   - aktueller Ausschnitt beim ZoomBild
      *
      * @since v1.0
@@ -42,10 +42,10 @@ public class DataPoint {
     }
 
     /**
-     * Stores a single DataPoint without depth. (ZOOMMAPS)
+     * Speichert eines einzelnen Datenpunkt ohne Tiefe (ZOOMMAPS).
      *
-     * @param dataId     - the id of the dataPoint
-     * @param timeOffset - the time since the trial started
+     * @param dataId     - die ID des dataPoints
+     * @param timeOffset - die Zeit seit Versuchstart
      * @param viewport   - aktueller Ausschnitt beim ZoomBild
      *
      * @since v0.2
@@ -58,11 +58,11 @@ public class DataPoint {
     }
 
     /**
-     * Stores a single DataPoint with depth (CODECHARTS).
+     * Speichert eines einzelnen Datenpunkt mit Tiefe (CODECHARTS).
      *
-     * @param dataId     - the id of the dataPoint
-     * @param timeOffset - the time since the trial started
-     * @param viewport   - aktuell angeschautes Raster.
+     * @param dataId     - die ID des dataPoints
+     * @param timeOffset - die Zeit seit Versuchstart
+     * @param viewport   - aktuell angeschautes Raster
      * @param depth      - Rastertiefe
      *
      * @since v0.3
