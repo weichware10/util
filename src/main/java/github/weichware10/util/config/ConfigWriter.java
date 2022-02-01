@@ -19,7 +19,7 @@ import java.nio.charset.StandardCharsets;
 public final class ConfigWriter {
 
     /**
-     * Cannot be instantiated.
+     * Kann nicht instanziiert werden.
      */
     private ConfigWriter() {
         throw new IllegalStateException("Cannot be instantiated");
@@ -34,7 +34,7 @@ public final class ConfigWriter {
      * @since v0.2
      */
     public static boolean toJson(String location, Configuration configuration) {
-        // only write to JSON files
+        // nur als JSON schreiben
         if (!location.endsWith(".json")) {
             return false;
         }

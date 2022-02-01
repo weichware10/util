@@ -67,8 +67,6 @@ public class Configuration {
         this.zoomMapsConfiguration = zoomMapsConfiguration;
     }
 
-    // --- GETTERS ---
-
     public ToolType getToolType() {
         return toolType;
     }
@@ -108,8 +106,6 @@ public class Configuration {
     public ZoomMapsConfiguration getZoomMapsConfiguration() {
         return zoomMapsConfiguration;
     }
-
-    // --- OVERRIDES ---
 
     @Override
     public boolean equals(Object obj) {

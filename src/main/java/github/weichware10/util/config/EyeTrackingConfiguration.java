@@ -8,8 +8,6 @@ package github.weichware10.util.config;
 public class EyeTrackingConfiguration {
     protected float pollIntervall = 4.20f;
 
-    // GETTER
-
     public float getPollIntervall() {
         return pollIntervall;
     }

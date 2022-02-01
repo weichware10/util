@@ -22,8 +22,6 @@ public class LogController extends AbsSceneController {
     private ResourceBundle resources;
     @FXML
     private URL location;
-
-
     @FXML
     private TextField logInput;
     @FXML

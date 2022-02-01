@@ -64,7 +64,7 @@ public class Permissions {
      * @return Berechtigungs-Liste
      */
     private Set<Permission> getPermissions(String table) {
-        // query
+        // Abfrage
         // Beschränkung auf interessante Werte
         final String queryF = """
                 SELECT DISTINCT privilege_type
@@ -130,7 +130,7 @@ public class Permissions {
     }
 
     private boolean satisfiesAdmin() {
-        // has every interesting permission
+        // hat alle Rechte
         return satisfies(
                 Arrays.asList(Permission.values()),
                 Arrays.asList(Permission.values()),
