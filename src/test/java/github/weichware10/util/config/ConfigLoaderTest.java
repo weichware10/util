@@ -33,7 +33,6 @@ public class ConfigLoaderTest {
         // set config to test with
         final String configId = dbClient.configurations.set(new Configuration(
                 "null",
-                "question?",
                 "url",
                 "intro",
                 "outro",

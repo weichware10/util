@@ -38,10 +38,10 @@ public class ConfigurationsTest {
                 new int[]{ 3, 5 }, new long[]{ 300, 500 },
                 false, true, true, 5, 15, -1, -1);
 
-        ccConfig = new Configuration("dunno yet", null, "url", "intro", "outro", true,
+        ccConfig = new Configuration("dunno yet", "url", "intro", "outro", true,
                 codeChartsConfiguration);
         String ccConfigId = dbClient.configurations.set(ccConfig);
-        ccConfig = new Configuration(ccConfigId, null, "url", "intro", "outro", true,
+        ccConfig = new Configuration(ccConfigId, "url", "intro", "outro", true,
                 codeChartsConfiguration);
 
         ZoomMapsConfiguration zoomMapsConfiguration1 = new ZoomMapsConfiguration(4, 30, 30);
@@ -71,7 +71,7 @@ public class ConfigurationsTest {
         Configuration config;
         String configId;
 
-        config = new Configuration("", "Question?", "url", "intro", "outro", true,
+        config = new Configuration("", "url", "intro", "outro", true,
                 codeChartsConfiguration);
         configId = dbClient.configurations.set(config);
         assertTrue("configId sollte mit con_ anfangen.", configId.startsWith("con_"));

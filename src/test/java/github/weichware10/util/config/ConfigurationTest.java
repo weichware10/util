@@ -11,7 +11,7 @@ public class ConfigurationTest {
 
     @Test
     public void toStringWorks() {
-        Configuration ccc = new Configuration("con_id", "question?", "url", "intro", "outro", true,
+        Configuration ccc = new Configuration("con_id", "url", "intro", "outro", true,
                 new CodeChartsConfiguration());
         Configuration zmc = new Configuration("con_id", "question?", "url", "intro", "outro", true,
                 new ZoomMapsConfiguration());
