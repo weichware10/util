@@ -12,17 +12,19 @@ import github.weichware10.util.Logger;
 import github.weichware10.util.ToolType;
 import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileWriter;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStreamWriter;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 import javafx.geometry.Rectangle2D;
 import org.joda.time.DateTime;
 
 /**
- * Stores the TrialData for the different tools internally.
+ * Speichert die TrialData für die verschiedenen Tools intern.
  *
- * <p>also used to transfer Data
+ * <p>auch für die Datenübertragung genutzt
  *
  * @since v0.2
  */
@@ -38,9 +40,9 @@ public class TrialData {
     /**
      * Konstruktor für Jackson.
      *
-     * @param toolType  - the tooltype of the stored data
-     * @param trialId   - the id of the trial
-     * @param configId  - the configuration of the stored data
+     * @param toolType  - Tool-Typ des Versuchs
+     * @param trialId   - ID des Versuchs
+     * @param configId  - Konfiguration des Versuchs
      * @param startTime - Startzeitpunkt des Versuchs
      *
      * @since v1.0
@@ -59,11 +61,11 @@ public class TrialData {
     }
 
     /**
-     * Stores the TrialData for the different tools internally.
+     * Speichert die TrialData für die verschiedenen Tools intern.
      *
-     * @param toolType - the tooltype of the stored data
-     * @param trialId  - the id of the trial
-     * @param configId - the configuration of the stored data
+     * @param toolType  - Tool-Typ des Versuchs
+     * @param trialId   - ID des Versuchs
+     * @param configId  - Konfiguration des Versuchs
      *
      * @since v0.2
      */
@@ -75,37 +77,14 @@ public class TrialData {
         this.dataPoints = new ArrayList<DataPoint>();
     }
 
-    // --- GETTERS ---
-
-    /**
-     * get the stored dataPoints.
-     *
-     * @return the stored dataPoints
-     *
-     * @since v0.2
-     */
     public List<DataPoint> getData() {
         return dataPoints;
     }
 
-    /**
-     * get the answer.
-     *
-     * @return the answer
-     *
-     * @since v0.3
-     */
     public String getAnswer() {
         return answer;
     }
 
-    // --- SETTERS ---
-
-    /**
-     * set the answer.
-     *
-     * @param answer - the answer
-     */
     public void setAnswer(String answer) {
         this.answer = answer;
     }
@@ -127,8 +106,7 @@ public class TrialData {
     }
 
     /**
-     * Add a DataPoint for CodeCharts.
-     *
+     * Fügt ein Datenpunkt hinzu (CodeCharts).
      *
      * @since v0.2
      */
@@ -146,7 +124,7 @@ public class TrialData {
     }
 
     /**
-     * Add a DataPoint for ZoomMaps.
+     * Fügt ein Datenpunkt hinzu (ZoomMaps).
      *
      * @param viewport - aktueller Ausschnitt beim ZoomBild
      *
@@ -177,7 +155,7 @@ public class TrialData {
         try {
             ObjectMapper mapper = new ObjectMapper();
             mapper.registerModule(new JodaModule());
-            // read from file
+            // aus Datei lesen
             trialData = mapper.readValue(new File(location), TrialData.class);
         } catch (StreamReadException e) {
             Logger.info("An error occured while loading a trial", e, true);
@@ -199,7 +177,7 @@ public class TrialData {
      * @since v1.0
      */
     public static boolean toJson(String location, TrialData trialData) {
-        // only write to JSON files
+        // nur als JSON schreiben
         if (!location.endsWith(".json")) {
             return false;
         }
@@ -210,7 +188,10 @@ public class TrialData {
             String json = ow.writeValueAsString(trialData);
 
             // Öffnen der Datei
-            BufferedWriter writer = new BufferedWriter(new FileWriter(location, false));
+            File file = new File(location);
+            FileOutputStream fos = new FileOutputStream(file);
+            OutputStreamWriter osw = new OutputStreamWriter(fos, StandardCharsets.UTF_16);
+            BufferedWriter writer = new BufferedWriter(osw);
 
             // Schreiben des JSON
             writer.append(json);
@@ -224,8 +205,6 @@ public class TrialData {
         }
         return false; // Schreiben war nicht erfolgreich
     }
-
-    // --- OVERRIDES ---
 
     @Override
     public String toString() {

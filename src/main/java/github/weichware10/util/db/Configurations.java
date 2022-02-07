@@ -22,7 +22,7 @@ public class Configurations {
     /**
      * Erstellt eine neue Verbindung zur Configurations-Tabelle.
      *
-     * @param dataBaseClient - übergeordneter DataBadeClient
+     * @param dataBaseClient - übergeordneter DataBaseClient
      */
     protected Configurations(DataBaseClient dataBaseClient) {
         this.dataBaseClient = dataBaseClient;
@@ -44,7 +44,7 @@ public class Configurations {
         Statement st = null;
         ResultSet rs = null;
 
-        // get resultset
+        // ResultSet bekommen
         try {
             conn = DriverManager.getConnection(dataBaseClient.url, dataBaseClient.props);
             st = conn.createStatement();
@@ -161,7 +161,7 @@ public class Configurations {
                 if (configuration.getToolType() == ToolType.CODECHARTS) {
                     CodeChartsConfiguration ccConfig = configuration.getCodeChartsConfiguration();
 
-                    // strings setzen
+                    // Strings setzen
                     if (dataBaseClient.strings.sizeOf(ccConfig.getStringId()) == 0) {
                         dataBaseClient.strings.set(ccConfig.getStringId(), ccConfig.getStrings());
                     }

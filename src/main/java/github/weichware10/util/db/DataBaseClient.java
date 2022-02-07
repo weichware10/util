@@ -76,17 +76,17 @@ public class DataBaseClient {
      * @return Existenzboolean
      */
     private boolean tableExists(String table) {
-        // query
+        // Abfrage
         final String queryFormat = """
                 SELECT table_schema, table_name FROM information_schema.tables
                 WHERE table_schema='%s' AND table_name='%s';
             """;
         final String query = String.format(queryFormat, schema, table);
 
-        // result
+        // Resultate
         boolean exists = false;
 
-        // database objects
+        // Datenbank Objekte
         Connection conn = null;
         Statement st = null;
         ResultSet rs = null;

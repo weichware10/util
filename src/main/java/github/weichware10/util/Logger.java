@@ -42,16 +42,16 @@ public class Logger {
     public static final PrintStream PRINSTREAM = new PrintStream(logStream, true);
 
     /**
-     * Cannot be instantiated.
+     * Kann nicht instanziiert werden.
      */
     private Logger() {
         throw new IllegalStateException("Cannot be instantiated");
     }
 
     /**
-     * sets logfile.
+     * setzt log-Datei.
      *
-     * @param filename - the file
+     * @param filename - die Datei
      */
     public static void setLogfile(String filename) {
         if (filename == null) {

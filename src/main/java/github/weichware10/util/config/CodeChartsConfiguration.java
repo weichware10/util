@@ -102,8 +102,6 @@ public class CodeChartsConfiguration {
         this.defaultVertical = defaultVertical;
     }
 
-    // --- GETTERS ---
-
     public String getStringId() {
         return stringId;
     }
@@ -147,8 +145,6 @@ public class CodeChartsConfiguration {
     public int getDefaultVertical() {
         return defaultVertical;
     }
-
-    // --- OVERRIDES ---
 
     @Override
     public boolean equals(Object obj) {

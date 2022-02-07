@@ -9,8 +9,7 @@ public class ZoomMapsConfiguration {
     protected double imageViewHeight = 400;
 
     /**
-     * leerer Konstruktor. Wird für Jackson gebraucht (json writer)
-     * smooth criminal.
+     * leerer Konstruktor der für Jackson benötigt wird (json writer).
      */
     public ZoomMapsConfiguration() {
         // leer
@@ -29,8 +28,6 @@ public class ZoomMapsConfiguration {
         this.imageViewHeight = imageViewHeight;
     }
 
-    // --- GETTER ---
-
     public double getSpeed() {
         return speed;
     }
@@ -42,8 +39,6 @@ public class ZoomMapsConfiguration {
     public double getImageViewHeight() {
         return imageViewHeight;
     }
-
-    // --- OVERRIDES ---
 
     @Override
     public boolean equals(Object obj) {
