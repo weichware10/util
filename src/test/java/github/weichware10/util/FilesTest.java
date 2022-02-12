@@ -25,13 +25,11 @@ public class FilesTest {
 
         String location2 = null;
         try {
-            location2 = Files.saveImage(
-                    "https://purepng.com/public/uploads/large/purepng.com-owl-sittingowlowletbrown-owlowl-from-the-side-4815210279097vhbr.png");
+            location2 = Files.saveImage("https://http.cat/200.jpg");
         } catch (Exception e) {
-            ;
+            Logger.error("Exception while saving image", e);
         }
-        assertTrue(location2.contains(
-                "purepng.com-owl-sittingowlowletbrown-owlowl-from-the-side-4815210279097vhbr.png"));
+        assertTrue(location2.contains("200.jpg"));
 
         boolean thrown1 = false;
         try {
