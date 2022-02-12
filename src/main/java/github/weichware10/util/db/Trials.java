@@ -43,7 +43,7 @@ public class Trials {
         Statement st = null;
         ResultSet rs = null;
 
-        // get resultset
+        // ResultSet bekommen
         try {
             conn = DriverManager.getConnection(dataBaseClient.url, dataBaseClient.props);
             st = conn.createStatement();
@@ -147,7 +147,7 @@ public class Trials {
             pst.setString(2, trialData.getAnswer());
             pst.setString(3, trialData.trialId);
             pst.executeUpdate();
-            // DATAPOINTS setzen
+            // DataPoints setzen
             dataBaseClient.datapoints.set(trialData.getData(), trialData.trialId);
             success = true;
         } catch (SQLException e) {
@@ -227,7 +227,7 @@ public class Trials {
         Connection conn = null;
         PreparedStatement pst = null;
 
-        // Verbindungs try
+        // Verbindungs-Versuch
         try {
             conn = DriverManager.getConnection(dataBaseClient.url, dataBaseClient.props);
             pst = conn.prepareStatement(queryF);
@@ -244,7 +244,7 @@ public class Trials {
                         trialId = Util.generateId("tri_", 7);
                     }
 
-                    // INSERT try
+                    // Einfügungs-Versuch
                     try {
                         pst.setString(1, trialId);
                         pst.setString(2, configId);
@@ -286,7 +286,7 @@ public class Trials {
     public List<TrialData> getList(String configId, ToolType toolType,
             DateTime minTime, DateTime maxTime, int amount) {
 
-        // QUERY
+        // Abfrage
         final String queryF = """
                 SELECT t.trialid, t.configid, c.tooltype, t.starttime, t.answer
                 FROM %s.trials AS t
@@ -299,13 +299,13 @@ public class Trials {
                 LIMIT %d;
                 """;
 
-        // only query for minTime if provided
+        // Abfrage nur für minTime, falls bereitgestellt
         final String minTimeQuery = (minTime != null)
                 ? String.format("t.starttime >= timestamp '%s'",
                         new Timestamp(minTime.getMillis()).toString())
                 : "true";
 
-        // only query for maxTime if provided
+        //Abfrage nur für maxTime, falls bereitgestellt
         final String maxTimeQuery = (maxTime != null)
                 ? String.format("t.starttime <= timestamp '%s'",
                         new Timestamp(maxTime.getMillis()).toString())
@@ -313,16 +313,16 @@ public class Trials {
 
         final String query = String.format(queryF,
                 dataBaseClient.schema,
-                (configId != null) ? configId : '%', // match every configId
-                (toolType != null) ? toolType.toString() : '%', // match every tooltype
+                (configId != null) ? configId : '%', // jede configId passt
+                (toolType != null) ? toolType.toString() : '%', // jeder tooltype passt
                 minTimeQuery,
                 maxTimeQuery,
                 (amount > 0) ? amount : 50);
 
-        // RESULT
+        // Ergebnis
         List<TrialData> result = new ArrayList<TrialData>();
 
-        // DATABASE OBJECTS
+        // Datenbankobjekte
         Connection conn = null;
         Statement st = null;
         ResultSet rs = null;

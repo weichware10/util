@@ -49,7 +49,7 @@ class Datapoints {
             st = conn.createStatement();
             rs = st.executeQuery(query);
             while (rs.next()) {
-                // bei zoommaps versuchen
+                // bei ZoomMaps versuchen
                 Map<String, Double> viewport = new HashMap<>();
                 viewport.put("minX", rs.getDouble("viewportmin_x"));
                 viewport.put("minY", rs.getDouble("viewportmin_y"));
@@ -109,7 +109,7 @@ class Datapoints {
                 pst.setInt(2, dp.dataId);
                 pst.setInt(3, dp.timeOffset);
 
-                // nur codecharts hat depth
+                // nur CodeCharts hat depth
                 if (dp.depth == null) {
                     pst.setNull(8, java.sql.Types.INTEGER);
                 } else {

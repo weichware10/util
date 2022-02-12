@@ -46,8 +46,7 @@ public class TrialsTest {
                 "OBST", Arrays.asList("banane", "orange"),
                 new int[] { 3, 5 }, new long[] { 300, 500 },
                 false, true, true, 5, 15, -1, -1);
-        codeConfig = new Configuration("temp", "Warum ist die Banane krumm?", "url",
-                        "intro", "outro", true, ccConf);
+        codeConfig = new Configuration("temp", "url", "intro", "outro", true, ccConf);
         configIdCc = dbClient.configurations.set(codeConfig);
 
         ZoomMapsConfiguration zmConf = new ZoomMapsConfiguration(4.3, 300, 300);
